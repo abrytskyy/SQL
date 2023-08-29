@@ -1,0 +1,152 @@
+###DAY 1###
+###SELECT
+
+SELECT 
+*
+FROM actor
+
+SELECT
+first_name,
+last_name
+FROM actor
+
+#1
+SELECT 
+first_name
+last_name,
+email
+FROM customer
+
+###ORDER BY
+
+SELECT 
+first_name,
+last_name
+FROM actor
+ORDER BY first_name ASC/ , last_name DESC
+
+#2
+SELECT
+first_name,
+last_name
+FROM customer
+ORDER BY last_name/2 DESC, first_name/1 DESC
+
+### SELECT DICTINCT
+
+SELECT DISTINCT
+first_name,
+last_name
+FROM actor
+ORDER BY first_name
+
+SELECT DISTINCT
+rating
+FROM film
+
+SELECT DISTINCT
+rating,
+rental_duration
+FROM film
+
+#3
+SELECT DISTINCT
+amount
+FROM payment
+ORDER BY amount DESC
+
+###LIMIT
+SELECT DISTINCT
+amount
+FROM payment
+ORDER BY amount DESC
+LIMIT 4
+
+###COUNT
+SELECT
+COUNT(column_name)/(*) 
+COUNT(DISTINCT first_name)
+FROM table_name
+
+#4
+SELECT DISTINCT
+district
+FROM address
+
+SELECT
+rental_date
+FROM rental
+ORDER BY rental_date DESC
+LIMIT 1
+
+SELECT
+COUNT(*)
+FROM film
+
+SELECT
+COUNT(DISTINCT last_name)
+FROM customer
+
+###DAY 2###
+###WHERE
+
+SELECT
+*
+FROM payment
+WHERE amount = 10.99
+
+SELECT
+first_name,
+last_name
+FROM customer
+WHERE first_name = 'ADAM'
+
+SELECT
+COUNT(*)
+FROM payment
+WHERE amount = 0
+
+#5
+SELECT
+COUNT(*)
+FROM payment
+WHERE customer_id = '100'/100;
+
+SELECT
+*
+FROM customer
+WHERE first_name = 'ERICA';
+#5end
+
+SELECT
+*
+FROM payment
+WHERE amount <=/!=(<>) 10.99 
+ORDER BY amount DESC;
+
+SELECT 
+first_name
+last_name
+FROM customer
+WHERE first_name is null
+
+#6
+SELECT
+COUNT(*)
+FROM rental
+WHERE return_date is null;
+
+SELECT
+payment_id, 
+amount
+FROM payment
+WHERE amount <= 2
+
+
+
+
+
+
+
+
+
