@@ -162,7 +162,7 @@ FROM payment
 WHERE (amount = 10.99
 OR amount = 9.99)
 AND customer_id = 426
-AND first, OR after
+--AND first, OR after
 
 SELECT
 *
@@ -247,5 +247,70 @@ ANd payment_date BETWEEN '2020-01-01' AND '2020-01-31 23:59'
 SELECT 
 first_name
 FROM actor
-WHERE first_name LIKE 'A%'
+WHERE first_name (NOT) LIKE 'A%'/'a%'(ILIKE 'a%')
+'%A%' - anywhere
+'_A%' -second character
+
+SELECT 
+*
+FROM film
+WHERE description LIKE '%Drama%'
+AND title LIKE '_T%'
+
+#10.1
+SELECT 
+COUNT(*)
+FROM film
+WHERE description LIKE '%Documentary%'
+
+#10.2
+SELECT 
+COUNT(*)
+FROM customer
+WHERE first_name LIKE '___'
+AND (last_name LIKE '%X'
+	 OR last_name LIKE '%Y')
+
+###Comments
+--Comment
+
+/* Comment1
+Comment2
+Comment 3*/
+
+###AS
+SELECT 
+payment_id AS invoice
+FROM payment
+--Just to show
+
+first_name
+--,last_name
+
+SELECT
+COUNT(*) AS number_of_movie
+FROM film
+
+#11.1
+SELECT
+COUNT(*) AS no_of_movies
+FROM film
+WHERE description LIKE '%Saga%'
+AND (title LIKE 'A%'
+OR title ILIKE '%R')
+
+#11.2
+SELECT * FROM customer
+WHERE first_name LIKE '%ER%'
+AND first_name LIKE '-A%'
+ORDER BY last_name DESC
+
+#11.3
+
+SELECT * FROM payment
+WHERE (amount = 0
+OR amount BETWEEN 3.99 AND 7.99)
+AND payment_date BETWEEN '2020-05-01' AND '2020-05-01 23:59'
+
+
 
