@@ -164,9 +164,58 @@ OR amount = 9.99)
 AND customer_id = 426
 AND first, OR after
 
+SELECT
+*
+FROM payment
+WHERE (customer_id = 30
+OR customer_id = 31)
+AND amount = 2.99
 
+#7
+SELECT
+*
+FROM payment
+WHERE (customer_id = 322
+OR customer_id = 346
+OR customer_id = 354)
+AND (amount <= 2
+OR amount >= 10)
+ORDER BY customer_id, amount DESC
 
+SELECT
+*
+FROM payment
+WHERE customer_id IN (322, 346, 354)
+AND (amount <= 2
+OR amount >= 10)
+ORDER BY customer_id, amount DESC
 
+###BETWEEN
+SELECT
+*
+FROM payment
+WHERE payment_id >= 17000 AND payment_id <= 18000
+
+SELECT
+*
+FROM payment
+WHERE payment_id (NOT) BETWEEN 17000 AND 18000
+
+SELECT 
+payment_id,
+amount,
+payment_date
+FROM payment
+WHERE payment_date BETWEEN '2020-01-24' AND '2020-01-26'
+ORDER BY payment_date
+
+SELECT 
+payment_id,
+amount,
+payment_date
+FROM payment
+WHERE payment_date BETWEEN '2020-01-24 22:00:00' AND '2020-01-24 23:30:00'
+ORDER BY payment_date
 
 
 
