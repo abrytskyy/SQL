@@ -1,1 +1,9 @@
+###Day 3###
+
+SELECT
+SUM(amount)
+COUNT(*) 
+ROUND(AVG(amount), 2)
+FROM payment
+
 
