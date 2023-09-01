@@ -6,4 +6,10 @@ COUNT(*)
 ROUND(AVG(amount), 2)
 FROM payment
 
+SELECT
+SUM(amount),
+COUNT(*),
+ROUND(AVG(amount), 2) AS AVERAGE
+FROM payment
+
 
