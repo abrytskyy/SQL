@@ -20,6 +20,15 @@ ROUND(AVG(replacement_cost), 2) AS AVG,
 SUM(replacement_cost)
 FROM film
 
+--Challenge1: Aggregate function(2)
+SELECT
+MIN(replacement_cost) AS min_replacement_cost,
+MAX(replacement_cost) AS max_replacement_cost,
+ROUND(AVG(replacement_cost),2) AS avg_replacement_cost,
+SUM(replacement_cost) AS sum_replacement_cost
+FROM film
+
+
 --GROUP BY
 
 SELECT 
@@ -33,6 +42,7 @@ ORDER BY customer_id
 ORDER BY SUM(amount) --DESC
 
 --Challenge2: GROUP BY
+
 
 SELECT 
 staff_id,
@@ -52,32 +62,75 @@ FROM payment
 GROUP BY staff_id, customer_id
 ORDER BY COUNT(*) DESC
 
+
+
+--Challenge3.1
+SELECT 
+COUNT(*),
+staff_id
+FROM payment
+GROUP BY staff_id
+
+--Challenge 3.2
+SELECT 
+staff_id,
+SUM(amount)
+FROM payment
+GROUP BY staff_id
+
+--Challenge 3.3
+SELECT 
+staff_id,
+SUM(amount)
+FROM payment
+WHERE amount != 0
+GROUP BY staff_id
+
+--GROUP BY multiple
+SELECT 
+staff_id,
+customer_id,
+SUM(amount),
+COUNT(*)
+FROM payment
+WHERE amount != 0
+GROUP BY staff_id,customer_id
+ORDER BY COUNT(*) DESC
+
 --DATE
 SELECT
 *,
 DATE(payment_date)
 FROM payment
 
---Challenge3.1
-SELECT
+
+--Challenge 4.1
+SELECT 
 staff_id,
-SUM(amount),
-COUNT(*),
-DATE(payment_date)
+DATE(payment_date),
+SUM(amount)
 FROM payment
 GROUP BY staff_id, DATE(payment_date)
 ORDER BY SUM(amount) DESC
 
---Challenge 3.2
+--Challenge 4.2
+SELECT 
+staff_id,
+DATE(payment_date),
+COUNT(*)
+FROM payment
+WHERE amount != 0
+GROUP BY staff_id, DATE(payment_date)
+ORDER BY SUM(amount) DESC
+
 SELECT
 staff_id,
 SUM(amount),
 COUNT(*),
 DATE(payment_date)
 FROM payment
-WHERE amount != 0
 GROUP BY staff_id, DATE(payment_date)
-ORDER BY COUNT(*) DESC
+ORDER BY/ ORDER BY 2 SUM(amount) DESC
 
 --HAVING
 SELECT
@@ -86,6 +139,28 @@ SUM(amount)
 FROM payment
 GROUP BY customer_id
 HAVING SUM(amount)>200
+
+SELECT
+staff_id,
+SUM(amount),
+COUNT(*),
+DATE(payment_date)
+FROM payment
+WHERE amount != 0
+GROUP BY staff_id, DATE(payment_date)
+HAVING COUNT(*)>400
+ORDER BY COUNT(*) DESC
+
+SELECT
+staff_id,
+SUM(amount),
+COUNT(*),
+DATE(payment_date)
+FROM payment
+WHERE amount != 0
+GROUP BY staff_id, DATE(payment_date)
+HAVING COUNT(*) = 28 OR COUNT (*) = 29
+ORDER BY COUNT(*) DESC
 
 
 
