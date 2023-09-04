@@ -154,5 +154,27 @@ GROUP BY staff_id, DATE(payment_date)
 HAVING COUNT(*) = 28 OR COUNT (*) = 29
 ORDER BY COUNT(*) DESC
 
+--Challenge 5
+SELECT
+customer_id,
+DATE(payment_date),
+ROUND(AVG(amount), 2) AS avg_amount,
+COUNT(*)
+FROM payment
+WHERE payment_date BETWEEN '2020-04-28' AND '2020-05-01'
+GROUP BY customer_id, DATE(payment_date)
+HAVING COUNT(*) > 1
+ORDER BY 3 DESC
 
+--Challenge 5(2)
+SELECT
+customer_id,
+DATE(payment_date),
+ROUND(AVG(amount), 2) AS avg_amount,
+COUNT(*)
+FROM payment
+WHERE DATE(payment_date) IN ('2020-04-28', '2020-04-29', '2020-04-30')
+GROUP BY customer_id, DATE(payment_date)
+HAVING COUNT(*) > 1
+ORDER BY 3 DESC
 
