@@ -1,6 +1,23 @@
+--LENGTH
+--LOWER, UPPER
 SELECT 
 UPPER (email) AS email_upper,
 LOWER (email) AS email_lower,
 email
 FROM customer
- 
+
+SELECT 
+LOWER (email) AS email_lower,
+email,
+LENGTH(email)
+FROM customer
+WHERE LENGTH(email) < 30
+
+-- Challenge 
+SELECT 
+LOWER(first_name),
+LOWER(last_name),
+LOWER(email)
+FROM customer
+WHERE LENGTH(first_name) > 10 
+OR LENGTH(last_name) > 10
