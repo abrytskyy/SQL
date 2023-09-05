@@ -13,7 +13,7 @@ LENGTH(email)
 FROM customer
 WHERE LENGTH(email) < 30
 
--- Challenge 
+-- Challenge 1
 SELECT 
 LOWER(first_name),
 LOWER(last_name),
