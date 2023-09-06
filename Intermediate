@@ -92,4 +92,25 @@ email,
 SUBSTRING (email from POSITION('.' in email)+1 for 3)
 FROM customer
 
+SELECT
+email,
+SUBSTRING (email from POSITION('.' in email)+1 for LENGTH(last_name))
+FROM customer
 
+SELECT
+email,
+SUBSTRING (email from 3 for 2)
+FROM customer
+
+SELECT
+email,
+SUBSTRING (email from POSITION('.' in email)+1 for POSITION ('@' in email)-POSITION('.' in email)-1)
+FROM customer
+
+--Challenge 5.1
+SELECT
+LEFT(email,1)||'***'
+||SUBSTRING(email from POSITION('.' in email)+1 for 1 )||'***'
+||SUBSTRING(email from POSITION('@' in email)),
+email
+FROM customer
