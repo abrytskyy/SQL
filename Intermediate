@@ -114,3 +114,12 @@ LEFT(email,1)||'***'
 ||SUBSTRING(email from POSITION('@' in email)),
 email
 FROM customer
+
+--Challenge 5.2
+SELECT
+'***'
+||SUBSTRING(email from POSITION('.' in email)-1 for 3 )
+||'***'
+||SUBSTRING(email from POSITION('@' in email)),
+email
+FROM customer
