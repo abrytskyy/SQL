@@ -164,3 +164,65 @@ SUM(amount) AS total_payment_amount
 FROM payment
 GROUP BY week,customer_id
 ORDER BY SUM(amount) DESC
+
+--TO-CHAR
+SELECT
+*,
+EXTRACT(month from payment_date),
+TO_CHAR(payment_date, 'MM-YYYY')
+FROM payment
+
+SELECT
+*,
+EXTRACT(month from payment_date),
+TO_CHAR(payment_date, 'YY/')
+FROM payment
+
+SELECT
+*,
+EXTRACT(month from payment_date),
+TO_CHAR(payment_date, 'Day Month YYYY')
+FROM payment
+
+
+SELECT
+SUM(amount),
+TO_CHAR(payment_date, 'Day Month YYYY')
+FROM payment
+GROUP BY TO_CHAR(payment_date, 'Day Month YYYY')
+
+SELECT
+SUM(amount),
+TO_CHAR(payment_date, 'Day, Month YYYY')
+FROM payment
+GROUP BY TO_CHAR(payment_date, 'Day, Month YYYY')
+
+SELECT
+SUM(amount),
+TO_CHAR(payment_date, 'Dy, Month YYYY')
+FROM payment
+GROUP BY TO_CHAR(payment_date, 'Dy, Month YYYY')
+
+--Challenge 7.1
+SELECT
+SUM(amount) AS total_amount,
+TO_CHAR(payment_date, 'Dy, DD/MM/YYYY') AS day
+FROM payment
+GROUP BY day
+ORDER BY SUM(amount)
+
+--Challenge 7.2
+SELECT
+SUM(amount) AS total_amount,
+TO_CHAR(payment_date, 'Mon,YYYY') AS mon_year
+FROM payment
+GROUP BY mon_year
+ORDER BY SUM(amount)
+
+--Challenge 7.3
+SELECT
+SUM(amount) AS total_amount,
+TO_CHAR(payment_date, 'Dy,HH:MI') AS day_time
+FROM payment
+GROUP BY day_time
+ORDER BY SUM(amount) DESC
