@@ -123,3 +123,5 @@ SELECT
 ||SUBSTRING(email from POSITION('@' in email)),
 email
 FROM customer
+
+
