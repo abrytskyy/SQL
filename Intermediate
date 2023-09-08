@@ -226,3 +226,5 @@ TO_CHAR(payment_date, 'Dy,HH:MI') AS day_time
 FROM payment
 GROUP BY day_time
 ORDER BY SUM(amount) DESC
+
+--Interval & Timestamps
