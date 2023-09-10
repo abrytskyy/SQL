@@ -313,3 +313,20 @@ rental_rate AS old_rental_rate,
 CEILING(rental_rate*1.4)-0.01 AS new_rental_rate
 FROM film
 
+--Challenge 9
+SELECT
+film_id, rental_rate, replacement_cost,
+ROUND(rental_rate / replacement_cost*100,2) AS percentage
+FROM film
+WHERE ROUND(rental_rate / replacement_cost*100,2) < 4
+ORDER BY 4
+
+--Challenge 9(1)
+SELECT
+film_id, 
+ROUND(rental_rate / replacement_cost*100,2) AS percentage
+FROM film
+WHERE ROUND(rental_rate / replacement_cost*100,2) < 4
+ORDER BY 2 ASC
+
+--CASE WHEN
