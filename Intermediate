@@ -296,5 +296,20 @@ FROM rental
 GROUP BY customer_id
 ORDER BY rental_duration DESC 
 
+
 ----------Day 5------------
+
 --Mathematical functions and operations
+SELECT
+film_id,
+rental_rate AS old_rental_rate,
+rental_rate+1 AS new_rental_rate,
+ROUND(rental_rate*1.4,2) AS rental_rate_plus40pros
+FROM film
+
+SELECT
+film_id,
+rental_rate AS old_rental_rate,
+CEILING(rental_rate*1.4)-0.01 AS new_rental_rate
+FROM film
+
