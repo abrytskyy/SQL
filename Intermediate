@@ -330,3 +330,92 @@ WHERE ROUND(rental_rate / replacement_cost*100,2) < 4
 ORDER BY 2 ASC
 
 --CASE WHEN
+
+--from demo
+SELECT 
+TO_CHAR(book_date,'Dy'),
+TO_CHAR(book_date,'Mon'),
+CASE
+WHEN TO_CHAR(book_date,'Dy') = 'Mon' THEN 'Monday special'
+WHEN TO_CHAR(book_date,'Mon') = 'Jul' THEN 'July special'
+END
+FROM bookings
+
+SELECT 
+TO_CHAR(book_date,'Dy'),
+TO_CHAR(book_date,'Mon'),
+CASE
+WHEN TO_CHAR(book_date,'Dy') = 'Mon' THEN 'Monday special'
+WHEN TO_CHAR(book_date,'Mon') = 'Jul' THEN 'July special'
+ELSE 'no special'
+END
+FROM bookings
+
+SELECT 
+TO_CHAR(book_date,'Dy'),
+TO_CHAR(book_date,'Mon'),
+CASE
+WHEN TO_CHAR(book_date,'Dy') = 'Mon' THEN 'Monday special'
+WHEN total_amount < 30000 THEN 'Special deal'
+ELSE 'no special at all'
+END
+FROM bookings
+
+SELECT 
+TO_CHAR(book_date,'Dy'),
+TO_CHAR(book_date,'Mon'),
+CASE
+WHEN TO_CHAR(book_date,'Dy') = 'Mon' THEN 'Monday special'
+WHEN total_amount*1.4 < 30000 THEN 'Special deal'
+ELSE 'no special at all'
+END
+FROM bookings
+
+SELECT 
+TO_CHAR(book_date,'Dy'),
+TO_CHAR(book_date,'Mon'),
+CASE
+	WHEN TO_CHAR(book_date,'Dy') = 'Mon' THEN 'Monday special'
+	WHEN total_amount*1.4 < 30000 THEN 'Special deal'
+	ELSE 'no special at all'
+END
+FROM bookings
+
+SELECT 
+actual_departure-scheduled_departure
+FROM flights
+
+SELECT
+COUNT(*) AS flights,
+--actual_departure-scheduled_departure,
+CASE
+WHEN actual_departure is null THEN 'no departure time'
+WHEN actual_departure-scheduled_departure < '00:05' THEN 'On time'
+WHEN actual_departure-scheduled_departure < '01:00' THEN 'A little bit late'
+ELSE 'Very late'
+END as is_late
+FROM flights
+GROUP BY is_late
+
+--Challenge 10.1
+SELECT
+COUNT(total_amount),
+CASE
+WHEN total_amount < 20000 THEN 'Low price ticket'
+WHEN total_amount < 150000 THEN 'Mid price ticket'
+ELSE 'High price ticket'
+END AS ticket_price
+FROM bookings
+GROUP BY ticket_price
+
+--Challenge 10.2
+SELECT
+COUNT(*),
+CASE
+WHEN EXTRACT (month from scheduled_arrival) IN (12,1,2) THEN 'Winter'
+WHEN EXTRACT (month from scheduled_arrival) IN (3,4,5) THEN 'Spring'
+WHEN EXTRACT (month from scheduled_arrival) IN (6,7,8) THEN 'Summer'
+ELSE 'Fall'
+END AS season
+FROM flights
+GROUP BY season
