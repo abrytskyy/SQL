@@ -419,3 +419,101 @@ ELSE 'Fall'
 END AS season
 FROM flights
 GROUP BY season
+
+--Challenge 10.3
+SELECT
+title,
+CASE
+WHEN rating IN ('PG','PG-13') OR length > 210 THEN 'Great rating or very long(tier 1)'
+WHEN description like '%Drama%' AND length > 90 THEN 'Long drama (Tier 2)'
+WHEN description like '%Drama%' THEN 'Short drama (Tier 3)'
+WHEN rental_rate < 1 THEN 'Very cheap (tier 4)'
+END AS case
+FROM film
+
+--Challenge 10.3(1)
+SELECT
+title,
+CASE
+WHEN rating IN ('PG','PG-13') OR length > 210 THEN 'Great rating or very long(tier 1)'
+WHEN description like '%Drama%' AND length > 90 THEN 'Long drama (Tier 2)'
+WHEN description like '%Drama%' THEN 'Short drama (Tier 3)'
+WHEN rental_rate < 1 THEN 'Very cheap (tier 4)'
+END AS case
+FROM film
+WHERE CASE
+WHEN rating IN ('PG','PG-13') OR length > 210 THEN 'Great rating or very long(tier 1)'
+WHEN description like '%Drama%' AND length > 90 THEN 'Long drama (Tier 2)'
+WHEN description like '%Drama%' THEN 'Short drama (Tier 3)'
+WHEN rental_rate < 1 THEN 'Very cheap (tier 4)'
+END is not null
+
+--CASE WHEN & SUM
+
+SELECT
+SUM(CASE
+WHEN rating IN ('PG', 'G') THEN 1
+ELSE 0
+END) AS no_of_ratings_with_g_or_pg
+FROM film
+
+--Challenge 11
+SELECT
+COUNT(CASE
+WHEN rating = 'G' THEN 1 
+END) AS G,
+COUNT(CASE
+WHEN rating = 'R' THEN 1 
+END) AS R,
+COUNT(CASE
+WHEN rating = 'NC-17' THEN 1 
+END) AS NC_17,
+COUNT(CASE
+WHEN rating = 'PG-13' THEN 1 
+END) AS PG_13,
+COUNT(CASE
+WHEN rating = 'PG' THEN 1 
+END) AS PG
+FROM film
+
+--Challenge 11(1)
+SELECT
+COUNT(CASE
+WHEN rating = 'G' THEN 1 
+END) AS "G",
+COUNT(CASE
+WHEN rating = 'R' THEN 1 
+END) AS "R",
+COUNT(CASE
+WHEN rating = 'NC-17' THEN 1 
+END) AS "NC-17",
+COUNT(CASE
+WHEN rating = 'PG-13' THEN 1 
+END) AS "PG-13",
+COUNT(CASE
+WHEN rating = 'PG' THEN 1 
+END) AS "PG"
+FROM film
+
+--Challenge 11(2)
+SELECT
+SUM(CASE WHEN rating = 'G' THEN 1 ELSE 0 END) AS "G",
+SUM(CASE WHEN rating = 'R' THEN 1 ELSE 0 END) AS "R",
+SUM(CASE WHEN rating = 'NC-17' THEN 1 ELSE 0 END) AS "NC-17",
+SUM(CASE WHEN rating = 'PG-13' THEN 1 ELSE 0 END) AS "PG-13",
+SUM(CASE WHEN rating = 'PG' THEN 1 ELSE 0 END) AS "PG"
+FROM film
+
+--COALESCE
+SELECT
+COALESCE (actual_arrival-scheduled_arrival, '0:00')
+FROM flights
+
+--CAST
+SELECT
+COALESCE (CAST(actual_arrival-scheduled_arrival AS VARCHAR), 'not arrived')
+FROM flights
+
+SELECT 
+LENGTH(CAST(actual_arrival AS VARCHAR))
+FROM flights
