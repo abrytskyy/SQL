@@ -579,3 +579,57 @@ FROM payment
 INNER JOIN customer
 ON payment.customer_id = customer.customer_id
 
+SELECT
+payment.*, first_name, last_name
+FROM payment
+INNER JOIN customer
+ON payment.customer_id = customer.customer_id
+
+SELECT
+payment_id, 
+payment.customer_id, 
+amount,
+first_name, 
+last_name
+FROM payment
+INNER JOIN customer
+ON payment.customer_id = customer.customer_id
+
+
+SELECT
+payment_id, 
+pa.customer_id, 
+amount,
+first_name, 
+last_name
+FROM payment pa
+INNER JOIN customer cu
+ON pa.customer_id = cu.customer_id
+
+SELECT payment.*, first_name, last_name, email 
+FROM payment
+INNER JOIN staff
+ON staff.staff_id = payment.staff_id
+
+SELECT payment.*, first_name, last_name, email 
+FROM payment
+INNER JOIN staff
+ON staff.staff_id = payment.staff_id
+WHERE staff.staff_id=1
+
+--Challenge 14
+
+SELECT * FROM seats
+SELECT * FROM boarding_passes
+
+SELECT
+fare_conditions,
+COUNT(*)
+FROM seats
+GROUP BY fare_conditions
+
+SELECT 
+COUNT(*)
+FROM boarding_passes
+
+--Challenge 14 END
