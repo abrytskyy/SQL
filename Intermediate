@@ -644,3 +644,54 @@ GROUP BY fare_conditions
 
 --FULL OUTER JOIN
 
+--Challenge 15
+SELECT * FROM boarding_passes b
+FULL OUTER JOIN tickets t
+ON b.ticket_no = t.ticket_no
+WHERE boarding_no IS null
+
+--Challenge 15(1)
+SELECT COUNT(*) FROM boarding_passes b
+FULL OUTER JOIN tickets t
+ON b.ticket_no = t.ticket_no
+WHERE boarding_no IS null
+
+--Challenge 15(2)
+SELECT COUNT(*) FROM boarding_passes b
+FULL OUTER JOIN tickets t
+ON b.ticket_no = t.ticket_no
+WHERE b.ticket_no IS null
+
+--Only values for A
+SELECT * FROM TableB
+FULL OUTER JOIN TableA
+ON TableA.employee = TableB.employee
+WHERE TableB.anycolumn IS null
+
+--LEFT OUTER JOIN
+--Values A + common A and B
+SELECT * FROM TableA
+LEFT OUTER JOIN TableB
+ON TableA.employee = TableB.employee
+
+SELECT * FROM aircrafts_data a
+LEFT JOIN flights f
+ON a.aircraft_code = f.aircraft_code
+
+--Challenge 16
+SELECT * FROM aircrafts_data a
+LEFT JOIN flights f
+ON a.aircraft_code = f.aircraft_code
+WHERE actual_departure IS null
+
+--Challenge 16(1)
+SELECT COUNT (*) FROM aircrafts_data a
+LEFT JOIN flights f
+ON a.aircraft_code = f.aircraft_code
+WHERE actual_departure IS null
+
+--Challenge 16(2)
+SELECT * FROM aircrafts_data a
+LEFT JOIN flights f
+ON a.aircraft_code = f.aircraft_code
+WHERE f.flight_id IS null
