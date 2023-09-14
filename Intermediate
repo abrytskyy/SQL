@@ -699,4 +699,55 @@ LEFT JOIN flights f
 ON a.aircraft_code = f.aircraft_code
 WHERE f.flight_id IS null
 
+--Challenge 17
+SELECT s.seat_no, COUNT(*)
+FROM boarding_passes b
+LEFT JOIN seats s
+ON s.seat_no = b.seat_no
+GROUP BY s.seat_no 
+ORDER BY COUNT(*) DESC
+
+--Challenge 18
+SELECT RIGHT(s.seat_no,1), COUNT(*)
+FROM boarding_passes b
+LEFT JOIN seats s
+ON s.seat_no = b.seat_no
+GROUP BY RIGHT(s.seat_no,1) 
+ORDER BY COUNT(*) DESC
+
+--Challenge 18(1)
+SELECT RIGHT(s.seat_no,1), COUNT(*)
+FROM boarding_passes b
+INNER JOIN seats s
+ON s.seat_no = b.seat_no
+GROUP BY RIGHT(s.seat_no,1) 
+ORDER BY COUNT(*) DESC
+
+SELECT fare_conditions, COUNT(*)
+FROM boarding_passes b
+INNER JOIN seats s
+ON s.seat_no = b.seat_no
+GROUP BY fare_conditions 
+ORDER BY COUNT(*) DESC
+
+--RIGHT OUTER JOIN
+SELECT * FROM TableA
+RIGHT OUTER JOIN TableB
+ON TableA.employee = TableB.employee
+
+--SAME AS:
+SELECT * FROM TableB
+LEFT OUTER JOIN TableA
+ON TableA.employee = TableB.employee
+
+SELECT * FROM aircrafts_data a
+LEFT JOIN flights f
+ON a.aircraft_code = f.aircraft_code
+WHERE f.aircraft_code IS null 
+
+--SAME AS:
+SELECT * FROM flights f
+RIGHT JOIN aircrafts_data a
+ON a.aircraft_code = f.aircraft_code
+WHERE f.aircraft_code IS null 
 
