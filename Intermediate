@@ -679,6 +679,9 @@ LEFT JOIN flights f
 ON a.aircraft_code = f.aircraft_code
 
 --Challenge 16
+SELECT * FROM aircrafts_data
+SELECT * FROM flights
+
 SELECT * FROM aircrafts_data a
 LEFT JOIN flights f
 ON a.aircraft_code = f.aircraft_code
@@ -695,3 +698,5 @@ SELECT * FROM aircrafts_data a
 LEFT JOIN flights f
 ON a.aircraft_code = f.aircraft_code
 WHERE f.flight_id IS null
+
+
