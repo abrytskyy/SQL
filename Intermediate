@@ -641,3 +641,6 @@ ON A.seat_no = B.seat_no
 GROUP BY fare_conditions
 
 --Challenge 14 END
+
+--FULL OUTER JOIN
+
