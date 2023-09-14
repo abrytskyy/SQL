@@ -632,4 +632,12 @@ SELECT
 COUNT(*)
 FROM boarding_passes
 
+--SOLUTION
+SELECT
+COUNT(*),fare_conditions 
+FROM seats A
+INNER JOIN boarding_passes B
+ON A.seat_no = B.seat_no
+GROUP BY fare_conditions
+
 --Challenge 14 END
