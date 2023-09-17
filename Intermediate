@@ -751,3 +751,4 @@ RIGHT JOIN aircrafts_data a
 ON a.aircraft_code = f.aircraft_code
 WHERE f.aircraft_code IS null 
 
+
