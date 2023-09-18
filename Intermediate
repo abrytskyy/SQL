@@ -606,6 +606,10 @@ FROM payment pa
 INNER JOIN customer cu
 ON pa.customer_id = cu.customer_id
 
+SELECT * FROM payment
+INNER JOIN staff
+ON staff.staff_id = payment.staff_id
+
 SELECT payment.*, first_name, last_name, email 
 FROM payment
 INNER JOIN staff
@@ -622,6 +626,10 @@ WHERE staff.staff_id=1
 SELECT * FROM seats
 SELECT * FROM boarding_passes
 
+SELECT * FROM boarding_passes b
+INNER JOIN seats s
+ON s.seat_no = b.seat_no
+
 SELECT
 fare_conditions,
 COUNT(*)
@@ -633,16 +641,26 @@ COUNT(*)
 FROM boarding_passes
 
 --SOLUTION
+SELECT s.fare_conditions, COUNT(b.boarding_no)
+FROM boarding_passes b
+INNER JOIN seats s
+ON b.seat_no = s.seat_no
+GROUP BY s.fare_conditions
+
+--SOLUTION(1)
 SELECT
 COUNT(*),fare_conditions 
-FROM seats A
-INNER JOIN boarding_passes B
-ON A.seat_no = B.seat_no
+FROM seats s
+INNER JOIN boarding_passes b
+ON s.seat_no = b.seat_no
 GROUP BY fare_conditions
-
 --Challenge 14 END
 
 --FULL OUTER JOIN
+
+SELECT * FROM boarding_passes b
+FULL OUTER JOIN tickets t
+ON b.ticket_no = t.ticket_no
 
 --Challenge 15
 SELECT * FROM boarding_passes b
@@ -700,6 +718,11 @@ ON a.aircraft_code = f.aircraft_code
 WHERE f.flight_id IS null
 
 --Challenge 17
+SELECT * FROM seats s
+LEFT JOIN boarding_passes b
+ON s.seat_no = b.seat_no
+WHERE b.seat_no IS null
+
 SELECT s.seat_no, COUNT(*)
 FROM boarding_passes b
 LEFT JOIN seats s
