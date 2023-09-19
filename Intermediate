@@ -801,3 +801,110 @@ INNER JOIN TableB b
 ON a.first_name = b.first_name
 AND a.last_name = b.last_name
 
+SELECT * FROM TableA a
+INNER JOIN TableB b
+ON a.first_name = b.first_name
+AND a.last_name = 'Jones'
+
+--FASTER PERFORMANCE THEN:
+SELECT * FROM TableA a
+INNER JOIN TableB b
+ON a.first_name = b.first_name
+WHERE a.last_name = 'Jones'
+
+--Primary Key
+SELECT * FROM ticket_flights
+SELECT * FROM boarding_passes
+SELECT * FROM tickets
+
+SELECT * FROM boarding_passes
+ORDER BY 1
+
+--Challenge 21
+SELECT SUM(amount)/COUNT(*),seat_no FROM ticket_flights t
+INNER JOIN boarding_passes b
+ON t.ticket_no = b.ticket_no
+AND t.flight_id = b.flight_id
+GROUP BY seat_no
+ORDER BY seat_no
+
+--Challenge 21(1)
+SELECT AVG(amount),seat_no FROM ticket_flights t
+INNER JOIN boarding_passes b
+ON t.ticket_no = b.ticket_no
+AND t.flight_id = b.flight_id
+GROUP BY seat_no
+ORDER BY seat_no
+
+--Challenge 21(2)
+SELECT seat_no, ROUND(AVG(amount),2) FROM ticket_flights t
+INNER JOIN boarding_passes b
+ON t.ticket_no = b.ticket_no
+AND t.flight_id = b.flight_id
+GROUP BY seat_no
+ORDER BY 2 DESC
+
+--Joining multiple tables
+
+--Challenge 22
+SELECT * FROM flights
+SELECT * FROM tickets
+SELECT * FROM boarding_passes
+
+SELECT t.ticket_no,t.passenger_name, f.scheduled_departure FROM flights f
+INNER JOIN boarding_passes b
+ON f.flight_id = b.flight_id
+INNER JOIN tickets t
+ON t.ticket_no = b.ticket_no
+
+--Challenge 22(1)
+SELECT * FROM ticket_flights
+
+SELECT t.ticket_no,t.passenger_name, f.scheduled_departure FROM tickets t
+INNER JOIN ticket_flights tf
+ON t.ticket_no = tf.ticket_no
+INNER JOIN flights f
+ON f.flight_id = tf.flight_id
+
+--Challenge 22(2)
+SELECT t.ticket_no,t.passenger_name, f.scheduled_departure FROM ticket_flights tf
+INNER JOIN tickets t
+ON t.ticket_no = tf.ticket_no
+INNER JOIN flights f
+ON f.flight_id = tf.flight_id
+
+--Challenge 22(3)
+SELECT t.ticket_no,t.passenger_name, f.scheduled_departure FROM ticket_flights tf
+INNER JOIN flights f
+ON f.flight_id = tf.flight_id
+INNER JOIN tickets t
+ON t.ticket_no = tf.ticket_no
+
+--Challenge 23
+c.first_name, c.last_name, c.email, country
+SELECT * FROM customer c address_id
+SELECT * FROM country country_id,country
+SELECT * FROM address address_id, city_id
+SELECT * FROM city city_id, country_id
+
+SELECT c.first_name, c.last_name, c.email, country 
+FROM customer c
+INNER JOIN address a
+ON c.address_id = a.address_id
+INNER JOIN city ci
+ON ci.city_id = a.city_id
+INNER JOIN country co
+ON co.country_id = ci.country_id
+WHERE country = 'Brazil'
+
+--Challenge 23(1)
+SELECT first_name, last_name, email, country 
+FROM customer cu
+LEFT JOIN address ad
+ON cu.address_id = ad.address_id
+LEFT JOIN city ci
+ON ci.city_id = ad.city_id
+LEFT JOIN country co
+ON co.country_id = ci.country_id
+WHERE country = 'Brazil'
+
