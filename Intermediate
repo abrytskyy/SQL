@@ -908,5 +908,27 @@ LEFT JOIN country co
 ON co.country_id = ci.country_id
 WHERE country = 'Brazil'
 
+--Challenge 24
+SELECT * FROM tickets
+SELECT * FROM bookings
+
+SELECT passenger_name, SUM(total_amount) FROM tickets t
+INNER JOIN bookings b
+ON t.book_ref = b.book_ref
+GROUP BY passenger_name
+ORDER BY SUM(total_amount) DESC
+
+--Challenge 25
+SELECT * FROM tickets
+-- ticket_no, passenger_name
+SELECT * FROM ticket_flights
+--ticket_no, fare_conditions
+
+SELECT COUNT(passenger_name), fare_conditions FROM tickets t
+INNER JOIN ticket_flights tf
+ON t.ticket_no = tf.ticket_no
+WHERE passenger_name = 'ALEKSANDR IVANOV'
+GROUP BY fare_conditions
+ORDER BY fare_conditions DESC
 
 
