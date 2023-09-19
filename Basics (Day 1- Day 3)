@@ -311,3 +311,184 @@ SELECT * FROM payment
 WHERE (amount = 0
 OR amount BETWEEN 3.99 AND 7.99)
 AND payment_date BETWEEN '2020-05-01' AND '2020-05-01 23:59'
+
+
+--Day 3--
+
+SELECT
+SUM(amount)
+COUNT(*) 
+ROUND(AVG(amount), 2)
+FROM payment
+
+SELECT
+SUM(amount),
+COUNT(*),
+ROUND(AVG(amount), 2) AS AVERAGE
+FROM payment
+
+--Challenge1: Aggregate function
+SELECT 
+MIN(replacement_cost),
+MAX(replacement_cost),
+ROUND(AVG(replacement_cost), 2) AS AVG,
+SUM(replacement_cost)
+FROM film
+
+--Challenge1: Aggregate function(2)
+SELECT
+MIN(replacement_cost) AS min_replacement_cost,
+MAX(replacement_cost) AS max_replacement_cost,
+ROUND(AVG(replacement_cost),2) AS avg_replacement_cost,
+SUM(replacement_cost) AS sum_replacement_cost
+FROM film
+
+
+--GROUP BY
+
+SELECT 
+customer_id,
+SUM(amount),
+MAX(amount)
+FROM payment
+GROUP BY customer_id
+ORDER BY customer_id
+--or
+ORDER BY SUM(amount) --DESC
+
+--Challenge2: GROUP BY
+
+
+SELECT 
+staff_id,
+SUM(amount),
+COUNT(amount)
+FROM payment
+--WHERE amount != 0
+GROUP BY staff_id
+ORDER BY staff_id DESC
+
+SELECT 
+staff_id,
+customer_id,
+SUM(amount),
+COUNT(*)
+FROM payment
+GROUP BY staff_id, customer_id
+ORDER BY COUNT(*) DESC
+
+
+
+--Challenge3.1
+SELECT 
+COUNT(*),
+staff_id
+FROM payment
+GROUP BY staff_id
+
+--Challenge 3.2
+SELECT 
+staff_id,
+SUM(amount)
+FROM payment
+GROUP BY staff_id
+
+--Challenge 3.3
+SELECT 
+staff_id,
+SUM(amount)
+FROM payment
+WHERE amount != 0
+GROUP BY staff_id
+
+--GROUP BY multiple
+SELECT 
+staff_id,
+customer_id,
+SUM(amount),
+COUNT(*)
+FROM payment
+WHERE amount != 0
+GROUP BY staff_id,customer_id
+ORDER BY COUNT(*) DESC
+
+--DATE
+SELECT
+*,
+DATE(payment_date)
+FROM payment
+
+
+--Challenge 4.1
+SELECT 
+staff_id,
+DATE(payment_date),
+SUM(amount)
+FROM payment
+GROUP BY staff_id, DATE(payment_date)
+ORDER BY SUM(amount) DESC
+
+--Challenge 4.2
+SELECT 
+staff_id,
+DATE(payment_date),
+COUNT(*)
+FROM payment
+WHERE amount != 0
+GROUP BY staff_id, DATE(payment_date)
+ORDER BY SUM(amount) DESC
+
+
+--HAVING
+SELECT
+customer_id,
+SUM(amount)
+FROM payment
+GROUP BY customer_id
+HAVING SUM(amount)>200
+
+SELECT
+staff_id,
+SUM(amount),
+COUNT(*),
+DATE(payment_date)
+FROM payment
+WHERE amount != 0
+GROUP BY staff_id, DATE(payment_date)
+HAVING COUNT(*)>400
+ORDER BY COUNT(*) DESC
+
+SELECT
+staff_id,
+SUM(amount),
+COUNT(*),
+DATE(payment_date)
+FROM payment
+WHERE amount != 0
+GROUP BY staff_id, DATE(payment_date)
+HAVING COUNT(*) = 28 OR COUNT (*) = 29
+ORDER BY COUNT(*) DESC
+
+--Challenge 5
+SELECT
+customer_id,
+DATE(payment_date),
+ROUND(AVG(amount), 2) AS avg_amount,
+COUNT(*)
+FROM payment
+WHERE payment_date BETWEEN '2020-04-28' AND '2020-05-01'
+GROUP BY customer_id, DATE(payment_date)
+HAVING COUNT(*) > 1
+ORDER BY 3 DESC
+
+--Challenge 5(2)
+SELECT
+customer_id,
+DATE(payment_date),
+ROUND(AVG(amount), 2) AS avg_amount,
+COUNT(*)
+FROM payment
+WHERE DATE(payment_date) IN ('2020-04-28', '2020-04-29', '2020-04-30')
+GROUP BY customer_id, DATE(payment_date)
+HAVING COUNT(*) > 1
+ORDER BY 3 DESC
