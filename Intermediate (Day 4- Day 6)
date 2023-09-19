@@ -1,1 +1,955 @@
+--LENGTH
+--LOWER, UPPER
+SELECT 
+UPPER (email) AS email_upper,
+LOWER (email) AS email_lower,
+email
+FROM customer
 
+SELECT 
+LOWER (email) AS email_lower,
+email,
+LENGTH(email)
+FROM customer
+WHERE LENGTH(email) < 30
+
+-- Challenge 1
+SELECT 
+LOWER(first_name),
+LOWER(last_name),
+LOWER(email)
+FROM customer
+WHERE LENGTH(first_name) > 10 
+OR LENGTH(last_name) > 10
+
+--LEFT,RIGHT
+SELECT
+LEFT(first_name, 2),
+first_name
+FROM customer
+
+--to get second letter
+SELECT
+RIGHT(LEFT(first_name, 2), 1),
+first_name
+FROM customer
+
+--Challenge 2.1
+SELECT
+RIGHT(email, 5)
+FROM customer
+
+--Challenge 2.2
+SELECT
+LEFT(RIGHT(email, 4),1)
+FROM customer
+
+--Concatenate
+SELECT
+LEFT (first_name,1)|| LEFT(last_name,1)
+FROM customer
+
+SELECT
+LEFT (first_name,1)||'.'||LEFT(last_name,1)||'.' AS initials,
+first_name,
+last_name
+FROM customer
+
+--Challenge 3
+SELECT
+email, LEFT(email,1)||'***'||RIGHT(email,19)
+FROM customer
+
+--POSITION
+SELECT
+POSITION('@' IN email),
+email
+FROM customer
+
+SELECT
+LEFT(email, POSITION('@' IN email)-1),
+email
+FROM customer
+
+SELECT
+LEFT(email, POSITION(last_name IN email)-2),
+email
+FROM customer
+
+--Challenge 4
+SELECT
+last_name||','||LEFT(email, POSITION(last_name in email)-2)
+FROM customer
+
+--Challenge 4(2)
+SELECT
+last_name||','||LEFT(email,POSITION('.' IN email)-1)
+FROM customer
+
+--SUBSTRING
+SELECT
+email,
+SUBSTRING (email from POSITION('.' in email)+1 for 3)
+FROM customer
+
+SELECT
+email,
+SUBSTRING (email from POSITION('.' in email)+1 for LENGTH(last_name))
+FROM customer
+
+SELECT
+email,
+SUBSTRING (email from 3 for 2)
+FROM customer
+
+SELECT
+email,
+SUBSTRING (email from POSITION('.' in email)+1 for POSITION ('@' in email)-POSITION('.' in email)-1)
+FROM customer
+
+--Challenge 5.1
+SELECT
+LEFT(email,1)||'***'
+||SUBSTRING(email from POSITION('.' in email)+1 for 1 )||'***'
+||SUBSTRING(email from POSITION('@' in email)),
+email
+FROM customer
+
+--Challenge 5.2
+SELECT
+'***'
+||SUBSTRING(email from POSITION('.' in email)-1 for 3 )
+||'***'
+||SUBSTRING(email from POSITION('@' in email)),
+email
+FROM customer
+
+--EXTRACT
+
+SELECT
+EXTRACT(day from rental_date),
+COUNT(*)
+FROM rental
+GROUP BY EXTRACT(day from rental_date)
+ORDER BY COUNT(*) DESC
+
+SELECT
+EXTRACT(month from rental_date),
+COUNT(*)
+FROM rental
+GROUP BY EXTRACT(month from rental_date)
+ORDER BY COUNT(*) DESC
+
+--Challenge 6.1
+SELECT
+EXTRACT(month from payment_date) AS month,
+SUM(amount) AS total_payment_amount
+FROM payment
+GROUP BY month
+ORDER BY SUM(amount) DESC
+
+--Challenge 6.2
+SELECT
+EXTRACT(dow from payment_date) AS day_of_week,
+SUM(amount) AS total_payment_amount
+FROM payment
+GROUP BY day_of_week
+ORDER BY SUM(amount) DESC
+
+--Challenge 6.3
+SELECT
+EXTRACT(week from payment_date) AS week,
+customer_id,
+SUM(amount) AS total_payment_amount
+FROM payment
+GROUP BY week,customer_id
+ORDER BY SUM(amount) DESC
+
+--TO-CHAR
+SELECT
+*,
+EXTRACT(month from payment_date),
+TO_CHAR(payment_date, 'MM-YYYY')
+FROM payment
+
+SELECT
+*,
+EXTRACT(month from payment_date),
+TO_CHAR(payment_date, 'YY/')
+FROM payment
+
+SELECT
+*,
+EXTRACT(month from payment_date),
+TO_CHAR(payment_date, 'Day Month YYYY')
+FROM payment
+
+
+SELECT
+SUM(amount),
+TO_CHAR(payment_date, 'Day Month YYYY')
+FROM payment
+GROUP BY TO_CHAR(payment_date, 'Day Month YYYY')
+
+SELECT
+SUM(amount),
+TO_CHAR(payment_date, 'Day, Month YYYY')
+FROM payment
+GROUP BY TO_CHAR(payment_date, 'Day, Month YYYY')
+
+SELECT
+SUM(amount),
+TO_CHAR(payment_date, 'Dy, Month YYYY')
+FROM payment
+GROUP BY TO_CHAR(payment_date, 'Dy, Month YYYY')
+
+--Challenge 7.1
+SELECT
+SUM(amount) AS total_amount,
+TO_CHAR(payment_date, 'Dy, DD/MM/YYYY') AS day
+FROM payment
+GROUP BY day
+ORDER BY SUM(amount)
+
+--Challenge 7.2
+SELECT
+SUM(amount) AS total_amount,
+TO_CHAR(payment_date, 'Mon,YYYY') AS mon_year
+FROM payment
+GROUP BY mon_year
+ORDER BY SUM(amount)
+
+--Challenge 7.3
+SELECT
+SUM(amount) AS total_amount,
+TO_CHAR(payment_date, 'Dy,HH:MI') AS day_time
+FROM payment
+GROUP BY day_time
+ORDER BY SUM(amount) DESC
+
+--Interval & Timestamps
+
+SELECT CURRENT_DATE
+
+SELECT CURRENT_TIMESTAMP
+
+SELECT CURRENT_TIMESTAMP,
+rental_date
+FROM rental
+
+SELECT CURRENT_DATE,
+rental_date
+FROM rental
+
+SELECT CURRENT_TIMESTAMP,
+CURRENT_TIMESTAMP-rental_date
+FROM rental
+
+SELECT CURRENT_TIMESTAMP,
+return_date-rental_date
+FROM rental
+
+
+SELECT CURRENT_TIMESTAMP,
+EXTRACT(day from return_date-rental_date)
+FROM rental
+
+SELECT CURRENT_TIMESTAMP,
+EXTRACT(hour from return_date-rental_date)
+FROM rental
+
+SELECT CURRENT_TIMESTAMP,
+EXTRACT(day from return_date-rental_date)*24
+FROM rental
+
+SELECT CURRENT_TIMESTAMP,
+EXTRACT(day from return_date-rental_date)*24
++EXTRACT(hour from return_date-rental_date)
+FROM rental
+
+SELECT CURRENT_TIMESTAMP,
+EXTRACT(day from return_date-rental_date)*24
++EXTRACT(hour from return_date-rental_date) || ' hours'
+FROM rental
+
+
+SELECT CURRENT_TIMESTAMP,
+TO_CHAR(return_date-rental_date, 'DD')
+FROM rental
+
+SELECT CURRENT_TIMESTAMP,
+TO_CHAR(return_date-rental_date, 'MI')
+FROM rental
+
+--Challenge 8.1
+SELECT
+rental_id,
+return_date-rental_date AS rental_duration
+FROM rental
+WHERE customer_id = 35
+
+--Challenge 8.2
+SELECT
+customer_id,
+AVG(return_date-rental_date) AS rental_duration
+FROM rental
+GROUP BY customer_id
+ORDER BY rental_duration DESC 
+
+
+----------Day 5------------
+
+--Mathematical functions and operations
+SELECT
+film_id,
+rental_rate AS old_rental_rate,
+rental_rate+1 AS new_rental_rate,
+ROUND(rental_rate*1.4,2) AS rental_rate_plus40pros
+FROM film
+
+SELECT
+film_id,
+rental_rate AS old_rental_rate,
+CEILING(rental_rate*1.4)-0.01 AS new_rental_rate
+FROM film
+
+--Challenge 9
+SELECT
+film_id, rental_rate, replacement_cost,
+ROUND(rental_rate / replacement_cost*100,2) AS percentage
+FROM film
+WHERE ROUND(rental_rate / replacement_cost*100,2) < 4
+ORDER BY 4
+
+--Challenge 9(1)
+SELECT
+film_id, 
+ROUND(rental_rate / replacement_cost*100,2) AS percentage
+FROM film
+WHERE ROUND(rental_rate / replacement_cost*100,2) < 4
+ORDER BY 2 ASC
+
+--CASE WHEN
+
+--from demo
+SELECT 
+TO_CHAR(book_date,'Dy'),
+TO_CHAR(book_date,'Mon'),
+CASE
+WHEN TO_CHAR(book_date,'Dy') = 'Mon' THEN 'Monday special'
+WHEN TO_CHAR(book_date,'Mon') = 'Jul' THEN 'July special'
+END
+FROM bookings
+
+SELECT 
+TO_CHAR(book_date,'Dy'),
+TO_CHAR(book_date,'Mon'),
+CASE
+WHEN TO_CHAR(book_date,'Dy') = 'Mon' THEN 'Monday special'
+WHEN TO_CHAR(book_date,'Mon') = 'Jul' THEN 'July special'
+ELSE 'no special'
+END
+FROM bookings
+
+SELECT 
+TO_CHAR(book_date,'Dy'),
+TO_CHAR(book_date,'Mon'),
+CASE
+WHEN TO_CHAR(book_date,'Dy') = 'Mon' THEN 'Monday special'
+WHEN total_amount < 30000 THEN 'Special deal'
+ELSE 'no special at all'
+END
+FROM bookings
+
+SELECT 
+TO_CHAR(book_date,'Dy'),
+TO_CHAR(book_date,'Mon'),
+CASE
+WHEN TO_CHAR(book_date,'Dy') = 'Mon' THEN 'Monday special'
+WHEN total_amount*1.4 < 30000 THEN 'Special deal'
+ELSE 'no special at all'
+END
+FROM bookings
+
+SELECT 
+TO_CHAR(book_date,'Dy'),
+TO_CHAR(book_date,'Mon'),
+CASE
+	WHEN TO_CHAR(book_date,'Dy') = 'Mon' THEN 'Monday special'
+	WHEN total_amount*1.4 < 30000 THEN 'Special deal'
+	ELSE 'no special at all'
+END
+FROM bookings
+
+SELECT 
+actual_departure-scheduled_departure
+FROM flights
+
+SELECT
+COUNT(*) AS flights,
+--actual_departure-scheduled_departure,
+CASE
+WHEN actual_departure is null THEN 'no departure time'
+WHEN actual_departure-scheduled_departure < '00:05' THEN 'On time'
+WHEN actual_departure-scheduled_departure < '01:00' THEN 'A little bit late'
+ELSE 'Very late'
+END as is_late
+FROM flights
+GROUP BY is_late
+
+--Challenge 10.1
+SELECT
+COUNT(total_amount),
+CASE
+WHEN total_amount < 20000 THEN 'Low price ticket'
+WHEN total_amount < 150000 THEN 'Mid price ticket'
+ELSE 'High price ticket'
+END AS ticket_price
+FROM bookings
+GROUP BY ticket_price
+
+--Challenge 10.2
+SELECT
+COUNT(*),
+CASE
+WHEN EXTRACT (month from scheduled_arrival) IN (12,1,2) THEN 'Winter'
+WHEN EXTRACT (month from scheduled_arrival) IN (3,4,5) THEN 'Spring'
+WHEN EXTRACT (month from scheduled_arrival) IN (6,7,8) THEN 'Summer'
+ELSE 'Fall'
+END AS season
+FROM flights
+GROUP BY season
+
+--Challenge 10.3
+SELECT
+title,
+CASE
+WHEN rating IN ('PG','PG-13') OR length > 210 THEN 'Great rating or very long(tier 1)'
+WHEN description like '%Drama%' AND length > 90 THEN 'Long drama (Tier 2)'
+WHEN description like '%Drama%' THEN 'Short drama (Tier 3)'
+WHEN rental_rate < 1 THEN 'Very cheap (tier 4)'
+END AS case
+FROM film
+
+--Challenge 10.3(1)
+SELECT
+title,
+CASE
+WHEN rating IN ('PG','PG-13') OR length > 210 THEN 'Great rating or very long(tier 1)'
+WHEN description like '%Drama%' AND length > 90 THEN 'Long drama (Tier 2)'
+WHEN description like '%Drama%' THEN 'Short drama (Tier 3)'
+WHEN rental_rate < 1 THEN 'Very cheap (tier 4)'
+END AS case
+FROM film
+WHERE CASE
+WHEN rating IN ('PG','PG-13') OR length > 210 THEN 'Great rating or very long(tier 1)'
+WHEN description like '%Drama%' AND length > 90 THEN 'Long drama (Tier 2)'
+WHEN description like '%Drama%' THEN 'Short drama (Tier 3)'
+WHEN rental_rate < 1 THEN 'Very cheap (tier 4)'
+END is not null
+
+--CASE WHEN & SUM
+
+SELECT
+SUM(CASE
+WHEN rating IN ('PG', 'G') THEN 1
+ELSE 0
+END) AS no_of_ratings_with_g_or_pg
+FROM film
+
+--Challenge 11
+SELECT
+COUNT(CASE
+WHEN rating = 'G' THEN 1 
+END) AS G,
+COUNT(CASE
+WHEN rating = 'R' THEN 1 
+END) AS R,
+COUNT(CASE
+WHEN rating = 'NC-17' THEN 1 
+END) AS NC_17,
+COUNT(CASE
+WHEN rating = 'PG-13' THEN 1 
+END) AS PG_13,
+COUNT(CASE
+WHEN rating = 'PG' THEN 1 
+END) AS PG
+FROM film
+
+--Challenge 11(1)
+SELECT
+COUNT(CASE
+WHEN rating = 'G' THEN 1 
+END) AS "G",
+COUNT(CASE
+WHEN rating = 'R' THEN 1 
+END) AS "R",
+COUNT(CASE
+WHEN rating = 'NC-17' THEN 1 
+END) AS "NC-17",
+COUNT(CASE
+WHEN rating = 'PG-13' THEN 1 
+END) AS "PG-13",
+COUNT(CASE
+WHEN rating = 'PG' THEN 1 
+END) AS "PG"
+FROM film
+
+--Challenge 11(2)
+SELECT
+SUM(CASE WHEN rating = 'G' THEN 1 ELSE 0 END) AS "G",
+SUM(CASE WHEN rating = 'R' THEN 1 ELSE 0 END) AS "R",
+SUM(CASE WHEN rating = 'NC-17' THEN 1 ELSE 0 END) AS "NC-17",
+SUM(CASE WHEN rating = 'PG-13' THEN 1 ELSE 0 END) AS "PG-13",
+SUM(CASE WHEN rating = 'PG' THEN 1 ELSE 0 END) AS "PG"
+FROM film
+
+--COALESCE
+SELECT
+COALESCE (actual_arrival-scheduled_arrival, '0:00')
+FROM flights
+
+--CAST
+SELECT
+COALESCE (CAST(actual_arrival-scheduled_arrival AS VARCHAR), 'not arrived')
+FROM flights
+
+SELECT 
+LENGTH(CAST(actual_arrival AS VARCHAR))
+FROM flights
+
+SELECT 
+CAST(ticket_no AS bigint)
+FROM tickets
+
+--Challenge 12
+SELECT
+rental_date,
+CASE
+WHEN return_date is null THEN 'not returned'
+ELSE 
+COALESCE (CAST(rental_date AS VARCHAR))
+END
+FROM rental
+ORDER BY rental_date DESC
+
+--Challenge 12(1)
+SELECT
+rental_date,
+COALESCE (CAST(return_date AS VARCHAR), 'not returned')
+FROM rental
+ORDER BY rental_date DESC
+
+--REPLACE
+
+SELECT
+CAST(REPLACE(passenger_id,' ','') AS BIGINT)
+FROM tickets
+
+--Challenge 13
+
+SELECT
+flight_no,
+CAST(REPLACE (flight_no, 'PG', '') AS INT)
+FROM flights
+
+
+----------Day 6------------
+
+--INNER JOIN
+SELECT * FROM Table B
+INNER JOIN Table A
+ON TableA.employee = TableB.employee
+
+SELECT * FROM Table A AS A
+INNER JOIN Table B AS B
+ON A.employee = B.employee
+
+SELECT A.employee FROM Table A A
+INNER JOIN Table B B
+ON A.employee = B.employee
+
+
+SELECT * FROM payment
+SELECT * FROM customer
+
+SELECT
+*
+FROM payment
+INNER JOIN customer
+ON payment.customer_id = customer.customer_id
+
+SELECT
+payment.*, first_name, last_name
+FROM payment
+INNER JOIN customer
+ON payment.customer_id = customer.customer_id
+
+SELECT
+payment_id, 
+payment.customer_id, 
+amount,
+first_name, 
+last_name
+FROM payment
+INNER JOIN customer
+ON payment.customer_id = customer.customer_id
+
+
+SELECT
+payment_id, 
+pa.customer_id, 
+amount,
+first_name, 
+last_name
+FROM payment pa
+INNER JOIN customer cu
+ON pa.customer_id = cu.customer_id
+
+SELECT * FROM payment
+INNER JOIN staff
+ON staff.staff_id = payment.staff_id
+
+SELECT payment.*, first_name, last_name, email 
+FROM payment
+INNER JOIN staff
+ON staff.staff_id = payment.staff_id
+
+SELECT payment.*, first_name, last_name, email 
+FROM payment
+INNER JOIN staff
+ON staff.staff_id = payment.staff_id
+WHERE staff.staff_id=1
+
+--Challenge 14
+
+SELECT * FROM seats
+SELECT * FROM boarding_passes
+
+SELECT * FROM boarding_passes b
+INNER JOIN seats s
+ON s.seat_no = b.seat_no
+
+SELECT
+fare_conditions,
+COUNT(*)
+FROM seats
+GROUP BY fare_conditions
+
+SELECT 
+COUNT(*)
+FROM boarding_passes
+
+--SOLUTION
+SELECT s.fare_conditions, COUNT(b.boarding_no)
+FROM boarding_passes b
+INNER JOIN seats s
+ON b.seat_no = s.seat_no
+GROUP BY s.fare_conditions
+
+--SOLUTION(1)
+SELECT
+COUNT(*),fare_conditions 
+FROM seats s
+INNER JOIN boarding_passes b
+ON s.seat_no = b.seat_no
+GROUP BY fare_conditions
+--Challenge 14 END
+
+--FULL OUTER JOIN
+
+SELECT * FROM boarding_passes b
+FULL OUTER JOIN tickets t
+ON b.ticket_no = t.ticket_no
+
+--Challenge 15
+SELECT * FROM boarding_passes b
+FULL OUTER JOIN tickets t
+ON b.ticket_no = t.ticket_no
+WHERE boarding_no IS null
+
+--Challenge 15(1)
+SELECT COUNT(*) FROM boarding_passes b
+FULL OUTER JOIN tickets t
+ON b.ticket_no = t.ticket_no
+WHERE boarding_no IS null
+
+--Challenge 15(2)
+SELECT COUNT(*) FROM boarding_passes b
+FULL OUTER JOIN tickets t
+ON b.ticket_no = t.ticket_no
+WHERE b.ticket_no IS null
+
+--Only values for A
+SELECT * FROM TableB
+FULL OUTER JOIN TableA
+ON TableA.employee = TableB.employee
+WHERE TableB.anycolumn IS null
+
+--LEFT OUTER JOIN
+--Values A + common A and B
+SELECT * FROM TableA
+LEFT OUTER JOIN TableB
+ON TableA.employee = TableB.employee
+
+SELECT * FROM aircrafts_data a
+LEFT JOIN flights f
+ON a.aircraft_code = f.aircraft_code
+
+--Challenge 16
+SELECT * FROM aircrafts_data
+SELECT * FROM flights
+
+SELECT * FROM aircrafts_data a
+LEFT JOIN flights f
+ON a.aircraft_code = f.aircraft_code
+WHERE actual_departure IS null
+
+--Challenge 16(1)
+SELECT COUNT (*) FROM aircrafts_data a
+LEFT JOIN flights f
+ON a.aircraft_code = f.aircraft_code
+WHERE actual_departure IS null
+
+--Challenge 16(2)
+SELECT * FROM aircrafts_data a
+LEFT JOIN flights f
+ON a.aircraft_code = f.aircraft_code
+WHERE f.flight_id IS null
+
+--Challenge 17
+SELECT * FROM seats s
+LEFT JOIN boarding_passes b
+ON s.seat_no = b.seat_no
+WHERE b.seat_no IS null
+
+SELECT s.seat_no, COUNT(*) FROM seats s
+LEFT JOIN boarding_passes b
+ON s.seat_no = b.seat_no
+GROUP BY s.seat_no 
+ORDER BY COUNT(*) DESC
+
+--Challenge 18
+SELECT RIGHT(s.seat_no,1), COUNT(*) FROM seats s
+LEFT JOIN boarding_passes b
+ON s.seat_no = b.seat_no
+GROUP BY RIGHT(s.seat_no,1) 
+ORDER BY COUNT(*) DESC
+
+
+--Challenge 18(1)
+SELECT RIGHT(s.seat_no,1), COUNT(*) FROM seats s
+INNER JOIN boarding_passes b
+ON s.seat_no = b.seat_no
+GROUP BY RIGHT(s.seat_no,1) 
+ORDER BY COUNT(*) DESC
+
+SELECT fare_conditions, COUNT(*) FROM seats s
+INNER JOIN boarding_passes b
+ON s.seat_no = b.seat_no
+GROUP BY fare_conditions 
+ORDER BY COUNT(*) DESC
+
+--RIGHT OUTER JOIN
+SELECT * FROM TableA
+RIGHT OUTER JOIN TableB
+ON TableA.employee = TableB.employee
+
+--SAME AS:
+SELECT * FROM TableB
+LEFT OUTER JOIN TableA
+ON TableA.employee = TableB.employee
+
+SELECT * FROM aircrafts_data a
+SELECT * FROM flights f
+
+SELECT * FROM aircrafts_data a
+LEFT JOIN flights f
+ON a.aircraft_code = f.aircraft_code
+WHERE f.aircraft_code IS null 
+
+--SAME AS:
+SELECT * FROM flights f
+RIGHT JOIN aircrafts_data a
+ON a.aircraft_code = f.aircraft_code
+WHERE f.aircraft_code IS null 
+
+--Challenge 19
+SELECT * FROM customer
+SELECT * FROM address
+
+SELECT c.first_name, c.last_name, a.phone, a.district FROM address a
+INNER JOIN customer c
+ON a.address_id = c.address_id
+WHERE a.district = 'Texas'
+
+--Challenge 19(1)
+SELECT first_name, last_name, phone, district FROM address a
+INNER JOIN customer c
+ON a.address_id = c.address_id
+WHERE a.district = 'Texas'
+
+--Challenge 20
+SELECT * FROM address a
+LEFT JOIN customer c
+ON a.address_id = c.address_id
+WHERE c.address_id IS null
+
+--JOIN on multiple conditions
+SELECT * FROM TableA a
+INNER JOIN TableB b
+ON a.first_name = b.first_name
+AND a.last_name = b.last_name
+
+SELECT * FROM TableA a
+INNER JOIN TableB b
+ON a.first_name = b.first_name
+AND a.last_name = 'Jones'
+
+--FASTER PERFORMANCE THEN:
+SELECT * FROM TableA a
+INNER JOIN TableB b
+ON a.first_name = b.first_name
+WHERE a.last_name = 'Jones'
+
+--Primary Key
+SELECT * FROM ticket_flights
+SELECT * FROM boarding_passes
+SELECT * FROM tickets
+
+SELECT * FROM boarding_passes
+ORDER BY 1
+
+--Challenge 21
+SELECT SUM(amount)/COUNT(*),seat_no FROM ticket_flights t
+INNER JOIN boarding_passes b
+ON t.ticket_no = b.ticket_no
+AND t.flight_id = b.flight_id
+GROUP BY seat_no
+ORDER BY seat_no
+
+--Challenge 21(1)
+SELECT AVG(amount),seat_no FROM ticket_flights t
+INNER JOIN boarding_passes b
+ON t.ticket_no = b.ticket_no
+AND t.flight_id = b.flight_id
+GROUP BY seat_no
+ORDER BY seat_no
+
+--Challenge 21(2)
+SELECT seat_no, ROUND(AVG(amount),2) FROM ticket_flights t
+INNER JOIN boarding_passes b
+ON t.ticket_no = b.ticket_no
+AND t.flight_id = b.flight_id
+GROUP BY seat_no
+ORDER BY 2 DESC
+
+--Joining multiple tables
+
+--Challenge 22
+SELECT * FROM flights
+SELECT * FROM tickets
+SELECT * FROM boarding_passes
+
+SELECT t.ticket_no,t.passenger_name, f.scheduled_departure FROM flights f
+INNER JOIN boarding_passes b
+ON f.flight_id = b.flight_id
+INNER JOIN tickets t
+ON t.ticket_no = b.ticket_no
+
+--Challenge 22(1)
+SELECT * FROM ticket_flights
+
+SELECT t.ticket_no,t.passenger_name, f.scheduled_departure FROM tickets t
+INNER JOIN ticket_flights tf
+ON t.ticket_no = tf.ticket_no
+INNER JOIN flights f
+ON f.flight_id = tf.flight_id
+
+--Challenge 22(2)
+SELECT t.ticket_no,t.passenger_name, f.scheduled_departure FROM ticket_flights tf
+INNER JOIN tickets t
+ON t.ticket_no = tf.ticket_no
+INNER JOIN flights f
+ON f.flight_id = tf.flight_id
+
+--Challenge 22(3)
+SELECT t.ticket_no,t.passenger_name, f.scheduled_departure FROM ticket_flights tf
+INNER JOIN flights f
+ON f.flight_id = tf.flight_id
+INNER JOIN tickets t
+ON t.ticket_no = tf.ticket_no
+
+--Challenge 23
+c.first_name, c.last_name, c.email, country
+SELECT * FROM customer c address_id
+SELECT * FROM country country_id,country
+SELECT * FROM address address_id, city_id
+SELECT * FROM city city_id, country_id
+
+SELECT c.first_name, c.last_name, c.email, country 
+FROM customer c
+INNER JOIN address a
+ON c.address_id = a.address_id
+INNER JOIN city ci
+ON ci.city_id = a.city_id
+INNER JOIN country co
+ON co.country_id = ci.country_id
+WHERE country = 'Brazil'
+
+--Challenge 23(1)
+SELECT first_name, last_name, email, country 
+FROM customer cu
+LEFT JOIN address ad
+ON cu.address_id = ad.address_id
+LEFT JOIN city ci
+ON ci.city_id = ad.city_id
+LEFT JOIN country co
+ON co.country_id = ci.country_id
+WHERE country = 'Brazil'
+
+--Challenge 24
+SELECT * FROM tickets
+SELECT * FROM bookings
+
+SELECT passenger_name, SUM(total_amount) FROM tickets t
+INNER JOIN bookings b
+ON t.book_ref = b.book_ref
+GROUP BY passenger_name
+ORDER BY SUM(total_amount) DESC
+
+--Challenge 25
+SELECT * FROM tickets
+-- ticket_no, passenger_name
+SELECT * FROM ticket_flights
+--ticket_no, fare_conditions
+
+SELECT COUNT(passenger_name), fare_conditions FROM tickets t
+INNER JOIN ticket_flights tf
+ON t.ticket_no = tf.ticket_no
+WHERE passenger_name = 'ALEKSANDR IVANOV'
+GROUP BY fare_conditions
+ORDER BY fare_conditions DESC
+
+--Challenge 25(1)
+SELECT passenger_name, fare_conditions, COUNT(*) FROM tickets t
+INNER JOIN bookings b
+ON t.book_ref=b.book_ref
+INNER JOIN ticket_flights tf
+ON t.ticket_no=tf.ticket_no
+WHERE passenger_name = 'ALEKSANDR IVANOV'
+GROUP BY fare_conditions, passenger_name
+
+--Challenge 26
+
+SELECT first_name, last_name, title, COUNT(*)
+FROM customer cu
+INNER JOIN rental re
+ON cu.customer_id = re.customer_id
+INNER JOIN inventory inv
+ON inv.inventory_id=re.inventory_id
+INNER JOIN film fi
+ON fi.film_id = inv.film_id
+WHERE first_name='GEORGE' and last_name='LINTON'
+GROUP BY title, first_name, last_name
+ORDER BY 4 DESC
