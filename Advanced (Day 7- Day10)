@@ -1,3 +1,29 @@
 ----------DAY 7----------
 
 --UNIT 
+SELECT first_name FROM actor
+UNION
+SELECT first_name FROM customer
+ORDER BY first_name
+
+SELECT first_name FROM actor
+UNION ALL
+SELECT first_name FROM customer
+ORDER BY first_name
+
+SELECT first_name, 'actor' FROM actor
+UNION ALL
+SELECT first_name, 'customer' FROM customer
+ORDER BY first_name
+
+SELECT first_name, 'actor' AS origin FROM actor
+UNION ALL
+SELECT first_name, 'customer' FROM customer
+ORDER BY first_name
+
+--'origin' doesnt change
+SELECT first_name, 'actor' AS origin FROM actor
+UNION ALL
+SELECT first_name, 'customer' AS test1 FROM customer
+ORDER BY first_name
+
