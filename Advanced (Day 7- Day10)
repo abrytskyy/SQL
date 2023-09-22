@@ -17,6 +17,11 @@ SELECT first_name, 'customer' FROM customer
 ORDER BY first_name
 
 SELECT first_name, 'actor' AS origin FROM actor
+UNION
+SELECT first_name, 'customer' AS test1 FROM customer
+ORDER BY first_name
+
+SELECT first_name, 'actor' AS origin FROM actor
 UNION ALL
 SELECT first_name, 'customer' FROM customer
 ORDER BY first_name
@@ -27,3 +32,36 @@ UNION ALL
 SELECT first_name, 'customer' AS test1 FROM customer
 ORDER BY first_name
 
+SELECT first_name, 'actor' AS origin FROM actor
+UNION
+SELECT first_name, 'customer' AS test1 FROM customer
+UNION
+SELECT first_name, 'staff' FROM staff
+ORDER BY first_name
+
+SELECT first_name, 'actor' AS origin FROM actor
+UNION
+SELECT first_name, 'customer' AS test1 FROM customer
+UNION
+SELECT first_name, 'staff' FROM staff
+ORDER BY 2 DESC
+
+SELECT first_name AS first_name, 'actor' AS origin FROM actor
+UNION
+SELECT first_name, 'customer' AS test1 FROM customer
+UNION
+SELECT UPPER(first_name), 'staff' FROM staff
+ORDER BY 2 DESC
+
+SELECT * FROM payment
+
+SELECT 
+AVG(amount) 
+FROM payment
+
+SELECT 
+*
+FROM payment
+WHERE amount > 4.2006673312979002
+
+--Subqueries in WHERE
