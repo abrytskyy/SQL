@@ -65,3 +65,28 @@ FROM payment
 WHERE amount > 4.2006673312979002
 
 --Subqueries in WHERE 
+SELECT 
+* 
+FROM payment
+WHERE amount > (SELECT AVG(amount) FROM payment)
+
+-- > = < for 1 single value
+SELECT
+*
+FROM payment
+WHERE customer_id = (SELECT customer_id FROM customer
+					WHERE first_name = 'ADAM')
+
+--doesnt work for list of multiple value
+SELECT
+*
+FROM payment
+WHERE customer_id = (SELECT customer_id FROM customer
+					WHERE first_name LIKE 'A%')
+
+-- can use IN for multiple value:
+SELECT
+*
+FROM payment
+WHERE customer_id IN (SELECT customer_id FROM customer
+					WHERE first_name LIKE 'A%')
