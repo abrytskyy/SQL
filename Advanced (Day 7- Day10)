@@ -96,3 +96,12 @@ SELECT
 film_id,title, length
 FROM film
 WHERE length > (SELECT AVG(length) FROM film)
+
+--Challenge 2
+SELECT COUNT(*), i.film_id, title FROM inventory i
+INNER JOIN film f
+ON i.film_id = f.film_id
+WHERE store_id = 2
+GROUP BY i.film_id, title
+HAVING COUNT(*) > 3
+ORDER BY film_id
