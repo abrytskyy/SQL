@@ -64,4 +64,4 @@ SELECT
 FROM payment
 WHERE amount > 4.2006673312979002
 
---Subqueries in WHERE
+--Subqueries in WHERE 
