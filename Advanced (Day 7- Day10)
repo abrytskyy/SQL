@@ -97,6 +97,12 @@ film_id,title, length
 FROM film
 WHERE length > (SELECT AVG(length) FROM film)
 
+--Challenge 1(1)
+SELECT 
+*
+FROM film
+WHERE length > (SELECT AVG(length) FROM film)
+
 --Challenge 2
 SELECT COUNT(*), i.film_id, title FROM inventory i
 INNER JOIN film f
@@ -105,3 +111,11 @@ WHERE store_id = 2
 GROUP BY i.film_id, title
 HAVING COUNT(*) > 3
 ORDER BY film_id
+
+--Challenge 2(1)
+SELECT * FROM film
+WHERE film_id IN
+(SELECT film_id FROM inventory
+WHERE store_id=2
+GROUP BY film_id
+HAVING COUNT(*) >3)
