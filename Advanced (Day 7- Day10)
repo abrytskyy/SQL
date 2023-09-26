@@ -90,3 +90,9 @@ SELECT
 FROM payment
 WHERE customer_id IN (SELECT customer_id FROM customer
 					WHERE first_name LIKE 'A%')
+
+--Challenge 1
+SELECT 
+film_id,title, length
+FROM film
+WHERE length > (SELECT AVG(length) FROM film)
