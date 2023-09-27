@@ -125,4 +125,41 @@ SELECT first_name, last_name FROM customer c
 INNER JOIN payment p
 ON c.customer_id = p.customer_id
 WHERE DATE(payment_date) = '2020-01-25'
+--output 136
 
+--Challenge 3(1)
+SELECT first_name, last_name FROM customer c
+WHERE customer_id IN (SELECT customer_id FROM payment 
+					  WHERE DATE(payment_date) = '2020-01-25')
+--output 127
+
+--Challenge 4
+SELECT * FROM customer
+SELECT * FROM payment
+
+SELECT customer_id, SUM(amount) FROM payment
+GROUP BY customer_id
+HAVING SUM(amount) > 30
+ORDER BY customer_id
+
+SELECT first_name, email, p.customer_id, SUM(amount) FROM customer c
+INNER JOIN payment p
+ON c.customer_id = p.customer_id
+GROUP BY first_name, email,p.customer_id
+HAVING SUM(amount) > 30
+ORDER BY p.customer_id
+
+--Challenge 4(wrong)
+SELECT first_name, email FROM customer
+WHERE customer_id IN (SELECT customer_id, SUM(amount) FROM payment
+					  GROUP BY customer_id
+					  HAVING SUM(amount) > 30
+					  ORDER BY customer_id)
+
+--Challenge 4(1)
+SELECT first_name, email 
+FROM customer
+WHERE customer_id IN (SELECT customer_id 
+					  FROM payment
+					  GROUP BY customer_id
+					  HAVING SUM(amount) > 30)
