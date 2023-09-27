@@ -120,3 +120,9 @@ WHERE store_id=2
 GROUP BY film_id
 HAVING COUNT(*) >3)
 
+--Challenge 3
+SELECT first_name, last_name FROM customer c
+INNER JOIN payment p
+ON c.customer_id = p.customer_id
+WHERE DATE(payment_date) = '2020-01-25'
+
