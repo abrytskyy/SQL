@@ -306,3 +306,31 @@ SELECT *,
 WHERE p1.customer_id=p2.customer_id) 
 FROM payment p1
 ORDER BY customer_id
+
+--Challenge 11
+SELECT *,
+(SELECT SUM(amount) FROM payment p2
+WHERE p1.customer_id=p2.customer_id) AS sum_amount,
+(SELECT COUNT(amount) FROM payment p3
+WHERE p1.customer_id=p3.customer_id) AS count_payment
+FROM payment p1
+ORDER BY customer_id
+
+--Challenge 11(1)
+SELECT payment_id,customer_id, staff_id,amount,
+(SELECT SUM(amount) AS sum_amount
+ FROM payment p2
+ WHERE p1.customer_id=p2.customer_id) ,
+(SELECT COUNT(amount) AS count_payment 
+ FROM payment p2
+WHERE p1.customer_id=p2.customer_id) 
+FROM payment p1
+ORDER BY customer_id, amount DESC
+
+--Challenge 12
+SELECT title,replacement_cost,rating,
+(SELECT AVG(replacement_cost) FROM film f2
+WHERE f1.rating = f2.rating)
+FROM film f1
+ORDER BY replacement_cost DESC
+
