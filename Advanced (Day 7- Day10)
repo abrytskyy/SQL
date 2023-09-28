@@ -64,7 +64,14 @@ SELECT
 FROM payment
 WHERE amount > 4.2006673312979002
 
+
+
+
 --Subqueries in WHERE 
+
+
+
+
 SELECT 
 * 
 FROM payment
@@ -142,7 +149,7 @@ WHERE DATE(payment_date) = '2020-01-25'
 GROUP BY first_name, last_name
 HAVING COUNT(*) > 1
 
---Challenge 3(corrigert)
+--Challenge 3(corrected)
 SELECT DISTINCT first_name, last_name FROM customer c
 JOIN payment p
 ON c.customer_id = p.customer_id
@@ -198,3 +205,27 @@ ON p.customer_id = c.customer_id
 WHERE district = 'California'
 GROUP BY first_name, last_name, district, a.address_id
 HAVING SUM(amount) > 100
+
+
+
+
+-- Subqueries in FROM
+
+
+
+
+--Challenge 6
+SELECT SUM(amount), DATE(payment_date) pd FROM payment
+GROUP BY pd
+ORDER BY pd
+
+SELECT ROUND(AVG(total_amount),2)
+FROM 
+(SELECT SUM(amount) AS total_amount, DATE(payment_date) pd FROM payment
+GROUP BY pd) AS subquery
+
+--Challenge 6(1)
+SELECT ROUND(AVG(amount_per_day),2) AS daily_rev_avg
+FROM 
+(SELECT SUM(amount) AS amount_per_day, DATE(payment_date) FROM payment
+GROUP BY DATE(payment_date)) A
