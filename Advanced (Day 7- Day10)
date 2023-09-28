@@ -142,6 +142,12 @@ WHERE DATE(payment_date) = '2020-01-25'
 GROUP BY first_name, last_name
 HAVING COUNT(*) > 1
 
+--Challenge 3(corrigert)
+SELECT DISTINCT first_name, last_name FROM customer c
+JOIN payment p
+ON c.customer_id = p.customer_id
+WHERE DATE(payment_date) = '2020-01-25'
+
 --Challenge 4
 SELECT * FROM customer
 SELECT * FROM payment
