@@ -273,9 +273,36 @@ FROM payment
 
 
 
---Challenge 7
+--Correlated Subqueries in WHERE
+--Challenge 8
 SELECT * FROM payment p1
 WHERE amount = (SELECT MAX(amount) FROM payment p2
 			   WHERE p1.customer_id = p2.customer_id)
 
---Challenge 7(1)
+--Challenge 8(1)
+SELECT * FROM payment p1
+WHERE amount = (SELECT MAX(amount) FROM payment p2
+			   WHERE p1.customer_id = p2.customer_id)
+ORDER BY customer_id
+
+--Challenge 9
+SELECT title, film_id, replacement_cost, rating FROM film f1
+WHERE replacement_cost = (SELECT MIN(replacement_cost) FROM film f2
+		WHERE f1.rating = f2.rating )
+
+--Challenge 10
+SELECT title, film_id, length, rating FROM film f1
+WHERE length = (SELECT MAX(length) FROM film f2
+			   WHERE f1.rating = f2.rating)
+
+--Correlated Subquery in SELECT
+SELECT *,
+(SELECT MAX(amount) FROM payment p2
+WHERE p1.customer_id=p2.customer_id) 
+FROM payment p1
+
+SELECT *,
+(SELECT MAX(amount) FROM payment p2
+WHERE p1.customer_id=p2.customer_id) 
+FROM payment p1
+ORDER BY customer_id
