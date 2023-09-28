@@ -229,3 +229,47 @@ SELECT ROUND(AVG(amount_per_day),2) AS daily_rev_avg
 FROM 
 (SELECT SUM(amount) AS amount_per_day, DATE(payment_date) FROM payment
 GROUP BY DATE(payment_date)) A
+
+
+
+
+-- Subqueries in SELECT
+
+
+
+
+
+SELECT *, 'hello', 3 FROM payment
+
+SELECT *, 'hello' as h, 3 AS three FROM payment
+
+SELECT
+*, (SELECT ROUND(AVG(amount),2) FROM payment)
+FROM payment
+
+--doesn't work because of multiple values:
+SELECT
+*, (SELECT amount FROM payment)
+FROM payment
+
+SELECT
+*, (SELECT amount FROM payment LIMIT 1)
+FROM payment
+
+--Challenge 7
+SELECT 
+*, (SELECT MAX(amount) FROM payment) 
+FROM payment
+
+SELECT 
+*, (SELECT MAX(amount) FROM payment) - amount AS difference
+FROM payment
+
+
+
+
+-- Correlated subqueries
+
+
+
+
