@@ -341,3 +341,28 @@ SELECT title,replacement_cost,rating,
 FROM film f1
 WHERE replacement_cost = (SELECT MAX(replacement_cost) FROM film f3
  WHERE f1.rating = f3.rating)
+
+
+
+----------DAY 9----------
+
+
+
+--CREATE DATABASE
+
+
+
+
+CREATE DATABASE company_y
+
+CREATE DATABASE "company y"
+
+CREATE DATABASE "Company_y"
+
+CREATE DATABASE cmpany_a
+	WITH encoding = 'UTF-8' --by default;
+	
+COMMENT ON DATABASE company_a IS 'That is our database'
+
+CREATE DATABASE customer;
+DROP DATABASE customer;
