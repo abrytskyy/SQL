@@ -334,3 +334,10 @@ WHERE f1.rating = f2.rating)
 FROM film f1
 ORDER BY replacement_cost DESC
 
+--Challenge 13
+SELECT title,replacement_cost,rating,
+(SELECT AVG(replacement_cost) FROM film f2
+ WHERE f1.rating = f2.rating)
+FROM film f1
+WHERE replacement_cost = (SELECT MAX(replacement_cost) FROM film f3
+ WHERE f1.rating = f3.rating)
