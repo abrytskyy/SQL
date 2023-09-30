@@ -366,3 +366,57 @@ COMMENT ON DATABASE company_a IS 'That is our database'
 
 CREATE DATABASE customer;
 DROP DATABASE customer;
+
+
+SELECT COUNT(*) FROM film WHERE 'Behind the Scenes'=ANY(special_features)
+
+
+
+--CREATE TABLE
+
+
+
+
+CREATE TABLE director (
+director_id SERIAL PRIMARY KEY,
+director_account_name VARCHAR(20) UNIQUE,
+first_name VARCHAR(50),
+last_name VARCHAR(50) DEFAULT 'Not specified',
+date_of_birth DATE,
+address_id INT REFERENCES address(address_id)
+)
+
+--Challenge 14
+CREATE TABLE online_sales(
+transaction_id SERIAL PRIMARY KEY,
+customer_id INT REFERENCES customer(customer_id),
+film_id INT REFERENCES film(film_id),
+amount NUMERIC(5, 2),
+promotion_code VARCHAR(10) DEFAULT 'None')
+
+--Challenge 14(1)
+CREATE TABLE online_sales(
+transaction_id SERIAL PRIMARY KEY,
+customer_id INT REFERENCES customer(customer_id),
+film_id INT REFERENCES film(film_id),
+amount numeric(5, 2) NOT NULL,
+promotion_code VARCHAR(10) DEFAULT 'None'
+)
+
+
+
+--INSERT INTO
+
+
+
+
+INSERT INTO online_sales
+VALUES (1, 269, 13, 10.99, 'BUNDLE2022')
+
+INSERT INTO online_sales
+(customer_id, film_id, amount)
+VALUES (269, 13, 10.99)
+
+INSERT INTO online_sales
+(customer_id, film_id, amount)
+VALUES (269, 13, 10.99), (270, 12, 22.99)
