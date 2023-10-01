@@ -426,3 +426,96 @@ INSERT INTO online_sales
 VALUES (7, 124, 65, 14.99, 'PROMO2022'),
 (8, 225, 231, 12.99, 'JULYPROMO'),
 (9, 119, 53, 15.99, 'SUMMERDEAL')
+
+
+
+
+--ALTER TABLE
+
+
+
+
+ALTER TABLE <table name>
+ALTER_ACTION
+
+--DROP
+ALTER TABLE staff
+DROP COLUMN first_name
+
+ALTER TABLE staff
+DROP COLUMN IF EXISTS first_name
+
+--ADD
+ALTER TABLE staff
+ADD COLUMN date_of_birth DATE
+
+ALTER TABLE staff
+ADD COLUMN IF NOT EXISTS date_of_birth DATE
+
+--TYPE Changing
+ALTER TABLE staff
+ADD COLUMN address_id TYPE SMALLINT
+
+--RENAME
+ALTER TABLE staff
+ADD COLUMN first_name TO name
+
+--DEFAULT
+ALTER TABLE staff
+ADD COLUMN store_id SET DEFAULT 1
+
+ALTER TABLE staff
+ADD COLUMN store_id SET DROP DEFAULT
+
+--SET NOT NULL
+ALTER TABLE staff
+ADD COLUMN store_id SET NOT NULL
+
+ALTER TABLE staff
+ADD COLUMN store_id DROP NOT NULL
+
+--TABLE CONSTRAINT
+ALTER TABLE staff
+ADD CONSTRAINT <constraint_name> UNIQUE(column1)
+
+ALTER TABLE staff
+ADD CONSTRAINT <constraint_name> UNIQUE(column1, column2[,..])
+
+ALTER TABLE staff
+ADD CONSTRAINT <constraint_name> 
+ADD PRIMARY KEY(column1, column2[,..])
+
+--Combination
+ALTER TABLE director
+ALTER COLUMN director_account_name SET DEFAULT 3,
+ALTER COLUMN first_name TYPE TEXT,
+ADD COLUMN middle_name TEXT,
+ADD CONSTRAINT constraint_1 UNIQUE(account_name)
+
+
+--RENAME must uses individually
+ALTER TABLE old_table_name
+RENAME new_table_name
+
+--Challenge 16
+ALTER TABLE director
+--change varchar from (20) to varchar(30):
+ALTER COLUMN director_account_name TYPE VARCHAR(30),
+--drop the default on last_name
+ALTER COLUMN last_name DROP DEFAULT,
+--add constrain NOT NULL to the last_name:
+ADD COLUMN last_name SET NOT NULL,
+--add column e-mail with VARCHAR(40):
+ADD COLUMN email VARCHAR(40)
+
+ALTER TABLE director
+RENAME TO directors
+
+ALTER TABLE directors
+RENAME director_account_name TO account_name
+
+
+
+
+
+
