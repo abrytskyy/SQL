@@ -517,5 +517,104 @@ RENAME director_account_name TO account_name
 
 
 
+--DROP AND TRANCATE TABLE
 
 
+
+
+DROP TABLE table
+
+DROP SCHEMA schema
+
+TRUNCATE TABLE table
+
+TRUNCATE table
+
+--create
+CREATE TABLE emp_table
+(emp_id SERIAL PRIMARY KEY,
+emp_name TEXT)
+
+SELECT * FROM emp_table 
+
+--drop
+DROP TABLE emp_table
+
+--insert
+INSERT INTO emp_table
+VALUES 
+(1, 'Frank'),
+(2, 'Maria')
+
+--truncate
+TRUNCATE TABLE emp_table
+
+
+
+
+--CHECK
+
+
+
+
+CREATE TABLE director(
+name TEXT CHECK (length(name)>1))
+
+CREATE TABLE director(
+name TEXT CONSTRAINT name_length CHECK (length(name)>1))
+
+--default name <table>_<column>_check
+CREATE TABLE director (
+name TEXT CHECK (length(name)>1))
+
+--default name:director_start_date_check
+CREATE TABLE director(
+name TEXT,
+date_of_birth DATE,
+start_date DATE,
+end_date DATE CHECK(start_date > '01-01-2000'))
+
+--default name: director_check
+CREATE TABLE director(
+name TEXT,
+date_of_birth DATE,
+start_date DATE,
+end_date DATE CHECK(start_date > date_of_birth))
+
+INSERT INTO director
+(date_of_birth, start_date)
+VALUES ('01-01-1902', '01-01-1900')
+
+ALTER TABLE director
+ADD CONSTRAINT date_check CHECK(start_date < end_date)
+
+ALTER TABLE director
+DROP CONSTRAIN date_check
+
+ALTER TABLE director
+RENAME CONSTRAINT date_check TO data_constraint
+
+--Challenge 17
+--1-2
+CREATE TABLE songs(
+song_id INT PRIMARY KEY,
+song_name VARCHAR(30) NOT NULL,
+genre VARCHAR(30) DEFAULT 'Not defined',
+price NUMERIC(4, 2),
+release_date DATE)
+--3-4
+ALTER TABLE songs
+ADD CONSTRAINT CHECK (price >= 1.99)
+ADD CONSTRAINT date_check CHECK (
+release_date BETWEEN '1950-01-01' AND CURRENT_DATE)
+--5
+INSERT INTO songs(
+song_id, song_name, price, release_date) 
+VALUES (4, 'SQL song', 0.99, 2022-01-07)
+--6
+ALTER TABLE songs
+ADD CONSTRAINT CHECK (price >= 0.99)
+--7
+INSERT INTO songs(
+song_id, song_name, price, release_date) 
+VALUES (4, 'SQL song', 0.99, 2022-01-07)
