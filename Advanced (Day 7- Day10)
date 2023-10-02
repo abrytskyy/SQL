@@ -618,3 +618,66 @@ ADD CONSTRAINT CHECK (price >= 0.99)
 INSERT INTO songs(
 song_id, song_name, price, release_date) 
 VALUES (4, 'SQL song', 0.99, 2022-01-07)
+
+--Challenge 17(1)
+--1-4
+CREATE TABLE songs(
+song_id SERIAL PRIMARY KEY,
+song_name VARCHAR(30) NOT NULL,
+genre VARCHAR(30) DEFAULT 'Not defined',
+price numeric(4,2) CHECK (price>=1.99),
+release_date DATE CONSTRAINT date_check CHECK(release_date BETWEEN '1950-01-01' AND CURRENT_DATE))
+--5
+INSERT INTO songs(
+song_name, price, release_date) 
+VALUES ('SQL song', 0.99, '2022-01-07')
+--6delete
+ALTER TABLE songs
+DROP CONSTRAINT songs_price_check;
+--6create
+ALTER TABLE songs
+ADD CONSTRAINT songs_price_check CHECK (price>=0.99)
+--7
+INSERT INTO songs(
+song_name, price, release_date) 
+VALUES ('SQL song', 0.99, '2022-01-07')
+--view
+SELECT * FROM songs
+
+
+
+----------DAY 10----------
+
+
+
+--UPDATE
+UPDATE songs
+SET genre='Country music'
+
+UPDATE songs
+SET genre='Pop music'
+WHERE song_id=4
+
+UPDATE songs
+SET price=song_id+0.99
+
+
+UPDATE customer
+SET last_name='BROWN'
+WHERE customer_id=1
+
+SELECT * FROM customer
+ORDER BY customer_id ASC
+
+UPDATE customer
+SET email=lower(email)
+
+--Challenge 18
+SELECT * FROM film
+UPDATE film
+SET rental_rate=1.99
+WHERE rental_rate=0.99
+--1
+ALTER TABLE customer
+ADD COLUMN initials VARCHAR(10)
+--2
