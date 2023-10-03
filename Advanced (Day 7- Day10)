@@ -822,3 +822,99 @@ LEFT JOIN payment p
 ON c.customer_id = p.customer_id
 GROUP BY name
 ORDER BY total_amount
+
+
+
+
+--CREATE VIEW
+
+
+
+
+CREATE TABLE customer1
+AS
+SELECT customer_id, initials
+FROM customer
+WHERE first_name LIKE 'C%'
+
+CREATE VIEW customer2
+AS
+SELECT customer_id, initials
+FROM customer
+WHERE first_name LIKE 'C%'
+
+SELECT * FROM customer2
+
+--delete table
+DROP TABLE customer_spendings
+--create view
+CREATE VIEW customer_spendings
+AS
+SELECT first_name || ' ' || last_name AS name, 
+SUM(amount) AS total_amount 
+FROM customer c
+LEFT JOIN payment p
+ON c.customer_id = p.customer_id
+GROUP BY name
+--view
+SELECT * FROM customer_spendings
+
+--Challenge 21
+CREATE VIEW films_category 
+AS
+SELECT title, length, name
+FROM film_category fc
+LEFT JOIN category c
+ON fc.category_id = c.category_id
+LEFT JOIN film f
+ON f.film_id = fc.film_id
+WHERE name IN ('Action', 'Comedy')
+ORDER BY length DESC
+--check
+SELECT * FROM films_category 
+
+--Challenge 21(1)
+CREATE VIEW films_category
+AS
+SELECT 
+title,
+name,
+length
+FROM film f
+LEFT JOIN film_category fc
+ON f.film_id=fc.film_id
+LEFT JOIN category c
+ON c.category_id=fc.category_id
+WHERE name IN ('Action','Comedy')
+ORDER BY length DESC
+
+
+
+
+--CREATE MATERIALIZED VIEW
+
+
+
+
+CREATE MATERIALIZED VIEW mv_films_category 
+AS
+SELECT title, length, name
+FROM film_category fc
+LEFT JOIN category c
+ON fc.category_id = c.category_id
+LEFT JOIN film f
+ON f.film_id = fc.film_id
+WHERE name IN ('Action', 'Comedy')
+ORDER BY length DESC
+--view
+SELECT * FROM mv_films_category 
+--update film:
+UPDATE film
+set length=192
+WHERE title='SATURN NAME'
+--view again:
+SELECT * FROM mv_films_category
+--refresh
+REFRESH MATERIALIZED VIEW mv_films_category 
+--view, its visible now:
+SELECT * FROM mv_films_category 
