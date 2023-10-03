@@ -918,3 +918,82 @@ SELECT * FROM mv_films_category
 REFRESH MATERIALIZED VIEW mv_films_category 
 --view, its visible now:
 SELECT * FROM mv_films_category 
+
+
+
+
+--Managing Views
+
+
+
+
+--DROP VIEW
+DROP VIEW customer_anonymous
+DROP MATERIALIZED VIEW customer_anonymous
+
+--ALTER VIEW
+ALTER VIEW customer_anonymous
+RENAME TO v_customer_info
+
+ALTER VIEW customer_name
+RENAME COLUMN name TO customer_name
+
+--REPLACE VIEW
+CREATE OR REPLACE VIEW v_customer_info
+AS new_query
+
+--Challenge 22
+CREATE VIEW v_customer_info
+AS
+SELECT cu.customer_id,
+    cu.first_name || ' ' || cu.last_name AS name,
+    a.address,
+    a.postal_code,
+    a.phone,
+    city.city,
+    country.country
+     FROM customer cu
+     JOIN address a ON cu.address_id = a.address_id
+     JOIN city ON a.city_id = city.city_id
+     JOIN country ON city.country_id = country.country_id
+ORDER BY customer_id
+--1)
+ALTER VIEW v_customer_info
+RENAME TO v_customer_information
+--2)
+ALTER VIEW v_customer_information
+RENAME COLUMN customer_id TO c_id
+--3)
+CREATE OR REPLACE VIEW v_customer_information
+AS
+SELECT 
+    cu.customer_id as c_id,
+    cu.first_name || ' ' || cu.last_name AS name,
+    a.address,
+    a.postal_code,
+    a.phone,
+    city.city,
+    country.country,
+    CONCAT(LEFT(cu.first_name,1),LEFT(cu.last_name,1)) as initials
+FROM customer cu
+JOIN address a ON cu.address_id = a.address_id
+JOIN city ON a.city_id = city.city_id
+JOIN country ON city.country_id = country.country_id
+ORDER BY c_id
+--check:
+SELECT * FROM v_customer_information
+
+
+
+--Import & Export
+
+
+
+CREATE TABLE sales (
+transaction_id SERIAL PRIMARY KEY,
+customer_id INT,
+payment_type VARCHAR(20),
+creditcard_no VARCHAR(20),
+cost DECIMAL(5,2),
+quantity INT,
+price DECIMAL(5,2))
