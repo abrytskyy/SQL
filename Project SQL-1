@@ -1,0 +1,160 @@
+Based on the described database structure, write SQL queries. Here are the tables in the database and their descriptions:
+
+users - a table with website visitors:
+
+id - unique visitor identifier
+email - text field with the visitor's email
+id_country - unique country identifier
+date_reg - date and time of visitor registration (e.g., "2021-02-27 10:58:05")
+emails_sent - a table of sent emails in a mailing list:
+
+id - identifier of the sent email
+id_user - recipient of the email (corresponds to users.id)
+id_type - email type
+date_sent - date and time of email sending
+emails_clicks - a table of clicks on emails:
+
+id - identifier of the click on the email
+id_email - identifier of the email on which the click was made (corresponds to emails_sent.id)
+date_click - date and time of the click on the email
+countries - a list of countries:
+
+id - country identifier (corresponds to users.id_country)
+name - full name of the country
+group - the group to which the country belongs
+
+Create tabeles and fill with the data.
+From the specified tables, the following data needs to be extracted:
+
+1.Number of new visitor registrations per day by country groups.
+2.CTR (Click-Through Rate) of different email types per day.
+3.Percentage of emails that were opened (clicked) within 10 minutes after sending, aggregated by email types over the last 7 days.
+4.Median time to click in seconds by email types over the last month of data
+
+
+
+----------Create tables and fill with the data----------
+
+
+
+
+-- Create the 'countries' table
+CREATE TABLE countries (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    group_ VARCHAR(255)
+);
+
+-- Create the 'users' table
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    id_country INT,
+    date_reg TIMESTAMP NOT NULL,
+    FOREIGN KEY (id_country) REFERENCES countries(id)
+);
+
+-- Create the 'emails_sent' table
+CREATE TABLE emails_sent (
+    id SERIAL PRIMARY KEY,
+    id_user INT,
+    id_type INT,
+    date_sent TIMESTAMP NOT NULL,
+    FOREIGN KEY (id_user) REFERENCES users(id)
+);
+
+-- Create the 'emails_clicks' table
+CREATE TABLE emails_clicks (
+    id SERIAL PRIMARY KEY,
+    id_email INT,
+    date_click TIMESTAMP NOT NULL,
+    FOREIGN KEY (id_email) REFERENCES emails_sent(id)
+);
+
+-- Insert sample data into 'countries' table
+INSERT INTO countries (name, group_) VALUES
+    ('USA', 'Group A'),
+    ('Canada', 'Group A'),
+    ('UK', 'Group B'),
+    ('Australia', 'Group B');
+
+-- Insert sample data into 'users' table
+INSERT INTO users (email, id_country, date_reg) VALUES
+    ('user1@example.com', 1, '2023-09-30 10:00:00'),
+    ('user2@example.com', 2, '2023-09-29 14:30:00'),
+    ('user3@example.com', 3, '2023-09-28 17:15:00'),
+    ('user4@example.com', 4, '2023-09-27 21:45:00');
+
+-- Insert sample data into 'emails_sent' table
+INSERT INTO emails_sent (id_user, id_type, date_sent) VALUES
+    (1, 1, '2023-09-30 12:00:00'),
+    (2, 2, '2023-09-29 15:30:00'),
+    (3, 1, '2023-09-28 18:45:00'),
+    (4, 2, '2023-09-27 22:15:00');
+
+-- Insert sample data into 'emails_clicks' table
+INSERT INTO emails_clicks (id_email, date_click) VALUES
+    (1, '2023-09-30 12:10:00'),
+    (2, '2023-09-29 15:40:00'),
+    (3, '2023-09-28 18:55:00'),
+    (4, '2023-09-27 22:25:00');
+
+-- Insert more data into 'users' table
+INSERT INTO users (email, id_country, date_reg) VALUES
+    ('user5@example.com', 1, '2023-09-26 08:00:00'),
+    ('user6@example.com', 2, '2023-09-25 09:30:00'),
+    ('user7@example.com', 3, '2023-09-24 11:15:00'),
+    ('user8@example.com', 4, '2023-09-23 13:45:00'),
+    ('user9@example.com', 1, '2023-09-22 16:30:00'),
+    ('user10@example.com', 2, '2023-09-21 18:20:00'),
+    ('user11@example.com', 3, '2023-09-20 20:10:00'),
+    ('user12@example.com', 4, '2023-09-19 22:00:00');
+
+-- Insert more data into 'emails_sent' table
+INSERT INTO emails_sent (id_user, id_type, date_sent) VALUES
+    (5, 1, '2023-09-26 12:00:00'),
+    (6, 2, '2023-09-25 14:30:00'),
+    (7, 1, '2023-09-24 16:45:00'),
+    (8, 2, '2023-09-23 18:15:00'),
+    (9, 1, '2023-09-22 20:30:00'),
+    (10, 2, '2023-09-21 22:20:00'),
+    (11, 1, '2023-09-20 23:45:00'),
+    (12, 2, '2023-09-19 00:30:00');
+
+-- Insert more data into 'emails_clicks' table
+INSERT INTO emails_clicks (id_email, date_click) VALUES
+    (5, '2023-09-26 12:15:00'),
+    (6, '2023-09-25 14:40:00'),
+    (7, '2023-09-24 16:50:00'),
+    (8, '2023-09-23 18:20:00'),
+    (9, '2023-09-22 20:35:00'),
+    (10, '2023-09-21 22:25:00'),
+    (11, '2023-09-20 23:50:00'),
+    (12, '2023-09-19 00:35:00');
+
+--Insert more data with the same day:
+INSERT INTO users (email, id_country, date_reg) VALUES
+    ('user5@example.com', 1, '2023-09-26 09:00:00'),
+    ('user6@example.com', 2, '2023-09-25 09:35:00'),
+    ('user7@example.com', 3, '2023-09-24 11:17:00')
+
+
+
+----------Queries for extracting of data----------
+
+
+
+
+--
+
+SELECT DATE(date_reg) FROM users
+
+SELECT DATE(date_reg) AS registration_date, c.group_ AS country_group, COUNT(u.id) AS registration_count
+FROM users u
+JOIN countries c 
+ON u.id_country = c.id
+GROUP BY registration_date, country_group
+ORDER BY registration_date, country_group
+
+
+
