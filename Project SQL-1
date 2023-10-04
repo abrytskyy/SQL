@@ -145,9 +145,7 @@ INSERT INTO users (email, id_country, date_reg) VALUES
 
 
 
---
-
-SELECT DATE(date_reg) FROM users
+--1. Number of new visitor registrations per day by country groups.
 
 SELECT DATE(date_reg) AS registration_date, c.group_ AS country_group, COUNT(u.id) AS registration_count
 FROM users u
@@ -156,5 +154,42 @@ ON u.id_country = c.id
 GROUP BY registration_date, country_group
 ORDER BY registration_date, country_group
 
+--2. CTR (Click-Through Rate) of different email types per day.
 
+SELECT DATE(es.date_sent) AS sent_date, es.id_type AS email_type, (COUNT(ec.id) / COUNT(es.id)) * 100 AS ctr
+FROM emails_sent es
+LEFT JOIN emails_clicks ec
+ON es.id = ec.id_email
+GROUP BY sent_date, email_type
+ORDER BY sent_date, email_type
 
+--3. Percentage of emails that were opened (clicked) within 10 minutes after sending, aggregated by email types over the last 7 days.
+
+SELECT
+    es.id_type AS email_type,
+    (COUNT(DISTINCT ec.id_email) / COUNT(DISTINCT es.id)) * 100 AS open_rate
+FROM
+    emails_sent es
+LEFT JOIN
+    emails_clicks ec ON es.id = ec.id_email
+WHERE
+    ec.date_click BETWEEN NOW() - INTERVAL '7 days' AND NOW()
+GROUP BY
+    email_type
+
+--4. 
+
+SELECT 
+    emails_sent.id_type AS email_type,
+    COALESCE(
+        PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY EXTRACT(EPOCH FROM (emails_clicks.date_click - emails_sent.date_sent)))::INTEGER),
+        0
+    ) AS median_click_time_seconds
+FROM 
+    emails_sent
+LEFT JOIN 
+    emails_clicks ON emails_sent.id = emails_clicks.id_email
+WHERE 
+    emails_sent.date_sent BETWEEN NOW() - INTERVAL '1 month' AND NOW()
+GROUP BY 
+    email_type
