@@ -17,6 +17,7 @@ ORDER BY 1
 
 
 
+
 Question 2:
 Level: Moderate
 Topic: CASE + GROUP BY
@@ -28,6 +29,23 @@ Question: How many films have a replacement cost in the "low" group?
 Answer: 514
 
 --Solution 2
+SELECT
+  cost_group,
+  COUNT(*) AS film_count
+FROM (
+  SELECT
+    CASE
+      WHEN replacement_cost BETWEEN 9.99 AND 19.99 THEN 'low'
+      WHEN replacement_cost BETWEEN 20.00 AND 24.99 THEN 'medium'
+      WHEN replacement_cost BETWEEN 25.00 AND 29.99 THEN 'high'
+    END AS cost_group
+  FROM
+    film
+) AS categorized_films
+GROUP BY
+  cost_group, categorized_films
+
+
 
 
 Question 3:
