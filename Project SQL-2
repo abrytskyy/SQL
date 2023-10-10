@@ -85,6 +85,8 @@ ON fc.category_id = c.category_id
 GROUP BY name
 ORDER BY COUNT(title) DESC
 
+--Solution 4(1)
+ORDER BY 1 DESC
 
 
 
@@ -94,6 +96,13 @@ Topic: JOIN & GROUP BY
 Task: Create an overview of the actors' first and last names and in how many movies they appear in.
 Question: Which actor is part of most movies??
 Answer: Susan Davis with 54 movies
+
+--Solution 5
+SELECT first_name, last_name, COUNT(*) FROM actor a
+LEFT JOIN film_actor fa
+ON a.actor_id = fa.actor_id
+GROUP BY first_name, last_name
+ORDER BY 3 DESC
 
 
 
