@@ -69,6 +69,7 @@ WHERE name = 'Sports' OR name = 'Drama'
 
 
 
+
 Question 4:
 Level: Moderate
 Topic: JOIN & GROUP BY
@@ -90,6 +91,7 @@ ORDER BY 1 DESC
 
 
 
+
 Question 5:
 Level: Moderate
 Topic: JOIN & GROUP BY
@@ -103,6 +105,20 @@ LEFT JOIN film_actor fa
 ON a.actor_id = fa.actor_id
 GROUP BY first_name, last_name
 ORDER BY 3 DESC
+
+--Solution 5(1)
+SELECT 
+first_name,
+last_name,
+COUNT(*)
+FROM actor a
+LEFT JOIN film_actor fa
+ON fa.actor_id=a.actor_id
+LEFT JOIN film f
+ON fa.film_id=f.film_id
+GROUP BY first_name, last_name
+ORDER BY COUNT(*) DESC
+
 
 
 
