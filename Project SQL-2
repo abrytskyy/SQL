@@ -139,6 +139,13 @@ WHERE c.address_id IS null
 SELECT * FROM address
 WHERE address2 IS null
 
+--Solution 6(1)
+SELECT * FROM address a
+LEFT JOIN customer c
+ON c.address_id = a.address_id
+WHERE c.first_name IS null
+
+
 
 
 Question 7:
@@ -148,6 +155,30 @@ Task: Create an overview of the cities and how much sales (sum of amount) have o
 Question: Which city has the most sales?
 Answer: Cape Coral with a total amount of 221.55
 
+--Solution 7
+SELECT c.city, SUM(amount) sum_of_amount FROM city c
+LEFT JOIN customer_address ca
+ON c.city = ca.city
+LEFT JOIN customer cu
+ON cu.first_name = ca.first_name AND cu.last_name = ca.last_name
+LEFT JOIN payment p
+ON p.customer_id = cu.customer_id
+GROUP BY c.city
+ORDER BY sum_of_amount DESC
+
+--Solution 7(1)
+SELECT 
+city,
+SUM(amount)
+FROM payment p
+LEFT JOIN customer c
+ON p.customer_id=c.customer_id
+LEFT JOIN address a
+ON a.address_id=c.address_id
+LEFT JOIN city ci
+ON ci.city_id=a.city_id
+GROUP BY city
+ORDER BY SUM(amount) DESC
 
 
 Question 8:
