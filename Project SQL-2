@@ -182,29 +182,34 @@ ORDER BY SUM(amount) DESC
 
 
 Question 8:
-
 Level: Moderate to difficult
-
 Topic: JOIN & GROUP BY
-
 Task: Create an overview of the revenue (sum of amount) grouped by a column in the format "country, city".
-
 Question: Which country, city has the least sales?
-
 Answer: United States, Tallahassee with a total amount of 50.85.
 
+--Solution 8
+SELECT 
+country, city,
+SUM(amount)
+FROM payment p
+LEFT JOIN customer c
+ON p.customer_id=c.customer_id
+LEFT JOIN address a
+ON a.address_id=c.address_id
+LEFT JOIN city ci
+ON ci.city_id=a.city_id
+LEFT JOIN country co
+ON co.country_id=ci.country_id
+GROUP BY country, city
+ORDER BY SUM(amount)
 
 
 Question 9:
-
 Level: Difficult
-
 Topic: Uncorrelated subquery
-
 Task: Create a list with the average of the sales amount each staff_id has per customer.
-
 Question: Which staff_id makes on average more revenue per customer?
-
 Answer: staff_id 2 with an average revenue of 56.64 per customer.
 
 
