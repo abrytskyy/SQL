@@ -181,6 +181,8 @@ GROUP BY city
 ORDER BY SUM(amount) DESC
 
 
+
+
 Question 8:
 Level: Moderate to difficult
 Topic: JOIN & GROUP BY
@@ -204,6 +206,24 @@ ON co.country_id=ci.country_id
 GROUP BY country, city
 ORDER BY SUM(amount)
 
+----Solution 8(1)
+SELECT 
+country || ',' ||city AS country_city,
+SUM(amount)
+FROM payment p
+LEFT JOIN customer c
+ON p.customer_id=c.customer_id
+LEFT JOIN address a
+ON a.address_id=c.address_id
+LEFT JOIN city ci
+ON ci.city_id=a.city_id
+LEFT JOIN country co
+ON co.country_id=ci.country_id
+GROUP BY country_city
+ORDER BY SUM(amount)
+
+
+
 
 Question 9:
 Level: Difficult
@@ -212,32 +232,35 @@ Task: Create a list with the average of the sales amount each staff_id has per c
 Question: Which staff_id makes on average more revenue per customer?
 Answer: staff_id 2 with an average revenue of 56.64 per customer.
 
+--Solution 9
+SELECT staff_id, ROUND(SUM(amount)/COUNT(DISTINCT customer_id),2)  FROM payment
+GROUP BY staff_id
+
+--Solution 9(1)
+SELECT
+staff_id, ROUND(AVG(total),2) FROM
+(SELECT staff_id, customer_id, SUM(amount) total FROM payment
+GROUP BY staff_id, customer_id
+ORDER BY 2) sub 
+GROUP BY staff_id
+
+
 
 
 Question 10:
-
 Level: Difficult to very difficult
-
 Topic: EXTRACT + Uncorrelated subquery
-
 Task: Create a query that shows average daily revenue of all Sundays.
-
 Question: What is the daily average revenue of all Sundays?
-
 Answer: 1410.65
 
 
 
 Question 11:
-
 Level: Difficult to very difficult
-
 Topic: Correlated subquery
-
 Task: Create a list of movies - with their length and their replacement cost - that are longer than the average length in each replacement cost group.
-
 Question: Which two movies are the shortest on that list and how long are they?
-
 Answer: CELEBRITY HORN and SEATTLE EXPECTATIONS with 110 minutes.
 
 
