@@ -58,5 +58,14 @@ where LENGTH(surname) = 4)
 select * from four_symbol_surname
 
 -- 3.4. inner join four_symbol_surname and five_symbol_name on name and surname. explain how works inner join and what result we could see
+select * from five_symbol_name f5
+inner join four_symbol_surname f4
+on f5.name = f4.name and 
+on f5.surname = f4.surname
 
 -- 3.5. group by name and surname
+select * from five_symbol_name f5
+inner join four_symbol_surname f4
+on f5.name = f4.name and 
+on f5.surname = f4.surname
+group by name, surname
