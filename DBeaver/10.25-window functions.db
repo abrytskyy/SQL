@@ -1,2 +1,26 @@
-select *,dense_rank() over(order by order_name) from orders o 
-order by order_name, price desc
+--1.calculate rank over employee_id from orders table. make the same query with dense_rank and explain the difference.
+select *, rank() over(order by employee_id) from orders
+select *, dense_rank() over(order by employee_id) from orders
+
+
+
+-- 2. calculate specific column for our clients using window function and tmp view.
+-- 2.1. get customer_id and price from orders
+select customer_id, price from orders
+
+-- 2.2. calculate sum of price over customer_id and rename culumn as customer_sum
+select customer_id, SUM(price) as customer_sum  from orders
+group by customer_id 
+order by customer_id 
+
+-- 2.3. paste the result from 2.1 - 2.2 to tmp_view
+-- 2.4. select customer_id, (customer_sum - price) from tmp_view
+
+
+
+-- 3. select all 5-ve letters names from customers and any surnames
+-- 3.1. store result as tmp_view and call it five_symbol_name
+-- 3.2. find all 4- ur symbols surnames from customers and any names
+-- 3.3. store result as tmp_view in the same query and name it as four_symbol_surname
+-- 3.4. inner join four_symbol_surname and five_symbol_name on name and surname. explain how works inner join and what result we could see
+-- 3.5. group by name and surname
