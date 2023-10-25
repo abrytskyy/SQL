@@ -38,8 +38,25 @@ select customer_id  from tmp
 
 
 -- 3. select all 5-ve letters names from customers and any surnames
+select * from customers c 
+where LENGTH(name) = 5
+
 -- 3.1. store result as tmp_view and call it five_symbol_name
+with five_symbol_name as (
+select * from customers c 
+where LENGTH(name) = 5)
+select * from five_symbol_name
+
 -- 3.2. find all 4- ur symbols surnames from customers and any names
+select * from customers c 
+where LENGTH(surname) = 4
+
 -- 3.3. store result as tmp_view in the same query and name it as four_symbol_surname
+with four_symbol_surname as(
+select * from customers c 
+where LENGTH(surname) = 4)
+select * from four_symbol_surname
+
 -- 3.4. inner join four_symbol_surname and five_symbol_name on name and surname. explain how works inner join and what result we could see
+
 -- 3.5. group by name and surname
