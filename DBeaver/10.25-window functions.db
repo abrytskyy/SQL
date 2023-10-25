@@ -14,7 +14,26 @@ group by customer_id
 order by customer_id 
 
 -- 2.3. paste the result from 2.1 - 2.2 to tmp_view
+with tmp as (
+select customer_id, price from orders)
+select * from tmp
+
+with tmp as(
+select customer_id, SUM(price) as customer_sum  from orders
+group by customer_id 
+order by customer_id) 
+select * from tmp
+
 -- 2.4. select customer_id, (customer_sum - price) from tmp_view
+with tmp as (
+select customer_id, price from orders)
+select customer_id  from tmp
+
+with tmp as(
+select customer_id, SUM(price) as customer_sum  from orders
+group by customer_id 
+order by customer_id) 
+select customer_id  from tmp
 
 
 
