@@ -35,3 +35,10 @@ COUNT(*) OVER()
 FROM payment
 ORDER BY 1
 
+SELECT
+*,
+ROUND(AVG(amount) OVER(),2)
+FROM payment
+ORDER BY 1
+
+
