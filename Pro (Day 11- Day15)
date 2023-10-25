@@ -1,1 +1,37 @@
+----------Lesson 11----------
+
+
+
+--OVER PARTITION BY
+
+
+
+SELECT
+*,
+SUM(amount) OVER(PARTITION BY customer_id)
+FROM payment
+
+SELECT
+*,
+SUM(amount) OVER(PARTITION BY customer_id)
+FROM payment
+ORDER BY 1
+
+SELECT
+*,
+COUNT(*) OVER(PARTITION BY customer_id)
+FROM payment
+ORDER BY 1
+
+SELECT
+*,
+COUNT(*) OVER(PARTITION BY customer_id,staff_id)
+FROM payment
+ORDER BY 1
+
+SELECT
+*,
+COUNT(*) OVER()
+FROM payment
+ORDER BY 1
 
