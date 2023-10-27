@@ -91,3 +91,13 @@ SELECT *,
 SUM(amount) OVER(PARTITION BY customer_id ORDER BY payment_id)
 FROM payment
 
+SELECT *,
+SUM(amount) 
+	OVER(PARTITION BY customer_id 
+		 ORDER BY payment_date, payment_id)
+FROM payment
+
+--Challenge 3
+SELECT flight_id, departure_airport, SUM(actual_arrival - scheduled_arrival) OVER()
+FROM flights
+ORDER BY flight_id, departure_airport
