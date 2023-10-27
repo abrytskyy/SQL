@@ -41,4 +41,11 @@ ROUND(AVG(amount) OVER(),2)
 FROM payment
 ORDER BY 1
 
-
+--Challenge 1
+SELECT f.film_id, title, length as length_of_movie, name as category, 
+ROUND(AVG(length) OVER(PARTITION BY name),2) FROM film f
+LEFT JOIN film_category fc
+ON f.film_id = fc.film_id
+LEFT JOIN category c
+ON c.category_id = fc.category_id
+ORDER BY film_id
