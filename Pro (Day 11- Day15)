@@ -63,3 +63,31 @@ LEFT JOIN category c
 ON c.category_id = fc.category_id
 ORDER BY 1
 
+--Challenge 2
+SELECT *,
+COUNT(*) OVER(PARTITION BY customer_id, amount)AS no_payments_with_that_amount FROM payment
+ORDER BY no_payments_with_that_amount
+
+--Challenge 2(1)
+SELECT *,
+COUNT(*) OVER(PARTITION BY amount, customer_id)AS no_payments_with_that_amount FROM payment
+ORDER BY customer_id
+
+
+
+--OVER (ORDER BY)
+
+
+
+SELECT *,
+SUM(amount) OVER(ORDER BY payment_date)
+FROM payment
+
+SELECT *,
+SUM(amount) OVER(ORDER BY payment_id)
+FROM payment
+
+SELECT *,
+SUM(amount) OVER(PARTITION BY customer_id ORDER BY payment_id)
+FROM payment
+
