@@ -49,3 +49,17 @@ ON f.film_id = fc.film_id
 LEFT JOIN category c
 ON c.category_id = fc.category_id
 ORDER BY film_id
+
+--Challenge 1(1)
+SELECT 
+f.film_id, 
+title, 
+name as category, 
+length as length_of_movie,  
+ROUND(AVG(length) OVER(PARTITION BY name),2) AS avg_length_in_category FROM film f
+LEFT JOIN film_category fc
+ON f.film_id = fc.film_id
+LEFT JOIN category c
+ON c.category_id = fc.category_id
+ORDER BY 1
+
