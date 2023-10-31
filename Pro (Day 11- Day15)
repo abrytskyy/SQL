@@ -98,6 +98,6 @@ SUM(amount)
 FROM payment
 
 --Challenge 3
-SELECT flight_id, departure_airport, SUM(actual_arrival - scheduled_arrival) OVER()
+SELECT flight_id, departure_airport,
+SUM(actual_arrival-scheduled_arrival)OVER(ORDER BY flight_id, departure_airport)
 FROM flights
-ORDER BY flight_id, departure_airport
