@@ -1,1 +1,40 @@
+-- home task 1
+-- 1. find the country with the largest number of customers
+-- 1.1. group by the data from customers location to get amount of customers in each country
+-- 1.2. use order by statement to find max num of customers
+select * from education_artem.customer_location
+
+select country, count(*)  from education_artem.customer_location
+group by country 
+order by count(*) desc 
+--Yemen 11
+
+-- 2. find a customer with the biggest orders num
+
+select name, surname, count(customer_id) from education_artem.customers c 
+group by name, surname
+order by count(customer_id) desc 
+--James Lewis 8
+
+
+
+
+-- home task 2
+-- 1. join customer and employee on name and surname
+-- 1.1. filter where id > 20 and id < 35 using beetween
+
+select * from education_artem.customers c 
+left join education_artem.employee e 
+on c.name = e.first_name and c.surname = e.last_name 
+where c.customer_id between 20 and 35
+
+-- 2. select name and surname from customer table and union this data with name and surname from employee
+
+select c.name, c.surname, e.first_name, e.last_name  from education_artem.customers c 
+left join education_artem.employee e 
+on c.name = e.first_name and c.surname = e.last_name 
+
+-- 3. join basket_a on itself on fruit_a to get all pairs value_1 + value_2 where value_1 is not value_2
+--???
+
 
