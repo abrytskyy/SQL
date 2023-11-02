@@ -109,3 +109,17 @@ departure_airport,
 SUM(actual_arrival-scheduled_arrival)
 OVER(PARTITION BY departure_airport ORDER BY flight_id)
 FROM flights
+
+
+
+--RANK
+
+
+
+SELECT 
+f.title,
+c.name,
+f.length
+FROM film f
+LEFT JOIN film_category fc ON f.film_id = fc.film_id
+LEFT JOIN category c ON c.category_id = fc.category_id
