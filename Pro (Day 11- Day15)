@@ -123,3 +123,68 @@ f.length
 FROM film f
 LEFT JOIN film_category fc ON f.film_id = fc.film_id
 LEFT JOIN category c ON c.category_id = fc.category_id
+
+SELECT 
+f.title,
+c.name,
+f.length,
+RANK() OVER(ORDER BY length)
+FROM film f
+LEFT JOIN film_category fc ON f.film_id = fc.film_id
+LEFT JOIN category c ON c.category_id = fc.category_id
+
+SELECT 
+f.title,
+c.name,
+f.length,
+RANK() OVER(ORDER BY length DESC)
+FROM film f
+LEFT JOIN film_category fc ON f.film_id = fc.film_id
+LEFT JOIN category c ON c.category_id = fc.category_id
+
+SELECT 
+f.title,
+c.name,
+f.length,
+DENSE_RANK() OVER(ORDER BY length DESC)
+FROM film f
+LEFT JOIN film_category fc ON f.film_id = fc.film_id
+LEFT JOIN category c ON c.category_id = fc.category_id
+
+SELECT 
+f.title,
+c.name,
+f.length,
+DENSE_RANK() OVER(PARTITION BY name ORDER BY length DESC)
+FROM film f
+LEFT JOIN film_category fc ON f.film_id = fc.film_id
+LEFT JOIN category c ON c.category_id = fc.category_id
+
+--can not use where for window functions:
+SELECT 
+f.title,
+c.name,
+f.length,
+DENSE_RANK() OVER(PARTITION BY name ORDER BY length DESC)
+FROM film f
+LEFT JOIN film_category fc ON f.film_id = fc.film_id
+LEFT JOIN category c ON c.category_id = fc.category_id
+WHERE (DENSE_RANK() OVER(PARTITION BY name ORDER BY length DESC)) = 1
+--ERROR:  window functions are not allowed in WHERE
+--LINE 9: WHERE (DENSE_RANK() OVER(PARTITION BY name ORDER BY length D...
+
+SELECT * FROM 
+(
+	SELECT 
+	f.title,
+	c.name,
+	f.length,
+	DENSE_RANK() OVER(PARTITION BY name ORDER BY length DESC) as rank
+	FROM film f
+	LEFT JOIN film_category fc ON f.film_id = fc.film_id
+	LEFT JOIN category c ON c.category_id = fc.category_id
+) a
+WHERE rank=1
+               
+
+
