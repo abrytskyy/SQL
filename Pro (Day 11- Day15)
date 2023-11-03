@@ -340,3 +340,14 @@ LEFT JOIN payment p
 ON id = customer_id
 GROUP BY name, country
 	) a
+
+SELECT * FROM
+(
+SELECT name, country, COUNT(*),
+LAG(COUNT(*)) OVER(PARTITION BY country ORDER BY COUNT(*)),
+LAG(COUNT(*)) OVER(PARTITION BY country ORDER BY COUNT(*))-COUNT(*)
+FROM customer_list cl
+LEFT JOIN payment p
+ON id = customer_id
+GROUP BY name, country
+	) a
