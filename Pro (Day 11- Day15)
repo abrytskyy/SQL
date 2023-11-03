@@ -365,3 +365,23 @@ ROUND (
 	) AS persent_growth
 FROM payment
 GROUP BY DATE(payment_date)
+
+--Challenge 7(1)
+SELECT SUM(amount), DATE(payment_date) AS day,
+LAG(SUM(amount)) OVER(ORDER BY DATE(payment_date)) AS previous_day,
+SUM(amount)-LAG(SUM(amount)) OVER(ORDER BY DATE(payment_date)) AS difference,
+ROUND ((SUM(amount)-LAG(SUM(amount)) OVER(ORDER BY DATE(payment_date)))
+	/
+	(LAG(SUM(amount)) OVER(ORDER BY DATE(payment_date)))*100,2) AS persent_growth
+FROM payment
+GROUP BY DATE(payment_date)
+
+
+
+
+----------DAY 12 ----------
+
+
+
+
+12
