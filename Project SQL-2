@@ -254,6 +254,18 @@ Task: Create a query that shows average daily revenue of all Sundays.
 Question: What is the daily average revenue of all Sundays?
 Answer: 1410.65
 
+--Solution 10
+SELECT
+ROUND(AVG(total),2)
+FROM(SELECT 
+DATE(payment_date), 
+EXTRACT(dow from payment_date),
+SUM(amount) AS total
+FROM payment
+WHERE EXTRACT(dow from payment_date) = 0
+GROUP BY DATE(payment_date),EXTRACT(dow from payment_date)) sub
+
+
 
 
 Question 11:
