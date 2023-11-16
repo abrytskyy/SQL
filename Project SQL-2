@@ -281,6 +281,12 @@ WHERE f.length > (SELECT AVG(f2.length) FROM film f2 WHERE f.replacement_cost = 
 ORDER BY f.length
 LIMIT 2
 
+--Solution 11(1)
+SELECT title, length, replacement_cost FROM film f
+WHERE length > (SELECT AVG(length) FROM film f2 WHERE f.replacement_cost = f2.replacement_cost)
+ORDER BY f.length
+LIMIT 2
+
 
 
 
@@ -296,13 +302,17 @@ Question: Which district has the highest average customer lifetime value?
 Answer: Saint-Denis with an average customer lifetime value of 216.54.
 
 --Solution 12
-SELECT c.customer_id, SUM(p.amount) FROM customer c
+SELECT ROUND(AVG(sum_customer_per_district), 2) AS avg, district FROM
+(SELECT c.customer_id, district, SUM(p.amount) AS sum_customer_per_district FROM customer c
 JOIN address a
 ON c.address_id = a.address_id
 JOIN payment p
 ON p.customer_id = c.customer_id
-GROUP BY c.customer_id
-ORDER BY c.customer_id
+GROUP BY district, c.customer_id
+ORDER BY district) sub
+GROUP BY district
+ORDER BY avg DESC
+LIMIT 1
 
 
 
