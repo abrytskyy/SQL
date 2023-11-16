@@ -1,4 +1,4 @@
-----------Lesson 11----------
+----------Day 11----------
 
 
 
@@ -384,4 +384,45 @@ GROUP BY DATE(payment_date)
 
 
 
-12
+--GROUPING SETS
+
+
+
+SELECT staff_id, SUM(amount)
+FROM payment
+GROUP BY staff_id
+
+SELECT TO_CHAR(payment_date, 'Month'),
+SUM(amount)
+FROM payment
+GROUP BY TO_CHAR(payment_date, 'Month')
+
+SELECT TO_CHAR(payment_date, 'Month'),
+staff_id,
+SUM(amount)
+FROM payment
+GROUP BY TO_CHAR(payment_date, 'Month'), staff_id
+
+SELECT
+NULL as month,
+staff_id, SUM(amount)
+FROM payment
+GROUP BY staff_id
+UNION
+SELECT TO_CHAR(payment_date, 'Month') AS month,
+NULL as staff_id,
+SUM(amount)
+FROM payment
+GROUP BY TO_CHAR(payment_date, 'Month')
+
+SELECT
+TO_CHAR(payment_date,'Month') as month,
+staff_id,
+SUM(amount)
+FROM payment
+GROUP BY
+	GROUPING SETS (
+		(staff_id),
+		(month),
+		(staff_id, month))
+ORDER BY 1,2
