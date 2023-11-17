@@ -366,6 +366,25 @@ JOIN (SELECT SUM(amount) AS total_amount, name AS film_category FROM payment p
 ON c.name = sub.film_category
 ORDER BY c.name, p.payment_id
 
+--Solution13(1)
+SELECT
+title,
+amount,
+payment_id,
+name
+
+FROM payment p
+LEFT JOIN rental r
+ON r.rental_id = p.rental_id
+LEFT JOIN inventory i
+ON i.inventory_id=r.inventory_id
+LEFT JOIN film f
+ON f.film_id=i.film_id
+LEFT JOIN film_category fc
+ON fc.film_id=f.film_id
+LEFT JOIN category c
+ON c.category_id=fc.category_id
+
 
 Bonus question 14:
 Level: Extremely difficult
