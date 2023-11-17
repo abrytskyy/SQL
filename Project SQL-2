@@ -325,6 +325,28 @@ that was made in this category. Order the results ascendingly by the category (n
 Question: What is the total revenue of the category 'Action' and what is the lowest payment_id in that category 'Action'?
 Answer: Total revenue in the category 'Action' is 4375.85 and the lowest payment_id in that category is 16055.
 
+--Solution 13(Task)
+SELECT payment_id, amount, name AS film_category, total_amount FROM payment p
+JOIN rental r
+ON p.customer_id = r.customer_id
+JOIN inventory i
+ON r.inventory_id = i.inventory_id
+JOIN film_category fc
+ON i.film_id = fc.film_id
+JOIN category c
+ON fc.category_id = c.category_id
+JOIN (SELECT SUM(amount) AS total_amount, name AS film_category FROM payment p
+	JOIN rental r
+	ON p.customer_id = r.customer_id
+	JOIN inventory i
+	ON r.inventory_id = i.inventory_id
+	JOIN film_category fc
+	ON i.film_id = fc.film_id
+	JOIN category c
+	ON fc.category_id = c.category_id
+	GROUP BY film_category) sub
+ON c.name = sub.film_category
+ORDER BY c.name, p.payment_id
 
 
 Bonus question 14:
