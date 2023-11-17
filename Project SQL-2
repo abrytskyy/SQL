@@ -314,6 +314,24 @@ GROUP BY district
 ORDER BY avg DESC
 LIMIT 1
 
+--Solution 12(1)
+SELECT
+district,
+ROUND(AVG(total),2) total
+FROM
+	(SELECT 
+	district, 
+	c.customer_id,
+	SUM(amount) total 
+	FROM payment p
+	INNER JOIN customer c
+	ON p.customer_id=c.customer_id
+	INNER JOIN address a
+	ON a.address_id=c.address_id
+	GROUP BY district, c.customer_id) sub
+GROUP BY district
+ORDER BY 2 DESC
+
 
 
 
