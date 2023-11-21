@@ -1,5 +1,9 @@
-###DAY 1###
-###SELECT
+----------DAY 1----------
+
+
+
+
+--SELECT
 
 SELECT 
 *
@@ -17,7 +21,10 @@ last_name,
 email
 FROM customer
 
-###ORDER BY
+
+
+
+--ORDER BY
 
 SELECT 
 first_name,
@@ -32,7 +39,10 @@ last_name
 FROM customer
 ORDER BY last_name/2 DESC, first_name/1 DESC
 
-### SELECT DICTINCT
+
+
+
+-- SELECT DISTINCT
 
 SELECT DISTINCT
 first_name,
@@ -55,14 +65,20 @@ amount
 FROM payment
 ORDER BY amount DESC
 
-###LIMIT
+
+
+
+--LIMIT
 SELECT DISTINCT
 amount
 FROM payment
 ORDER BY amount DESC
 LIMIT 4
 
-###COUNT
+
+
+
+--COUNT
 SELECT
 COUNT(column_name)/(*) 
 COUNT(DISTINCT first_name)
@@ -87,8 +103,14 @@ SELECT
 COUNT(DISTINCT last_name)
 FROM customer
 
-###DAY 2###
-###WHERE
+
+
+
+----------DAY 2----------
+
+
+
+--WHERE
 
 SELECT
 *
