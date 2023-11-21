@@ -392,3 +392,16 @@ Topic: Correlated and uncorrelated subqueries (nested)
 Task: Create a list with the top overall revenue of a film title (sum of amount per title) for each category (name).
 Question: Which is the top-performing film in the animation category?
 Answer: DOGMA FAMILY with 178.70.
+
+SELECT title, amount, name from film f
+JOIN inventory i
+ON f.film_id = i.film_id
+JOIN rental r
+ON r.inventory_id = i.inventory_id
+JOIN payment p
+ON p.rental_id = r.rental_id
+JOIN film_category fc
+ON fc.film_id = f.film_id
+JOIN category c
+ON c.category_id = c.category_id
+ORDER BY title
