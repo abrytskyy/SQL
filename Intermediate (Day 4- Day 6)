@@ -124,7 +124,11 @@ SELECT
 email
 FROM customer
 
+
+
 --EXTRACT
+
+
 
 SELECT
 EXTRACT(day from rental_date),
@@ -165,7 +169,12 @@ FROM payment
 GROUP BY week,customer_id
 ORDER BY SUM(amount) DESC
 
+
+
 --TO-CHAR
+
+
+
 SELECT
 *,
 EXTRACT(month from payment_date),
