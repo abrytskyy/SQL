@@ -426,3 +426,27 @@ GROUP BY
 		(month),
 		(staff_id, month))
 ORDER BY 1,2
+
+--Challenge 8
+SELECT first_name, last_name, staff_id, SUM(amount) FROM payment p
+LEFT JOIN customer c
+ON p.customer_id = c.customer_id
+GROUP BY 
+	GROUPING SETS (
+		(first_name, last_name),
+		(first_name, last_name, staff_id)
+		)
+ORDER BY first_name, last_name, staff_id
+
+--Challenge 9
+SELECT first_name, last_name, staff_id, SUM(amount) AS total,
+ROUND(100*SUM(amount)/FIRST_VALUE(SUM(amount)) OVER(PARTITION BY first_name, last_name ORDER BY SUM(amount) DESC), 2) as percentage 
+FROM customer c
+LEFT JOIN payment p
+ON c.customer_id = p.customer_id
+GROUP BY 
+	GROUPING SETS (
+		(first_name, last_name),
+		(first_name, last_name, staff_id)
+		)
+ORDER BY first_name, last_name, staff_id
