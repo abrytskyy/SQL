@@ -471,6 +471,40 @@ ROLLUP(
 )
 ORDER BY 1, 2, 3
 
+--Challenge 10(weeks of the month)
+SELECT 
+'Q'||TO_CHAR(book_date, 'Q') as quarter,
+EXTRACT(month from book_date) as month,
+TO_CHAR(book_date, 'W') as week_in_month,
+DATE(book_date),
+SUM(total_amount) as booking_amount
+FROM bookings
+GROUP BY
+ROLLUP(
+	'Q'||TO_CHAR(book_date, 'Q'),
+	EXTRACT(month from book_date),
+	TO_CHAR(book_date, 'W'),
+	DATE(book_date)
+	)
+ORDER BY 1, 2, 3, 4
+
+--Challenge 10-1(weeks of the year)
+SELECT 
+'Q'||TO_CHAR(book_date, 'Q') as quarter,
+EXTRACT(month from book_date) as month,
+EXTRACT(week from book_date) as week,
+DATE(book_date),
+SUM(total_amount) as booking_amount
+FROM bookings
+GROUP BY
+ROLLUP(
+	'Q'||TO_CHAR(book_date, 'Q'),
+	EXTRACT(month from book_date),
+	EXTRACT(week from book_date),
+	DATE(book_date)
+	)
+ORDER BY 1, 2, 3, 4
+
 
 
 
