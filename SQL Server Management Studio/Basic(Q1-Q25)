@@ -1,9 +1,0 @@
---Question 1:
---Write a SQL Statement that will give you a count of each object type in the AdventureWorks database. Order by count descending.
-
---Solution 1:
-select type_desc, COUNT(*) from sys.objects
-group by type_desc
-order by 2 desc
-
-
