@@ -1,1 +1,24 @@
+Question 1(Basic):
+Write a SQL Statement that will give you a count of each object type in the AdventureWorks database. Order by count descending.
 
+Hint:
+Use the sys.objects table
+
+Solution 1:
+select type_desc, count(*) as count_by_type from sys.objects
+group by type_desc
+order by 2 desc
+
+
+
+
+Question 2(Intermidiate)
+Question 2:
+a. Write a SQL Statement that will show a count of schemas, tables, and columns (do not include views) in the AdventureWorks database.
+
+b. Write a similar statement as part a but list each schema, table, and column (do not include views). This table can be used later in the course.
+
+Hint:
+Either use sys.tables to join sys.columns and sys.schemas.
+
+Or use information_schema.columns, but you will need to remove the view tables (Use information_schema.views).
