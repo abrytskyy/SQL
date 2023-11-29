@@ -1,5 +1,12 @@
+/*DAY 4*/
+
+
+
 --LENGTH
 --LOWER, UPPER
+
+
+
 SELECT 
 UPPER (email) AS email_upper,
 LOWER (email) AS email_lower,
@@ -22,7 +29,12 @@ FROM customer
 WHERE LENGTH(first_name) > 10 
 OR LENGTH(last_name) > 10
 
+
+
 --LEFT,RIGHT
+
+
+
 SELECT
 LEFT(first_name, 2),
 first_name
@@ -44,7 +56,12 @@ SELECT
 LEFT(RIGHT(email, 4),1)
 FROM customer
 
+
+
 --Concatenate
+
+
+
 SELECT
 LEFT (first_name,1)|| LEFT(last_name,1)
 FROM customer
@@ -60,7 +77,12 @@ SELECT
 email, LEFT(email,1)||'***'||RIGHT(email,19)
 FROM customer
 
+
+
 --POSITION
+
+
+
 SELECT
 POSITION('@' IN email),
 email
@@ -86,7 +108,12 @@ SELECT
 last_name||','||LEFT(email,POSITION('.' IN email)-1)
 FROM customer
 
+
+
 --SUBSTRING
+
+
+
 SELECT
 email,
 SUBSTRING (email from POSITION('.' in email)+1 for 3)
@@ -236,11 +263,16 @@ FROM payment
 GROUP BY day_time
 ORDER BY SUM(amount) DESC
 
+
+
 --Interval & Timestamps
 
-SELECT CURRENT_DATE
 
+
+SELECT CURRENT_DATE
 SELECT CURRENT_TIMESTAMP
+
+
 
 SELECT CURRENT_TIMESTAMP,
 rental_date
@@ -306,9 +338,17 @@ GROUP BY customer_id
 ORDER BY rental_duration DESC 
 
 
+
+
 ----------Day 5------------
 
+
+
+
 --Mathematical functions and operations
+
+
+
 SELECT
 film_id,
 rental_rate AS old_rental_rate,
@@ -338,7 +378,10 @@ FROM film
 WHERE ROUND(rental_rate / replacement_cost*100,2) < 4
 ORDER BY 2 ASC
 
+
+
 --CASE WHEN
+
 
 --from demo
 SELECT 
@@ -457,7 +500,11 @@ WHEN description like '%Drama%' THEN 'Short drama (Tier 3)'
 WHEN rental_rate < 1 THEN 'Very cheap (tier 4)'
 END is not null
 
+
+
 --CASE WHEN & SUM
+
+
 
 SELECT
 SUM(CASE
@@ -513,12 +560,22 @@ SUM(CASE WHEN rating = 'PG-13' THEN 1 ELSE 0 END) AS "PG-13",
 SUM(CASE WHEN rating = 'PG' THEN 1 ELSE 0 END) AS "PG"
 FROM film
 
+
+
 --COALESCE
+
+
+
 SELECT
 COALESCE (actual_arrival-scheduled_arrival, '0:00')
 FROM flights
 
+
+
 --CAST
+
+
+
 SELECT
 COALESCE (CAST(actual_arrival-scheduled_arrival AS VARCHAR), 'not arrived')
 FROM flights
@@ -549,7 +606,11 @@ COALESCE (CAST(return_date AS VARCHAR), 'not returned')
 FROM rental
 ORDER BY rental_date DESC
 
+
+
 --REPLACE
+
+
 
 SELECT
 CAST(REPLACE(passenger_id,' ','') AS BIGINT)
@@ -563,9 +624,17 @@ CAST(REPLACE (flight_no, 'PG', '') AS INT)
 FROM flights
 
 
+
+
 ----------Day 6------------
 
+
+
+
 --INNER JOIN
+
+
+
 SELECT * FROM Table B
 INNER JOIN Table A
 ON TableA.employee = TableB.employee
@@ -631,7 +700,6 @@ ON staff.staff_id = payment.staff_id
 WHERE staff.staff_id=1
 
 --Challenge 14
-
 SELECT * FROM seats
 SELECT * FROM boarding_passes
 
@@ -665,7 +733,11 @@ ON s.seat_no = b.seat_no
 GROUP BY fare_conditions
 --Challenge 14 END
 
+
+
 --FULL OUTER JOIN
+
+
 
 SELECT * FROM boarding_passes b
 FULL OUTER JOIN tickets t
@@ -695,7 +767,12 @@ FULL OUTER JOIN TableA
 ON TableA.employee = TableB.employee
 WHERE TableB.anycolumn IS null
 
+
+
 --LEFT OUTER JOIN
+
+
+
 --Values A + common A and B
 SELECT * FROM TableA
 LEFT OUTER JOIN TableB
@@ -759,7 +836,12 @@ ON s.seat_no = b.seat_no
 GROUP BY fare_conditions 
 ORDER BY COUNT(*) DESC
 
+
+
 --RIGHT OUTER JOIN
+
+
+
 SELECT * FROM TableA
 RIGHT OUTER JOIN TableB
 ON TableA.employee = TableB.employee
@@ -804,7 +886,12 @@ LEFT JOIN customer c
 ON a.address_id = c.address_id
 WHERE c.address_id IS null
 
+
+
 --JOIN on multiple conditions
+
+
+
 SELECT * FROM TableA a
 INNER JOIN TableB b
 ON a.first_name = b.first_name
@@ -821,7 +908,12 @@ INNER JOIN TableB b
 ON a.first_name = b.first_name
 WHERE a.last_name = 'Jones'
 
+
+
 --Primary Key
+
+
+
 SELECT * FROM ticket_flights
 SELECT * FROM boarding_passes
 SELECT * FROM tickets
@@ -853,7 +945,11 @@ AND t.flight_id = b.flight_id
 GROUP BY seat_no
 ORDER BY 2 DESC
 
+
+
 --Joining multiple tables
+
+
 
 --Challenge 22
 SELECT * FROM flights
