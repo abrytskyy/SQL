@@ -101,3 +101,23 @@ where patient_id in (1,45,534,879,1000)
 
 --11?
 Show the total number of admissions
+--11
+select count(*) as total_admissions from admissions
+
+
+
+--12?
+Show all the columns from admissions where the patient was admitted and discharged on the same day.
+--12
+select * from admissions
+where admission_date = discharge_date
+
+
+
+--13?
+Show the patient id and the total number of admissions for patient_id 579.
+--13
+select patient_id, count(*) as total_admissions from admissions
+where patient_id = 579
+group by patient_id
+
