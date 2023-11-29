@@ -121,3 +121,35 @@ select patient_id, count(*) as total_admissions from admissions
 where patient_id = 579
 group by patient_id
 
+
+
+--14?
+Based on the cities that our patients live in, show unique cities that are in province_id 'NS'?
+--14
+select distinct city from patients
+where province_id = 'NS'
+--14
+SELECT city
+FROM patients
+GROUP BY city
+HAVING province_id = 'NS'
+
+
+
+--15?
+Write a query to find the first_name, last name and birth date of patients who has height greater than 160 and weight greater than 70
+--15
+select first_name, last_name, birth_date from patients
+where height > 160 and weight > 70
+
+
+
+--16?
+Write a query to find list of patients first_name, last_name, and allergies from Hamilton where allergies are not null
+--16
+select first_name, last_name, allergies from patients
+where city = 'Hamilton' and allergies is not null
+
+
+
+
