@@ -67,5 +67,37 @@ on p.province_id = pn.province_id
 --8?
 Show how many patients have a birth_date with 2010 as the birth year.
 --8
+select COUNT(distinct patient_id) from patients
+where year(birth_date) = 2010
+--8
+SELECT COUNT(*) AS total_patients
+FROM patients
+WHERE YEAR(birth_date) = 2010
+--8
+SELECT count(first_name) AS total_patients
+FROM patients
+WHERE
+  birth_date >= '2010-01-01'
+  AND birth_date <= '2010-12-31'
 
 
+
+--9?
+Show the first_name, last_name, and height of the patient with the greatest height.
+--9
+select first_name, last_name, height from patients
+where height = (select max(height) from patients)
+
+
+
+--10?
+Show all columns for patients who have one of the following patient_ids:
+1,45,534,879,1000
+--10
+select * from patients
+where patient_id in (1,45,534,879,1000)
+
+
+
+--11?
+Show the total number of admissions
