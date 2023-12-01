@@ -268,4 +268,15 @@ where last_name = 'Maroni'
 --16?
 Show all of the days of the month (1-31) and how many admission_dates occurred on that day. 
 Sort by the day with most admissions to least admissions.
+--16
+SELECT day(admission_date), count(*) FROM admissions
+group by day(admission_date)
+order by count(*) desc
+
+
+
+--17?
+Show all columns for patient_id 542's most recent admission_date.
+--17
+
 
