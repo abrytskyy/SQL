@@ -371,3 +371,27 @@ where
 group by p.doctor_id
 
 
+
+--20?
+For each doctor, display their id, full name, and the first and last admission date they attended.
+--20
+select doctor_id, 
+	first_name||' '||last_name as full_name, 
+	min(admission_date) as first_admission_date, 
+        max(admission_date) as last_admission_date 
+from doctors d 
+join admissions a on d.doctor_id = a.attending_doctor_id
+group by doctor_id
+
+
+
+--21?
+Display the total amount of patients for each province. Order by descending.
+--21
+select count(*) as total_amount, province_name from patients p 
+join province_names pn 
+on p.province_id = pn.province_id
+group by province_name
+order by total_amount desc 
+
+
