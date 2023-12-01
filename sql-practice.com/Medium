@@ -395,3 +395,51 @@ group by province_name
 order by total_amount desc 
 
 
+
+--22?
+For every admission, display the patient's full name, their admission diagnosis, and their doctor's full name who diagnosed their problem.
+--22
+select (p.first_name||' '||p.last_name) as patient_full_name, 
+		diagnosis, 
+        (d.first_name||' '||d.last_name) as doctor_full_name
+from patients p 
+join admissions a 
+on p.patient_id = a.patient_id
+join doctors d 
+on a.attending_doctor_id = d.doctor_id
+--22
+SELECT
+  CONCAT(patients.first_name, ' ', patients.last_name) as patient_name,
+  diagnosis,
+  CONCAT(doctors.first_name,' ',doctors.last_name) as doctor_name
+FROM patients
+  JOIN admissions ON admissions.patient_id = patients.patient_id
+  JOIN doctors ON doctors.doctor_id = admissions.attending_doctor_id
+
+
+
+--23?
+display the number of duplicate patients based on their first_name and last_name.
+--23
+select first_name, last_name, count(*) as number_dublicate  from patients
+group by first_name, last_name
+having number_dublicate > 1
+--23(number of dublicates without original)
+select first_name, last_name, (count(*)-1) as number_dublicate  from patients
+group by first_name, last_name
+having number_dublicate > 0
+
+
+
+--24?
+Display patient's full name,
+height in the units feet rounded to 1 decimal,
+weight in the unit pounds rounded to 0 decimals,
+birth_date,
+gender non abbreviated.
+
+Convert CM to feet by dividing by 30.48.
+Convert KG to pounds by multiplying by 2.205.
+
+
+
