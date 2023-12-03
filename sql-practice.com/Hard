@@ -2,5 +2,27 @@
 Show all of the patients grouped into weight groups.
 Show the total amount of patients in each weight group.
 Order the list by the weight group decending.
-
 For example, if they weight 100 to 109 they are placed in the 100 weight group, 110-119 = 110 weight group, etc.
+--1
+select count(*), 
+case 
+	when weight < 10 THEN 0
+    when weight < 20 then 10
+    when weight < 30 THEN 20
+    when weight < 40 then 30
+    when weight < 50 THEN 40
+    when weight < 60 then 50
+    when weight < 70 THEN 60
+    when weight < 80 then 70
+    when weight < 90 THEN 80
+    when weight < 100 then 90
+    when weight < 110 THEN 100
+    when weight < 120 then 110
+    when weight < 130 THEN 120
+    when weight < 140 then 130
+    when weight < 150 THEN 140
+    when weight < 160 then 150
+end as weight_group 
+from patients
+group by 2
+order by 2 desc
