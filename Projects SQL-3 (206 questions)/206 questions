@@ -1,10 +1,10 @@
-Question 1(Basic):
+--Question 1(Basic):
 Write a SQL Statement that will give you a count of each object type in the AdventureWorks database. Order by count descending.
 
 Hint:
 Use the sys.objects table
 
-Solution 1:
+--Solution 1:
 
 select type_desc, count(*) as count_by_type from sys.objects
 group by type_desc
@@ -13,7 +13,7 @@ order by 2 desc
 
 
 
-Question 2(Intermidiate)
+--Question 2(Intermidiate)
 Question 2:
 a. Write a SQL Statement that will show a count of schemas, tables, and columns (do not include views) in the AdventureWorks database.
 b. Write a similar statement as part a but list each schema, table, and column (do not include views). This table can be used later in the course.
@@ -22,7 +22,7 @@ Hint:
 -Either use sys.tables to join sys.columns and sys.schemas.
 -Or use information_schema.columns, but you will need to remove the view tables (Use information_schema.views).
 
-Solution 2a:
+--Solution 2a:
 select count(distinct TABLE_SCHEMA) as count_of_schemas, 
 	count(distinct TABLE_NAME) as count_of_tables, 
 	count(COLUMN_NAME) as count_of_columns 
@@ -36,7 +36,7 @@ from sys.tables t
 	INNER JOIN sys.columns c on c.object_id = t.object_id
 	INNER JOIN sys.schemas s on s.schema_id = t.schema_id
 
-Solution 2b:
+--Solution 2b:
 select TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME 
 from information_schema.columns
 where TABLE_NAME not in (select TABLE_NAME from information_schema.views);
@@ -49,7 +49,7 @@ from sys.tables t
 
 
 
-Question 3:
+--Question 3:
 We learned in question 1 that 89 check constraints exist in the AdventureWorks Database. In this question we are going to determine what the 
 check constraints are doing while creating a new database and table.
 
@@ -81,3 +81,20 @@ columns.column_id = check_constraints.parent_column_id
 columns.object_id = check_constraints.parent_object_id
 e. If the ColumnName is null in our created table then the constraint is assigned to the table not the column.
 
+--Solution 3a:
+CREATE DATABASE Edited_AdventureWorks
+USE Edited_AdventureWorks
+
+--Solution3b
+select * from AdventureWorks2019.sys.tables
+
+select t.name as TableName
+		,c.name as ColumnName
+		,cc.name as CheckConstraintName
+		,cc.definition as CheckConstraintDefinition
+		from sys.check_constraints cc
+inner join sys.tables t
+on t.object_id = cc.parent_object_id
+left join sys.columns c
+on c.column_id = cc.parent_column_id and
+   c.object_id = cc.parent_object_id
