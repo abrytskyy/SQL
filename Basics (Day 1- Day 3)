@@ -483,7 +483,12 @@ WHERE amount != 0
 GROUP BY staff_id,customer_id
 ORDER BY COUNT(*) DESC
 
+
+
 --DATE
+
+
+
 SELECT
 *,
 DATE(payment_date)
