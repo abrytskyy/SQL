@@ -836,6 +836,31 @@ ON s.seat_no = b.seat_no
 GROUP BY fare_conditions 
 ORDER BY COUNT(*) DESC
 
+--CORRECT Challenge 18
+select 
+case when seat_no like '%A%' then 'A'
+when seat_no like '%B%' then 'B' 
+when seat_no like '%C%' then 'C' 
+when seat_no like '%D%' then 'D'
+when seat_no like '%E%' then 'E' 
+when seat_no like '%F%' then 'F' 
+when seat_no like '%G%' then 'G'
+when seat_no like '%H%' then 'H'
+when seat_no like '%I%' then 'I' 
+when seat_no like '%J%' then 'J'
+when seat_no like '%K%' then 'K' 
+when seat_no like '%L%' then 'L' 
+when seat_no like '%M%' then 'M' end,
+count(*)
+from boarding_passes
+group by 1
+order by 2 desc
+
+--CORRECT Challenge 18
+select right(seat_no,1), count(*) from boarding_passes
+group by 1
+order by 2 desc
+
 
 
 --RIGHT OUTER JOIN
