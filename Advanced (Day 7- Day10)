@@ -220,6 +220,16 @@ HAVING SUM(amount) > 100
 
 
 
+select avg(total_amount)
+from
+(select customer_id, sum(amount) as total_amount from payment
+group by customer_id) as subquery
+
+with subquery as (select customer_id, sum(amount) as total_amount from payment
+group by customer_id)
+select avg(total_amount)
+from subquery
+
 --Challenge 6
 SELECT SUM(amount), DATE(payment_date) pd FROM payment
 GROUP BY pd
