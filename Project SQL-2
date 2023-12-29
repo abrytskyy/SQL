@@ -180,6 +180,14 @@ ON ci.city_id=a.city_id
 GROUP BY city
 ORDER BY SUM(amount) DESC
 
+--Solution 7(2)
+select sum(amount), city from payment p
+inner join customer c
+on p.customer_id=c.customer_id
+inner join customer_address a
+on c.first_name = a.first_name and c.last_name = a.last_name
+group by 2
+order by 1 desc
 
 
 
