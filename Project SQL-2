@@ -265,6 +265,11 @@ GROUP BY staff_id, customer_id
 ORDER BY 2) sub 
 GROUP BY staff_id
 
+--Solution 9(2)
+select avg(total_amount), staff_id from
+(select sum (amount) as total_amount, staff_id, customer_id from payment group by staff_id, customer_id) as sub
+group by 2
+
 
 
 
