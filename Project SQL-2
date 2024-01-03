@@ -291,6 +291,10 @@ FROM payment
 WHERE EXTRACT(dow from payment_date) = 0
 GROUP BY DATE(payment_date),EXTRACT(dow from payment_date)) sub
 
+--Solution 10(1)
+select round(avg(revenue), 2) as avarage_daily_revenue from 
+(select sum(amount) as revenue, date(payment_date) as sundays from payment  
+ where extract(dow from payment_date)=0 group by date(payment_date)) sub
 
 
 
