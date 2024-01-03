@@ -368,6 +368,39 @@ WHERE replacement_cost = (SELECT MAX(replacement_cost) FROM film f3
 
 
 
+--DATA TYPES
+
+
+
+Numeric:
+	INT	-2147483648 to 2147483648
+	SMALLINT-32768 to 32767
+	BIGINT -**************************** to ****************************
+	NUMERIC	131072 digits before,16383 digits after
+		numeric(precision, scale) 24.99 - numeric(4, 2)
+	SERIAL 1 to 2147483647 autoincrementing(ID, PRIMARY KEY)
+Strings:
+	VARCHAR(n) - variable length with limit
+	CHAR(n) - fixed-length(f.ex. "M", "F", not reccomended)
+	text - variable unlimited
+	strings uses for ZIP codes and phones
+Date/Time:
+	date	'2022-11-28'
+	time(with/without time zone)	'01:02:03.678'
+	timestamp(with /without time zone) 	'2022-11-28 01:02:03.678+02'
+	intervals	'3 days 01:02:03.678'
+boolean	TRUE,FALSE,NULL  f.ex. YES or NO, +
+enum	user-defined	f.ex. rating of films 'G', 'PG'
+array	list of values	text[] or int[]
+	SELECT name, phone FROM customers - for all
+	SELECT name[1], phone FROM customers - for chosen
+	SELECT name[1], phone FROM customers - searching for specific
+	WHERE '+42-66764453' = ANY(phones)
+
+	
+
+
+
 
 CREATE DATABASE company_y
 
