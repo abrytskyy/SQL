@@ -364,10 +364,6 @@ WHERE replacement_cost = (SELECT MAX(replacement_cost) FROM film f3
 
 
 
---CREATE DATABASE
-
-
-
 --DATA TYPES
 
 
@@ -397,7 +393,35 @@ array	list of values	text[] or int[]
 	SELECT name[1], phone FROM customers - searching for specific
 	WHERE '+42-66764453' = ANY(phones)
 
-	
+
+
+--Constraints
+
+
+
+--COLUMN Constraints:
+NOT NULL - ensure that column cannot be NULL 
+UNIQUE - all values are different
+DEFAULT - value we specified
+PRIMARY KEY  NOT NULL + UNIQUE
+REFERENCES uses for references key
+CHECK satisfied specific condition
+
+--TABLE Constraints:
+PRIMARY KEY
+UNIQUE
+CHECK
+
+
+--PRIMARY KEY & FOREIGN KEY
+
+
+PRIMARY KEY  NOT NULL + UNIQUE
+FOREGN KEY refere to primary key(from CHILD TABLE) to another table(PARENT)
+
+
+
+--CREATE DATABASE
 
 
 
