@@ -230,6 +230,19 @@ ON co.country_id=ci.country_id
 GROUP BY country_city
 ORDER BY SUM(amount)
 
+--Solution 8(2)
+select sum(amount), country||', '||city from payment p
+inner join customer c
+on p.customer_id = c.customer_id
+inner join address a
+on c.address_id = a.address_id
+inner join city ci
+on ci.city_id = a.city_id
+inner join country co
+on co.country_id=ci.country_id
+group by 2
+order by 1
+
 
 
 
