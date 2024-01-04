@@ -540,18 +540,21 @@ RENAME first_name TO name
 
 --ADD/DROP CONSTRAINTS
 ALTER TABLE staff
-ADD COLUMN store_id SET DEFAULT 1
+ALTER COLUMN store_id SET DEFAULT 1
 
 ALTER TABLE staff
-ADD COLUMN store_id SET DROP DEFAULT
+ALTER COLUMN store_id SET DROP DEFAULT
 
 ALTER TABLE staff
-ADD COLUMN store_id SET NOT NULL
+ALTER COLUMN store_id SET NOT NULL
 
 ALTER TABLE staff
-ADD COLUMN store_id DROP NOT NULL
+ALTER COLUMN store_id DROP NOT NULL
 
---TABLE CONSTRAINT
+
+--TABLE CONSTRAINTS
+
+--ADD
 ALTER TABLE staff
 ADD CONSTRAINT <constraint_name> UNIQUE(column1)
 
@@ -570,9 +573,10 @@ ALTER COLUMN first_name TYPE TEXT,
 ADD COLUMN middle_name TEXT,
 ADD CONSTRAINT constraint_1 UNIQUE(account_name)
 
+
 --RENAME must uses individually
 ALTER TABLE old_table_name
-RENAME new_table_name
+RENAME TO new_table_name
 
 
 --Challenge 16
@@ -595,7 +599,7 @@ RENAME director_account_name TO account_name
 
 
 
---Check DEFAULT value(not from this course)
+--Check DEFAULT and NULL/NOT NULL value(not from this course)
 
 
 
@@ -604,6 +608,10 @@ SELECT column_name, column_default
 FROM information_schema.columns
 WHERE table_name = 'director' AND column_name = 'last_name'	 
 	 
+SELECT column_name, is_nullable
+FROM information_schema.columns
+WHERE table_name = 'director' AND column_name = 'last_name'	 
+
 
 
 
