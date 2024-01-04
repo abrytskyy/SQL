@@ -511,12 +511,14 @@ VALUES (7, 124, 65, 14.99, 'PROMO2022'),
 ALTER TABLE <table name>
 ALTER_ACTION
 
+
 --DROP
 ALTER TABLE staff
 DROP COLUMN first_name
 
 ALTER TABLE staff
 DROP COLUMN IF EXISTS first_name
+
 
 --ADD
 ALTER TABLE staff
@@ -525,22 +527,24 @@ ADD COLUMN date_of_birth DATE
 ALTER TABLE staff
 ADD COLUMN IF NOT EXISTS date_of_birth DATE
 
+
 --TYPE Changing
 ALTER TABLE staff
-ADD COLUMN address_id TYPE SMALLINT
+ALTER COLUMN address_id TYPE SMALLINT
+
 
 --RENAME
 ALTER TABLE staff
-ADD COLUMN first_name TO name
+RENAME first_name TO name
 
---DEFAULT
+
+--ADD/DROP CONSTRAINTS
 ALTER TABLE staff
 ADD COLUMN store_id SET DEFAULT 1
 
 ALTER TABLE staff
 ADD COLUMN store_id SET DROP DEFAULT
 
---SET NOT NULL
 ALTER TABLE staff
 ADD COLUMN store_id SET NOT NULL
 
@@ -558,6 +562,7 @@ ALTER TABLE staff
 ADD CONSTRAINT <constraint_name> 
 ADD PRIMARY KEY(column1, column2[,..])
 
+
 --Combination
 ALTER TABLE director
 ALTER COLUMN director_account_name SET DEFAULT 3,
@@ -565,10 +570,10 @@ ALTER COLUMN first_name TYPE TEXT,
 ADD COLUMN middle_name TEXT,
 ADD CONSTRAINT constraint_1 UNIQUE(account_name)
 
-
 --RENAME must uses individually
 ALTER TABLE old_table_name
 RENAME new_table_name
+
 
 --Challenge 16
 ALTER TABLE director
@@ -587,6 +592,18 @@ RENAME TO directors
 ALTER TABLE directors
 RENAME director_account_name TO account_name
 
+
+
+
+--Check DEFAULT value(not from this course)
+
+
+
+
+SELECT column_name, column_default
+FROM information_schema.columns
+WHERE table_name = 'director' AND column_name = 'last_name'	 
+	 
 
 
 
