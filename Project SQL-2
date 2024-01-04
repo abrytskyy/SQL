@@ -426,6 +426,31 @@ ON fc.film_id=f.film_id
 LEFT JOIN category c
 ON c.category_id=fc.category_id
 
+--Solution 13(2)
+select payment_id, amount, c.name, 
+	   (select sum(amount) as sum_amount from payment p1
+			left join rental r1
+			on p1.rental_id=r1.rental_id
+			left join inventory i1
+			on r1.inventory_id=i1.inventory_id
+			left join film_category fc1
+			on i1.film_id=fc1.film_id
+			left join category c1
+			on fc1.category_id=c1.category_id
+		where c1.name=c.name)
+from payment p
+	left join rental r
+	on p.rental_id=r.rental_id
+	left join inventory i
+	on r.inventory_id=i.inventory_id
+	left join film_category fc
+	on i.film_id=fc.film_id
+	left join category c
+	on fc.category_id=c.category_id
+order by 3, 1	
+
+
+
 
 Bonus question 14:
 Level: Extremely difficult
