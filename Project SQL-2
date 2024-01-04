@@ -301,7 +301,8 @@ select round(avg(revenue), 2) as avarage_daily_revenue from
 Question 11:
 Level: Difficult to very difficult
 Topic: Correlated subquery
-Task: Create a list of movies - with their length and their replacement cost - that are longer than the average length in each replacement cost group.
+Task: Create a list of movies - with their length and their replacement cost - that are longer than the average length in each 
+replacement cost group.
 Question: Which two movies are the shortest on that list and how long are they?
 Answer: CELEBRITY HORN and SEATTLE EXPECTATIONS with 110 minutes.
 
@@ -362,6 +363,16 @@ FROM
 GROUP BY district
 ORDER BY 2 DESC
 
+--Solution 12(2)
+select round(avg(sum_amount), 2) as average_customer_lifetime_value, district from
+	(select sum(amount) as sum_amount, p.customer_id, district from payment p
+	left join customer c
+	on p.customer_id=c.customer_id
+	left join address a
+	on c.address_id = a.address_id
+	group by p.customer_id, district) sub
+group by 2
+order by 1 desc
 
 
 
