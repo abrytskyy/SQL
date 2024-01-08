@@ -459,15 +459,58 @@ Task: Create a list with the top overall revenue of a film title (sum of amount 
 Question: Which is the top-performing film in the animation category?
 Answer: DOGMA FAMILY with 178.70.
 
-SELECT title, amount, name from film f
-JOIN inventory i
-ON f.film_id = i.film_id
-JOIN rental r
-ON r.inventory_id = i.inventory_id
-JOIN payment p
-ON p.rental_id = r.rental_id
-JOIN film_category fc
-ON fc.film_id = f.film_id
-JOIN category c
-ON c.category_id = c.category_id
-ORDER BY title
+--Solution 14
+select max(sum_amount), category_name, sub.title from 
+(select sum(amount) as sum_amount, title , c.name as category_name from payment p
+left join rental r
+on p.rental_id=r.rental_id
+left join inventory i
+on r.inventory_id=i.inventory_id
+left join film f
+on f.film_id=i.film_id
+left join film_category fc
+on fc.film_id=f.film_id
+left join category c
+on c.category_id=fc.category_id
+group by title, c.name) sub
+group by 2, 3
+having category_name = 'Animation'
+order by 1 desc
+
+--Solution 14(1)
+SELECT
+title,
+name,
+SUM(amount) as total
+FROM payment p
+LEFT JOIN rental r
+ON r.rental_id=p.rental_id
+LEFT JOIN inventory i
+ON i.inventory_id=r.inventory_id
+LEFT JOIN film f
+ON f.film_id=i.film_id
+LEFT JOIN film_category fc
+ON fc.film_id=f.film_id
+LEFT JOIN category c
+ON c.category_id=fc.category_id
+GROUP BY name,title
+HAVING SUM(amount) =     (SELECT MAX(total)
+			  FROM 
+                                (SELECT
+			          title,
+                                  name,
+			          SUM(amount) as total
+			          FROM payment p
+			          LEFT JOIN rental r
+			          ON r.rental_id=p.rental_id
+			          LEFT JOIN inventory i
+			          ON i.inventory_id=r.inventory_id
+				  LEFT JOIN film f
+				  ON f.film_id=i.film_id
+				  LEFT JOIN film_category fc
+				  ON fc.film_id=f.film_id
+				  LEFT JOIN category c1
+				  ON c1.category_id=fc.category_id
+				  GROUP BY name,title) sub
+			   WHERE c.name=sub.name)
+
