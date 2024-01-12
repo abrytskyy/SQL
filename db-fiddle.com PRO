@@ -1,3 +1,6 @@
+--https://www.machinelearningplus.com/sql/sql-window-functions-exercises/
+--https://www.db-fiddle.com/f/3oGvSWxmho5KMidcvPr5qd/9
+
 --Q1 Find the running cumulative total demand.
 --From the demand2 table, find the cumulative total sum for qty
 DROP TABLE IF EXISTS demand2;
@@ -21,7 +24,7 @@ VALUES
   (9, 6),
   (10, 23);
 
---Solution
+--Solution Q1
 select *,
 sum(qty) over(order by day) as cumQty from demand2
 
@@ -52,5 +55,10 @@ VALUES
   ("B", 3, 3),
   ("B", 4, 6),
   ("B", 5, 23);
+
+--Solution Q2
+select *,
+sum(qty) over(partition by product order by day) as CUMSUM
+from demand
 
 
