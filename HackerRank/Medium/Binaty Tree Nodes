@@ -1,3 +1,4 @@
+--1
 select chl.N, 'Root' from BST chl /*child*/
 left join BST prn /*parent*/
 on chl.P= prn.N
@@ -15,3 +16,20 @@ from BST chl
 where not exists (select * from BST chl2
              where chl2.P=chl.N) 
 order by 1  
+
+--2
+select chl.N, 'Root' from BST chl /*child*/
+left join BST prn /*parent*/
+on chl.P= prn.N
+where prn.N is NULL
+union all
+select chl.N, 'Inner'
+from BST chl
+where chl.P is NOT NULL and exists(select * from BST chl2 where chl2.P=chl.N)
+union all
+select chl.N, 'Leaf'
+from BST chl
+where not exists (select * from BST chl2
+             where chl2.P=chl.N) 
+order by 1            
+            
