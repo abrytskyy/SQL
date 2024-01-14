@@ -500,6 +500,24 @@ FROM payment
 GROUP BY TO_CHAR(payment_date, 'Month')
 
 SELECT
+NULL as month,
+staff_id, SUM(amount)
+FROM payment
+GROUP BY staff_id
+UNION
+SELECT TO_CHAR(payment_date, 'Month') AS month,
+NULL as staff_id,
+SUM(amount)
+FROM payment
+GROUP BY TO_CHAR(payment_date, 'Month')
+UNION 
+SELECT TO_CHAR(payment_date, 'Month'),
+staff_id,
+SUM(amount)
+FROM payment
+GROUP BY TO_CHAR(payment_date, 'Month'), staff_id
+
+SELECT
 TO_CHAR(payment_date,'Month') as month,
 staff_id,
 SUM(amount)
@@ -522,7 +540,50 @@ GROUP BY
 		)
 ORDER BY first_name, last_name, staff_id
 
---Challenge 9
+SELECT first_name, last_name, staff_id, SUM(amount),
+first_value(sum(amount)) over(partition by first_name, last_name order by sum(amount))FROM payment p
+LEFT JOIN customer c
+ON p.customer_id = c.customer_id
+GROUP BY 
+	GROUPING SETS (
+		(first_name, last_name),
+		(first_name, last_name, staff_id)
+		)
+ORDER BY first_name, last_name, staff_id
+
+SELECT first_name, last_name, staff_id, SUM(amount),
+first_value(sum(amount)) over(partition by first_name, last_name order by sum(amount)desc)FROM payment p
+LEFT JOIN customer c
+ON p.customer_id = c.customer_id
+GROUP BY 
+	GROUPING SETS (
+		(first_name, last_name),
+		(first_name, last_name, staff_id)
+		)
+ORDER BY first_name, last_name, staff_id
+
+SELECT first_name, last_name, staff_id, SUM(amount),
+sum(amount)/first_value(sum(amount)) over(partition by first_name, last_name order by sum(amount)desc)FROM payment p
+LEFT JOIN customer c
+ON p.customer_id = c.customer_id
+GROUP BY 
+	GROUPING SETS (
+		(first_name, last_name),
+		(first_name, last_name, staff_id)
+		)
+ORDER BY first_name, last_name, staff_id
+
+SELECT first_name, last_name, staff_id, SUM(amount),
+round(100*sum(amount)/first_value(sum(amount)) over(partition by first_name, last_name order by sum(amount)desc),2) as percentage FROM payment p
+LEFT JOIN customer c
+ON p.customer_id = c.customer_id
+GROUP BY 
+	GROUPING SETS (
+		(first_name, last_name),
+		(first_name, last_name, staff_id)
+		)
+ORDER BY first_name, last_name, staff_id
+
 SELECT first_name, last_name, staff_id, SUM(amount) AS total,
 ROUND(100*SUM(amount)/FIRST_VALUE(SUM(amount)) OVER(PARTITION BY first_name, last_name ORDER BY SUM(amount) DESC), 2) as percentage 
 FROM customer c
