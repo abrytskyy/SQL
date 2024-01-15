@@ -714,6 +714,8 @@ VALUES
 	(9, 'Mia Lee', 3),
 	(10, 'Ava Robinson', 3);
 
+select * from employee;
+
 select emp.employee_id, 
 	   emp.name as employee, 
 	   mng.name as manager
@@ -739,8 +741,45 @@ on mng.manager_id=mng2.employee_id
 
 
 
+select * from staff
+
+select * from store
+
+select staff_id, store.store_id
+from staff
+cross join store
+
+select staff_id, store.store_id,last_name
+from staff
+cross join store
+
+select staff_id, store.store_id,last_name,
+store.store_id*staff_id	--some calculation
+from staff
+cross join store
 
 
+
+
+--NATURAL JOIN
+
+
+
+
+select * from payment
+natural inner join customer
+
+select first_name, last_name, sum(amount) from payment
+natural inner join customer
+group by 1, 2
+
+select * from address
+select * from customer
+
+select * from customer
+natural inner join address
+
+--no output bacause there is no mathes between 2x2 columns(adress_id and last_update)
 
 
 
