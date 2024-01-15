@@ -650,6 +650,19 @@ ROLLUP(
 	)
 ORDER BY 1, 2, 3, 4
 
+--Challenge 10(2)
+select 
+EXTRACT(quarter from book_date)as quarter,
+EXTRACT(month from book_date)as month,
+TO_CHAR(book_date, 'W')as week,
+date(book_date)as day,
+sum(total_amount)
+from bookings
+group by 
+rollup(1, 2, 3, 4)
+order by 1,2,3,4
+
+
 
 
 
