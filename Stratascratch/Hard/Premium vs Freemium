@@ -1,0 +1,44 @@
+--?
+Find the total number of downloads for paying and non-paying users by date. Include only records where non-paying customers have more downloads than paying customers. 
+The output should be sorted by earliest date first and contain 3 columns date, non-paying downloads, paying downloads.
+
+--solution
+with q1 as (select date, sum(downloads) as non_paying from ms_download_facts d
+left join ms_user_dimension u
+on d.user_id=u.user_id
+left join ms_acc_dimension a
+on u.acc_id=a.acc_id
+where paying_customer='no'
+group by date
+order by date),
+q2 as (select date, sum(downloads) as paying from ms_download_facts d
+left join ms_user_dimension u
+on d.user_id=u.user_id
+left join ms_acc_dimension a
+on u.acc_id=a.acc_id
+where paying_customer='yes'
+group by date
+order by date)
+
+select q1.date, non_paying, paying from q1
+join q2
+on q1.date=q2.date
+where non_paying>paying
+
+--solution(1)
+SELECT date, non_paying,
+             paying
+FROM
+  (SELECT date, sum(CASE
+                        WHEN paying_customer = 'yes' THEN downloads
+                    END) AS paying,
+                sum(CASE
+                        WHEN paying_customer = 'no' THEN downloads
+                    END) AS non_paying
+   FROM ms_user_dimension a
+   INNER JOIN ms_acc_dimension b ON a.acc_id = b.acc_id
+   INNER JOIN ms_download_facts c ON a.user_id=c.user_id
+   GROUP BY date
+   ORDER BY date) t
+WHERE (non_paying - paying) >0
+ORDER BY t.date ASC
