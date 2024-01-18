@@ -733,6 +733,12 @@ on emp.manager_id=mng.employee_id
 left join employee mng2
 on mng.manager_id=mng2.employee_id
 
+--Challenge 12
+select f1.title,f2.title, f1.length from film f1
+left join film f2
+on f1.length=f2.length
+where f1.title<>f2.title
+order by length desc
 
 
 
@@ -781,6 +787,15 @@ natural inner join address
 
 --no output bacause there is no mathes between 2x2 columns(adress_id and last_update)
 
+
+
+
+----------DAY 14 ----------
+
+
+
+
+--User-defined functions
 
 
 
