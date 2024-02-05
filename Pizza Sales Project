@@ -1,0 +1,7 @@
+--1.Total Revenue
+--Solution:
+select round(sum(total_price),2) as Total_Revenue from pizza_sales
+--Result: 817860,05
+
+
+
