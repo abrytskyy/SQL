@@ -1,5 +1,5 @@
 --1.Total Revenue
-select round(sum(total_price),2) as Total_Revenue from pizza_sales
+select round(sum(total_price),2) as Total_Revenue from pizza_sales;
 --Result: 817860,05
 
 
@@ -7,19 +7,34 @@ select round(sum(total_price),2) as Total_Revenue from pizza_sales
 --2. Average Order Value
 select round(avg(tot_amount), 2) as Avg_Order_Value from (select order_id, sum(total_price) as tot_amount from pizza_sales group by order_id) as sub;
 --or
-select round(sum(total_price)/count(distinct order_id), 2) as Avg_Order_Value from pizza_sales
---Result: 38,31
+select round(sum(total_price)/count(distinct order_id), 2) as Avg_Order_Value from pizza_sales;
+--Result: 38.31
 
 
 
 --3. Total Pizzas Sold
-select sum(quantity) as Total_Pizza_Sold from pizza_sales
+select sum(quantity) as Total_Pizza_Sold from pizza_sales;
 --Result: 49574
 
 
 
 --4. Total_Orders
-select max(order_id) as Total_Orders from pizza_sales
+select max(order_id) as Total_Orders from pizza_sales;
 --or
-select count(distinct order_id) as Total_Orders from pizza_sales
+select count(distinct order_id) as Total_Orders from pizza_sales;
+--Result: 21350
+
+
+--5. Average Pizzas Per Order
+select cast(cast(sum(quantity) as decimal (10,2))/
+			cast(count(distinct order_id) as decimal (10, 2)) as decimal(10,2)) as Avg_Pizzas_Per_Order from pizza_sales;
+--or
+select cast(cast(sum(quantity) as decimal (10,2))/
+            count(distinct order_id) as decimal (10, 2)) as Avg_Pizzas_Per_Order from pizza_sales;
+--Result: 2.32
+
+
+
+
+
 
