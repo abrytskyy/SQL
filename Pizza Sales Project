@@ -46,5 +46,65 @@ select cast(cast(sum(quantity) as decimal (10,2))/
 
 
 
+--Daily Trend for Total Orders
+select datename(dw, order_date) as Days, count(distinct order_id) as Total_Orders from pizza_sales 
+group by datename(dw, order_date);
+
+
+
+--Hourly Trend for Total Orders
+select datename(hh, order_time) as Hours, count(distinct order_id) as Total_Orders from pizza_sales 
+group by datename(hh, order_time)
+order by Total_Orders;
+--or
+select datepart(hour, order_time) as Hours, count(distinct order_id) as Total_Orders from pizza_sales 
+group by datepart(hour, order_time)
+order by Total_Orders;
+
+
+
+--Persentage of Sales(Quantity,Price) by Pizza Category
+--Quantity
+select pizza_category, 
+	   cast(sum(quantity) as decimal(10,2))*100/(select sum(quantity) from pizza_sales) as Persent_Sales_by_Quantity
+from pizza_sales 
+group by pizza_category;
+
+--Price
+select pizza_category, 
+	   sum(total_price)*100/(select sum(total_price) from pizza_sales) as Persent_Sales_by_Price
+from pizza_sales 
+group by pizza_category;
+
+--Filter by 1 month
+select pizza_category,
+	   sum(total_price) as Total_Sales,
+	   sum(total_price)*100/(select sum(total_price) from pizza_sales where month(order_date) = 1) as Persent_Sales_by_Price
+from pizza_sales 
+where month(order_date) = 1
+group by pizza_category;
+
+
+
+--
+select pizza_size,
+	   sum(total_price) as Total_Sales,
+	   sum(total_price)*100/(select sum(total_price) from pizza_sales) as Persent_Sales_by_Price
+from pizza_sales 
+group by pizza_size;
+select * from pizza_sales
+
+
+
+--
+select pizza_size,
+	   cast(sum(total_price) as decimal(10,2)) as Total_Sales,
+	   cast(sum(total_price)*100/(select sum(total_price) from pizza_sales) as decimal(10,2)) as PCT_Price
+from pizza_sales 
+group by pizza_size
+order by PCT_Price desc;
+
+
+
 
 
