@@ -1,7 +1,13 @@
 --1.Total Revenue
---Solution:
 select round(sum(total_price),2) as Total_Revenue from pizza_sales
 --Result: 817860,05
 
+
+
+--2. Average Order Value
+select round(avg(tot_amount), 2) as Avg_Order_Value from (select order_id, sum(total_price) as tot_amount from pizza_sales group by order_id) as sub;
+--or
+select round(sum(total_price)/count(distinct order_id), 2) as Avg_Order_Value from pizza_sales
+--Result: 38,31
 
 
