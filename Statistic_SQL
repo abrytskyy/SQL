@@ -1,0 +1,6 @@
+--Median
+--PostgreSQL16.greencycles(movie renting)
+
+select percentile_cont(0.5) within group (order by sales_per_day) as median from
+(select sum(amount) sales_per_day, date(payment_date) from payment
+group by 2)
