@@ -1,7 +1,7 @@
 --https://www.machinelearningplus.com/sql/sql-window-functions-exercises/
 --https://www.db-fiddle.com/f/3oGvSWxmho5KMidcvPr5qd/9
 
-
+--MySQL
 
 
 --Q1 Find the running cumulative total demand.
@@ -65,6 +65,21 @@ VALUES
   ("B", 4, 6),
   ("B", 5, 23);
 
+For PostgreSQL:
+INSERT INTO demand
+  (product, day, qty)
+VALUES
+  ('A', 1, 10),
+  ('A', 2, 6),
+  ('A', 3, 21),
+  ('A', 4, 9),
+  ('A', 5, 19),
+  ('B', 1, 12),
+  ('B', 2, 18),
+  ('B', 3, 3),
+  ('B', 4, 6),
+  ('B', 5, 23);
+
 --Solution Q2
 select *,
 sum(qty) over(partition by product order by day) as CUMSUM
@@ -85,28 +100,7 @@ FROM demand;
 --Extract the two worst performing days of each product in terms of number of qty sold. Paraphrasing it: 
 --Get the days corresponding to the two minimum most values of qty for each product.
 
-DROP TABLE IF EXISTS demand;
 
-CREATE TABLE demand (
-  product VARCHAR(10),
-  day INT,
-  qty FLOAT
-);
-
-
-INSERT INTO demand
-  (product, day, qty)
-VALUES
-  ("A", 1, 10),
-  ("A", 2, 6),
-  ("A", 3, 21),
-  ("A", 4, 9),
-  ("A", 5, 19),
-  ("B", 1, 12),
-  ("B", 2, 18),
-  ("B", 3, 3),
-  ("B", 4, 6),
-  ("B", 5, 23);
 
 --Solution 3
 select * from
@@ -124,3 +118,10 @@ FROM demand)
 select product, day, qty
 from tbl a
 where RN in (1,2)
+
+--Solution 3(2)
+select * from
+(select *, 
+	rank() over (partition by product order by qty) as rn
+from demand)s
+where rn in (1,2)
