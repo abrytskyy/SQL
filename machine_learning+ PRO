@@ -132,6 +132,7 @@ where rn in (1,2)
 --Q5. Show the minimum and maximum ‘qty’ sold for each product as separate columns.
 --Difficulty Level: Easy
 --Create two new columns in the table that shows the minimum and the maximum quantity sold for each product.
+
 select *, 
 	   min(qty) over(partition by product) min_qty,
 	   max(qty) over(partition by product) max_qty
