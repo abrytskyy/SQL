@@ -125,6 +125,29 @@ where rn in (1,2)
 
 
 
+--Q4. Find the percentage increase in qty compared to the previous day.
+
+--Solution 4(posgreSQL)
+SELECT 
+    *,
+    LAG(qty) OVER(PARTITION BY product) AS lag_qty,
+    ROUND(((qty - LAG(qty) OVER(PARTITION BY product)) / LAG(qty) OVER(PARTITION BY product) * 100)::numeric, 2) AS perc_increase
+FROM demand
+
+--Solution 4(My SQL)
+with tbl as (select product, 
+                    day, 
+                    qty, 
+                    lag(qty, 1) over (partition by product order by day) as qty_lag
+from demand)
+select *,
+round(((qty - qty_lag)/qty_lag) * 100, 2) as perc_increase
+from tbl
+where qty_lag is not null
+
+
+
+
 --Q5. Show the minimum and maximum ‘qty’ sold for each product as separate columns.
 --Difficulty Level: Easy
 --Create two new columns in the table that shows the minimum and the maximum quantity sold for each product.
