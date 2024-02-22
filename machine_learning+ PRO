@@ -6,13 +6,13 @@
 
 --Q1 Find the running cumulative total demand.
 --From the demand2 table, find the cumulative total sum for qty
+
 DROP TABLE IF EXISTS demand2;
 
 CREATE TABLE demand2 (
   day INT,
   qty FLOAT
 );
-
 
 INSERT INTO demand2
   (day, qty)
@@ -49,7 +49,6 @@ CREATE TABLE demand (
   day INT,
   qty FLOAT
 );
-
 
 INSERT INTO demand
   (product, day, qty)
@@ -95,12 +94,9 @@ FROM demand;
 
 
 
-
 --Q3 When are the top 2 worst performing days for each product?
 --Extract the two worst performing days of each product in terms of number of qty sold. Paraphrasing it: 
 --Get the days corresponding to the two minimum most values of qty for each product.
-
-
 
 --Solution 3
 select * from
@@ -114,7 +110,7 @@ with tbl as (SELECT PRODUCT,
                     qty,
                     day,
                     row_number() over (partition by product order by qty) as RN
-FROM demand)
+	     FROM demand)
 select product, day, qty
 from tbl a
 where RN in (1,2)
@@ -133,6 +129,7 @@ where rn in (1,2)
 --Difficulty Level: Easy
 --Create two new columns in the table that shows the minimum and the maximum quantity sold for each product.
 
+--Solution 5
 select *, 
 	   min(qty) over(partition by product) min_qty,
 	   max(qty) over(partition by product) max_qty
@@ -141,9 +138,44 @@ select *,
 
 
 
+--Q6. Calculate the difference between the second largest and the second smallest sales qty
+--Difficulty Level: Hard
+
+--Solution 6
+select product,
+	   day,
+	   qty
+from
+	(select *,
+	rank() over (partition by product order by qty) rn
+	from demand)
+where rn in (select max(rn)-1 from
+				(select *,
+					rank() over (partition by product order by qty) rn
+				 from demand))
+   or rn in (select min(rn)+1 from
+				(select *,
+					rank() over (partition by product order by qty) rn
+				 from demand))
+
+
+
+
 --Q7. On each day, which product had the highest sales?
 --Difficulty Lavel: Intermediate
 
+--Solution 7
+with tbl as (
+  select day, 
+          product,
+          qty,
+          max(qty) over (partition by day) as maxqty
+  from demand)
+select * 
+from tbl
+where qty = maxqty
+
+--Solution 7(1)
 select * from	   
 (select *, 
 	   max(qty) over(partition by day) max_qty
