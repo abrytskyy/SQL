@@ -125,3 +125,27 @@ select * from
 	rank() over (partition by product order by qty) as rn
 from demand)s
 where rn in (1,2)
+
+
+
+
+--Q5. Show the minimum and maximum ‘qty’ sold for each product as separate columns.
+--Difficulty Level: Easy
+--Create two new columns in the table that shows the minimum and the maximum quantity sold for each product.
+select *, 
+	   min(qty) over(partition by product) min_qty,
+	   max(qty) over(partition by product) max_qty
+	   from demand
+
+
+
+
+--Q7. On each day, which product had the highest sales?
+--Difficulty Lavel: Intermediate
+
+select * from	   
+(select *, 
+	   max(qty) over(partition by day) max_qty
+	   from demand)   
+where qty=max_qty
+
