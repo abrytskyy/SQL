@@ -1,0 +1,12 @@
+--Write a query that calculates the difference between the highest salaries found in the marketing 
+and engineering departments. Output just the absolute difference in salaries.
+
+
+select (select max(salary) max_salary_mark from db_employee e
+    full join db_dept d
+    on e.department_id=d.id
+    where department='marketing') -
+(select max(salary) max_salary_eng from db_employee e
+    full join db_dept d
+    on e.department_id=d.id
+    where department='engineering')
