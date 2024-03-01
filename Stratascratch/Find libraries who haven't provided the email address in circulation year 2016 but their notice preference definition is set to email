@@ -5,3 +5,14 @@ select distinct home_library_code from library_usage
 where circulation_active_year = 2016
 and provided_email_address = 'FALSE'
 and notice_preference_definition = 'email'
+
+
+
+SELECT DISTINCT
+    home_library_code
+FROM
+    library_usage
+WHERE 
+    notice_preference_definition = 'email' AND 
+    provided_email_address is FALSE AND 
+    circulation_active_year = 2016
