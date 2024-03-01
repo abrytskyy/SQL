@@ -1,0 +1,6 @@
+with sal as (select department, avg(salary) avg_salary from employee group by department)
+
+select e.department, e.first_name, e.salary, avg_salary
+from employee e
+left join sal s
+on e.department=s.department
