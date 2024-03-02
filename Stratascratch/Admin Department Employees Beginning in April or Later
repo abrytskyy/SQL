@@ -1,0 +1,2 @@
+select count(*) from worker
+where department = 'Admin' and date(joining_date) >= '2014-04-01'
