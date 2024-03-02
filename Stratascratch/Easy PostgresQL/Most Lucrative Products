@@ -6,3 +6,19 @@ where date(date) between '2022-01-01' and '2022-06-30'
 group by 1
 order by 2 desc
 limit 5
+
+
+
+WITH cte AS
+  (SELECT product_id,
+          SUM(cost_in_dollars * units_sold) AS revenue,
+          RANK() OVER (
+                       ORDER BY SUM(cost_in_dollars * units_sold) DESC) AS rnk
+   FROM online_orders
+   WHERE EXTRACT(MONTH
+                 FROM date) BETWEEN 1 AND 6
+   GROUP BY product_id)
+SELECT product_id,
+       revenue
+FROM cte
+WHERE rnk <= 5
