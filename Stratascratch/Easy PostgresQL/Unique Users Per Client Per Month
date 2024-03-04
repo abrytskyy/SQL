@@ -1,0 +1,4 @@
+--Write a query that returns the number of unique users per client per month
+
+select client_id, extract(month from time_id) number_month, count(distinct user_id) users_num from fact_events
+group by 1, 2
