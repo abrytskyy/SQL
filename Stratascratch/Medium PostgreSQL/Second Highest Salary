@@ -1,0 +1,21 @@
+--Find the second highest salary of employees.
+
+select max(salary) from employee
+where salary <> (select max(salary) from employee)
+
+
+
+SELECT DISTINCT salary
+FROM employee
+ORDER BY salary DESC
+LIMIT 1 OFFSET 1
+
+
+
+SELECT DISTINCT salary
+FROM
+  (SELECT salary,
+          DENSE_RANK() OVER (
+                             ORDER BY salary DESC) AS rank_
+   FROM employee) A
+WHERE rank_ = 2;
