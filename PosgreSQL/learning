@@ -1,1 +1,99 @@
-123
+-- ----------------------------
+--  Table: Customers
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."customers";
+CREATE TABLE "public"."customers" (
+	"customer_id" int4 NOT NULL,
+	"first_name" varchar(100) COLLATE "default",
+	"last_name" varchar(255) COLLATE "default"
+)
+WITH (OIDS=FALSE);
+
+-- ----------------------------
+--  Sample customers records
+-- ----------------------------
+BEGIN;
+INSERT INTO "public"."customers" VALUES ('1', 'John', 'Doe');
+INSERT INTO "public"."customers" VALUES ('2', 'Jeff', 'Smith');
+INSERT INTO "public"."customers" VALUES ('3', 'Mike', 'Steel');
+INSERT INTO "public"."customers" VALUES ('4', 'Mark', 'Benjamin');
+INSERT INTO "public"."customers" VALUES ('5', 'Hannah', 'Rose');
+COMMIT;
+
+-- ----------------------------
+--  Primary key for table : customers
+-- ----------------------------
+ALTER TABLE "public"."customers" ADD PRIMARY KEY ("customer_id") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+
+
+
+
+-- ----------------------------
+--  Table : products
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."products";
+CREATE TABLE "public"."products" (
+	"product_id" int4 NOT NULL,
+	"product_name" varchar(255) NOT NULL COLLATE "default",
+	"unit_price" numeric(10,2)
+)
+WITH (OIDS=FALSE);
+
+-- ----------------------------
+--  Records of products
+-- ----------------------------
+BEGIN;
+INSERT INTO "public"."products" VALUES ('1','Computer','500.00');
+INSERT INTO "public"."products" VALUES ('2', 'Mouse', '20.00');
+INSERT INTO "public"."products" VALUES ('3', 'Printer', '300.00');
+INSERT INTO "public"."products" VALUES ('4', 'Monitor', '200.00');
+INSERT INTO "public"."products" VALUES ('5', 'Microphone', '215.00');
+INSERT INTO "public"."products" VALUES ('6', 'Laptop', '800.00');
+COMMIT;
+
+-- ----------------------------
+--  Primary key structure for table products
+-- ----------------------------
+ALTER TABLE "public"."products" ADD PRIMARY KEY ("product_id") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+
+
+
+-- ----------------------------
+--  Table : purchases
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."purchases";
+CREATE TABLE "public"."purchases" (
+	"purchase_id" int4 NOT NULL,
+	"product_id" int4,
+	"customer_id" int4
+)
+WITH (OIDS=FALSE);
+
+-- ----------------------------
+--  Sample records for purchases
+-- ----------------------------
+BEGIN;
+INSERT INTO "public"."purchases" VALUES ('1', '1', '1');
+INSERT INTO "public"."purchases" VALUES ('2', '3', '1');
+INSERT INTO "public"."purchases" VALUES ('3', '6', '2');
+INSERT INTO "public"."purchases" VALUES ('4', '6', '2');
+INSERT INTO "public"."purchases" VALUES ('5', '3', '3');
+INSERT INTO "public"."purchases" VALUES ('6', '2', '3');
+INSERT INTO "public"."purchases" VALUES ('7', '4', '4');
+INSERT INTO "public"."purchases" VALUES ('8', '2', '4');
+INSERT INTO "public"."purchases" VALUES ('9', '3', '5');
+INSERT INTO "public"."purchases" VALUES ('10', '6', '5');
+COMMIT;
+
+-- ----------------------------
+--  Primary key structure for table: purchases
+-- ----------------------------
+ALTER TABLE "public"."purchases" ADD PRIMARY KEY ("purchase_id") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+-- ----------------------------
+--  Foreign keys structure for table: purchases
+-- ----------------------------
+ALTER TABLE "public"."purchases" ADD CONSTRAINT "fk_customer_purchase" FOREIGN KEY ("customer_id") REFERENCES "public"."customers" ("customer_id") ON UPDATE NO ACTION ON DELETE NO ACTION NOT DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE "public"."purchases" ADD CONSTRAINT "fk_purchase_product" FOREIGN KEY ("product_id") REFERENCES "public"."products" ("product_id") ON UPDATE NO ACTION ON DELETE NO ACTION NOT DEFERRABLE INITIALLY IMMEDIATE;
