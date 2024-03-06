@@ -1,0 +1,209 @@
+-- ----------------------------
+--  Table: Customers
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."customers";
+CREATE TABLE "public"."customers" (
+	"customer_id" int4 NOT NULL,
+	"first_name" varchar(100) COLLATE "default",
+	"last_name" varchar(255) COLLATE "default"
+)
+WITH (OIDS=FALSE);
+
+-- ----------------------------
+--  Sample customers records
+-- ----------------------------
+BEGIN;
+INSERT INTO "public"."customers" VALUES ('1', 'John', 'Doe');
+INSERT INTO "public"."customers" VALUES ('2', 'Jeff', 'Smith');
+INSERT INTO "public"."customers" VALUES ('3', 'Mike', 'Steel');
+INSERT INTO "public"."customers" VALUES ('4', 'Mark', 'Benjamin');
+INSERT INTO "public"."customers" VALUES ('5', 'Hannah', 'Rose');
+COMMIT;
+
+-- ----------------------------
+--  Primary key for table : customers
+-- ----------------------------
+ALTER TABLE "public"."customers" ADD PRIMARY KEY ("customer_id") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+
+
+
+-- ----------------------------
+--  Table : products
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."products";
+CREATE TABLE "public"."products" (
+	"product_id" int4 NOT NULL,
+	"product_name" varchar(255) NOT NULL COLLATE "default",
+	"unit_price" numeric(10,2)
+)
+WITH (OIDS=FALSE);
+
+-- ----------------------------
+--  Records of products
+-- ----------------------------
+BEGIN;
+INSERT INTO "public"."products" VALUES ('1','Computer','500.00');
+INSERT INTO "public"."products" VALUES ('2', 'Mouse', '20.00');
+INSERT INTO "public"."products" VALUES ('3', 'Printer', '300.00');
+INSERT INTO "public"."products" VALUES ('4', 'Monitor', '200.00');
+INSERT INTO "public"."products" VALUES ('5', 'Microphone', '215.00');
+INSERT INTO "public"."products" VALUES ('6', 'Laptop', '800.00');
+COMMIT;
+
+-- ----------------------------
+--  Primary key structure for table products
+-- ----------------------------
+ALTER TABLE "public"."products" ADD PRIMARY KEY ("product_id") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+
+
+
+-- ----------------------------
+--  Table : purchases
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."purchases";
+CREATE TABLE "public"."purchases" (
+	"purchase_id" int4 NOT NULL,
+	"product_id" int4,
+	"customer_id" int4
+)
+WITH (OIDS=FALSE);
+
+-- ----------------------------
+--  Sample records for purchases
+-- ----------------------------
+BEGIN;
+INSERT INTO "public"."purchases" VALUES ('1', '1', '1');
+INSERT INTO "public"."purchases" VALUES ('2', '3', '1');
+INSERT INTO "public"."purchases" VALUES ('3', '6', '2');
+INSERT INTO "public"."purchases" VALUES ('4', '6', '2');
+INSERT INTO "public"."purchases" VALUES ('5', '3', '3');
+INSERT INTO "public"."purchases" VALUES ('6', '2', '3');
+INSERT INTO "public"."purchases" VALUES ('7', '4', '4');
+INSERT INTO "public"."purchases" VALUES ('8', '2', '4');
+INSERT INTO "public"."purchases" VALUES ('9', '3', '5');
+INSERT INTO "public"."purchases" VALUES ('10', '6', '5');
+COMMIT;
+
+-- ----------------------------
+--  Primary key structure for table: purchases
+-- ----------------------------
+ALTER TABLE "public"."purchases" ADD PRIMARY KEY ("purchase_id") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+-- ----------------------------
+--  Foreign keys structure for table: purchases
+-- ----------------------------
+ALTER TABLE "public"."purchases" ADD CONSTRAINT "fk_customer_purchase" FOREIGN KEY ("customer_id") REFERENCES "public"."customers" ("customer_id") ON UPDATE NO ACTION ON DELETE NO ACTION NOT DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE "public"."purchases" ADD CONSTRAINT "fk_purchase_product" FOREIGN KEY ("product_id") REFERENCES "public"."products" ("product_id") ON UPDATE NO ACTION ON DELETE NO ACTION NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+
+
+
+-- ----------------------------
+--  Table : stocks_prices
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."stocks_prices";
+CREATE TABLE "public"."stocks_prices" (
+	"price_id" int4 NOT NULL,
+	"symbol_id" int4 NOT NULL,
+	"price_date" date NOT NULL,
+	"open_price" numeric(30,4) DEFAULT NULL::numeric,
+	"high_price" numeric(30,4) DEFAULT NULL::numeric,
+	"low_price" numeric(30,4) DEFAULT NULL::numeric,
+	"close_price" numeric(30,4) DEFAULT NULL::numeric,
+	"change_1d" numeric(30,4) DEFAULT NULL::numeric,
+	"return_1d" numeric(30,4) DEFAULT NULL::numeric
+)
+WITH (OIDS=FALSE);
+
+-- ----------------------------
+--  Records of stocks_prices
+-- ----------------------------
+BEGIN;
+INSERT INTO "public"."stocks_prices" VALUES ('1','1','2010-01-04','4.562143','4.656402','4.392477','4.496162','-0.066','-1.4463');
+INSERT INTO "public"."stocks_prices" VALUES ('2','1','2010-01-05','4.515014','5.061717','4.439606','5.005161','0.509','11.3208');
+INSERT INTO "public"."stocks_prices" VALUES ('3','1','2010-01-06','4.89205','5.071143','4.712958','4.797791','-0.2074','-4.1431');
+INSERT INTO "public"."stocks_prices" VALUES ('4','1','2010-01-07','4.769513','5.118272','4.760087','4.93918','0.1414','2.947');
+INSERT INTO "public"."stocks_prices" VALUES ('5','1','2010-01-08','4.967458','5.118272','4.769513','4.844921','-0.0943','-1.9084');
+INSERT INTO "public"."stocks_prices" VALUES ('6','1','2010-01-11','4.835495','4.929754','4.656402','4.750662','-0.0943','-1.9455');
+INSERT INTO "public"."stocks_prices" VALUES ('7','1','2010-01-12','4.769513','4.854347','4.675254','4.788365','0.0377','0.7937');
+--rest of the insert data is deleted here because of the huge size--
+COMMIT;
+
+-- ----------------------------
+--  Primary key structure for table stocks_prices
+-- ----------------------------
+ALTER TABLE "public"."stocks_prices" ADD PRIMARY KEY ("price_id") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+
+
+
+-- ----------------------------
+--  Table : stocks_symbols
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."stocks_symbols";
+CREATE TABLE "public"."stocks_symbols" (
+	"symbol_id" int4 NOT NULL,
+	"symbol" varchar(50) NOT NULL COLLATE "default",
+	"symbol_name" varchar(255) NOT NULL COLLATE "default",
+	"symbol_type_code" varchar(10) NOT NULL COLLATE "default",
+	"symbol_sector" varchar(255) NOT NULL COLLATE "default"
+)
+WITH (OIDS=FALSE);
+
+-- ----------------------------
+--  Records of stock_symbols
+-- ----------------------------
+BEGIN;
+INSERT INTO "public"."stocks_symbols" VALUES ('1','AAL','American Airlines Group Inc','EQS','Services');
+INSERT INTO "public"."stocks_symbols" VALUES ('2','AAPL','Apple Inc','EQS','Consumer Goods');
+INSERT INTO "public"."stocks_symbols" VALUES ('3','AMZN','Amazon.com Inc.','EQS','Services');
+INSERT INTO "public"."stocks_symbols" VALUES ('4','C','Citigroup Inc','EQS','Financial');
+INSERT INTO "public"."stocks_symbols" VALUES ('5','FB','Facebook Inc','EQS','Technology');
+INSERT INTO "public"."stocks_symbols" VALUES ('6','FB','FBR Asset Investment Corp','EQS','Technology');
+INSERT INTO "public"."stocks_symbols" VALUES ('7','GE','General Electric Co.','EQS','Industrial Goods');
+INSERT INTO "public"."stocks_symbols" VALUES ('8','GOOG','Alphabet Inc','EQS','Technology');
+INSERT INTO "public"."stocks_symbols" VALUES ('9','GOOG','Google Inc','EQS','');
+INSERT INTO "public"."stocks_symbols" VALUES ('10','NFLX','NetFlix Inc','EQS','Services');
+INSERT INTO "public"."stocks_symbols" VALUES ('11','QQQ','Invesco QQQ Trust Series 1','ETF','');
+INSERT INTO "public"."stocks_symbols" VALUES ('12','SPY','SSGA SPDR S&P 500','ETF','');
+INSERT INTO "public"."stocks_symbols" VALUES ('13','TSLA','Tesla Inc','EQS','Consumer Goods');
+INSERT INTO "public"."stocks_symbols" VALUES ('14','XLF','Financial Select Sector SPDR','ETF','');
+INSERT INTO "public"."stocks_symbols" VALUES ('15','XLP','Consumer Staples Select Sector SPDR','ETF','');
+COMMIT;
+
+-- ----------------------------
+--  Primary key structure for table stock_symbols
+-- ----------------------------
+ALTER TABLE "public"."stocks_symbols" ADD PRIMARY KEY ("symbol_id") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+
+
+
+-- ----------------------------
+--  Table : stocks_types
+-- ----------------------------
+DROP TABLE IF EXISTS "public"."stocks_types";
+CREATE TABLE "public"."stocks_types" (
+	"type_id" int4 NOT NULL,
+	"type_code" varchar(10) NOT NULL COLLATE "default",
+	"type_name" varchar(255) NOT NULL COLLATE "default"
+)
+WITH (OIDS=FALSE);
+
+-- ----------------------------
+--  Records of stocks_types
+-- ----------------------------
+BEGIN;
+INSERT INTO "public"."stocks_types" VALUES ('1','EQS','Stock');
+INSERT INTO "public"."stocks_types" VALUES ('2','ETF','Exchange Traded Fund');
+COMMIT;
+
+-- ----------------------------
+--  Primary key structure for table stocks_types
+-- ----------------------------
+ALTER TABLE "public"."stocks_types" ADD PRIMARY KEY ("type_id") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+
+
