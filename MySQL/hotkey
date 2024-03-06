@@ -1,2 +1,3 @@
 Ctrl+Shift+O       -  open file  
-Ctrl+Shift+Return  -  execute query
+Ctrl+Shift+Enter   -  execute query
+Ctrl+T             -  new query table
