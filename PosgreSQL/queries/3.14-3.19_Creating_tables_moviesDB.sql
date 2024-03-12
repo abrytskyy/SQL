@@ -31,8 +31,8 @@ CREATE TABLE movies(
 CREATE TABLE movies_revenues (
 	revenue_id SERIAL PRIMARY KEY,
 	movie_id INT REFERENCES movies(movie_id),
-	revenue_domestic NUMERIC(10,2),
-	revenue_international NUMERIC (10,2)
+	revenues_domestic NUMERIC(10,2),
+	revenues_international NUMERIC (10,2)
 );
 --junction table
 CREATE TABLE movies_actors (
