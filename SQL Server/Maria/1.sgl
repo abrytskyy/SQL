@@ -1,0 +1,27 @@
+--1
+SELECT * FROM Успеваемость
+WHERE ИН_Студ NOT IN (SELECT Консультант FROM Студент WHERE Консультант IS NOT NULL)
+
+--13
+SELECT s.ИН_Студ, s.Фам,
+	CASE WHEN s.ИН_Студ NOT IN 
+	(SELECT Консультант FROM Студент WHERE Консультант IS NOT NULL)
+	THEN 'not consultant'
+	ELSE CONVERT(varchar, max(u.Оценка))
+	END as 'grade/status'
+FROM Студент s
+INNER JOIN Успеваемость u
+ON s.ИН_Студ = u.ИН_Студ
+GROUP BY s.ИН_Студ, s.Фам, s.Консультант
+
+--20
+SELECT u.ИН_Студ, u.ИН_Дисц,
+d.Наименование, MAX(Оценка) AS MaxStudDisc
+FROM Успеваемость u
+JOIN Дисциплина d
+ON u.ИН_Дисц = d.ИН_Дисц
+GROUP BY ROLLUP (u.ИН_Студ, u.ИН_Дисц),d.Наименование 
+
+SELECT ИН_Студ, ИН_Дисц, MAX(Оценка) AS MaxStudDisc
+FROM Успеваемость
+GROUP BY ROLLUP(ИН_Студ, ИН_Дисц)
