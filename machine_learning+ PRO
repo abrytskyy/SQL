@@ -122,6 +122,15 @@ select * from
 from demand)s
 where rn in (1,2)
 
+--Solution 3(3)-08/12/2024
+select * from demand;
+with output as
+(select *, row_number () over(partition by product order by qty) RN 
+from demand)
+
+select * from output
+where RN<3
+
 
 
 
