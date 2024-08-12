@@ -154,6 +154,14 @@ round(((qty - qty_lag)/qty_lag) * 100, 2) as perc_increase
 from tbl
 where qty_lag is not null
 
+--Solution 4(08/12/2024)
+with result as 
+(select *, 
+lag(qty) over(partition by product) qty_lag
+from demand)
+select *, round((qty-qty_lag)/qty_lag*100, 2) pers_increase from result
+where qty_lag is not null
+
 
 
 
