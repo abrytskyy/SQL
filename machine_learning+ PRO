@@ -222,7 +222,17 @@ select * from
 	   from demand)   
 where qty=max_qty
 
---Solution 10(87137
+
+
+--Q8
+
+--Solution 8
+select *, row_number() over(partition by location order by sales) rn from demand
+
+
+
+--Solution 10
+(87137
 select * from
 (with result as 
 (select location, product, sum(sales) total_sales from demand
