@@ -260,6 +260,14 @@ with result as
 select *, 
 	round(1.0*total_location/total_sales, 4) ratio
 from result
+--Solution 11-1
+with result as
+	(select *, 
+		sum(sales) over(partition by location) total_location,
+    sum(sales) over() total_sales
+	from demand)
+select *, round(cast(total_location as float)/total_sales, 4) ratio
+from result
 
 
 
