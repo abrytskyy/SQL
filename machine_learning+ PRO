@@ -271,3 +271,16 @@ from result
 
 
 
+--Solution 15
+with result as
+	(select product, sum(sales) total_sales, sum(refunds) total_refunds 
+	from demand 
+	group by 1)
+select *, 
+	round(cast(total_refunds as float)/total_sales, 6) refund_rate 
+from result
+order by 4 desc
+limit 1
+
+
+
