@@ -222,4 +222,13 @@ select * from
 	   from demand)   
 where qty=max_qty
 
+--Solution 10(87137
+select * from
+(with result as 
+(select location, product, sum(sales) total_sales from demand
+group by 1,2 
+order by location)
+select *, row_number() over(partition by location order by total_sales desc) rn from result)
+where rn < 4
+
 
