@@ -76,6 +76,12 @@ FROM rental
 group by 1
 order by 2 desc
 
+select film_id, round(rental_rate/replacement_cost*100, 2) from film
+where rental_rate < 0.04*replacement_cost
+order by 2
+
+	
+
 select * from flights
 
 select
