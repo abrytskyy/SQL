@@ -75,3 +75,58 @@ SELECT customer_id, avg(return_date-rental_date) avg_rental_duration
 FROM rental
 group by 1
 order by 2 desc
+
+select * from flights
+
+select
+actual_departure-scheduled_departure,
+case
+	when actual_departure is null then 'no departure time'
+	when actual_departure-scheduled_departure < '00:05' THEN 'On time'
+	when actual_departure-scheduled_departure < '01:00' THEN 'A little bit late'
+	else 'Very Late'
+end
+from flights
+
+select
+	count(*) flights,
+case
+	when actual_departure is null then 'no departure time'
+	when actual_departure-scheduled_departure < '00:05' THEN 'On time'
+	when actual_departure-scheduled_departure < '01:00' THEN 'A little bit late'
+	else 'Very Late' 
+end is_late
+from flights
+group by is_late
+
+	
+select count(*),
+case
+	when total_amount < 20000 then 'Low price ticket'
+	when total_amount < 150000 then 'Mid price ticket'
+	else 'High price ticket'
+end
+from bookings
+group by 2
+
+--solution 1
+select count(*),
+case 
+	when EXTRACT(month from actual_departure) in (12, 1, 2) then 'Winter'
+	when EXTRACT(month from actual_departure) in (3, 4, 5) then 'Spring'
+	when EXTRACT(month from actual_departure) in (6, 7, 8) then 'Summer'
+	else 'Fall'
+end
+from flights
+group by 2
+
+--solution 2
+select count(*),
+case 
+	when trim(to_char(actual_departure, 'Month')) in ('December', 'Januar', 'Februar') then 'Winter'
+	when trim(to_char(actual_departure, 'Month')) in ('March', 'April', 'May') then 'Spring'
+	when trim(to_char(actual_departure, 'Month')) in ('June', 'July', 'August') then 'Summer'
+	else 'Fall'
+end
+from flights
+group by 2
