@@ -136,3 +136,16 @@ case
 end
 from flights
 group by 2
+
+select title,
+	case when rating in ('PG', 'PG-13') or length > 210 then 'tier1'
+	     when lower(description) like '%drama%' and length > 90 then 'tier2'
+		 when lower(description) like '%drama%' and length <= 90 then 'tier3'
+		 when rental_rate<1 then 'tier4'	
+	end tier_list
+from film
+where (case when rating in ('PG', 'PG-13') or length > 210 then 'tier1'
+	     when lower(description) like '%drama%' and length > 90 then 'tier2'
+		 when lower(description) like '%drama%' and length <= 90 then 'tier3'
+		 when rental_rate<1 then 'tier4'	
+	end) is not null
