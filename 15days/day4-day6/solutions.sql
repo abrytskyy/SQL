@@ -152,3 +152,5 @@ where (case when rating in ('PG', 'PG-13') or length > 210 then 'tier1'
 
 select rental_date, coalesce (cast(return_date as varchar), 'Not returned') from rental
 order by rental_date desc
+
+select replace(passenger_id, ' ', '') from tickets
