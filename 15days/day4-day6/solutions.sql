@@ -154,3 +154,7 @@ select rental_date, coalesce (cast(return_date as varchar), 'Not returned') from
 order by rental_date desc
 
 select replace(passenger_id, ' ', '') from tickets
+
+
+
+----------DAY6------------
