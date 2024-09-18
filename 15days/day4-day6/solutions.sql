@@ -149,3 +149,6 @@ where (case when rating in ('PG', 'PG-13') or length > 210 then 'tier1'
 		 when lower(description) like '%drama%' and length <= 90 then 'tier3'
 		 when rental_rate<1 then 'tier4'	
 	end) is not null
+
+select rental_date, coalesce (cast(return_date as varchar), 'Not returned') from rental
+order by rental_date desc
