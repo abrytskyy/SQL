@@ -158,3 +158,17 @@ select replace(passenger_id, ' ', '') from tickets
 
 
 ----------DAY6------------
+
+
+
+
+select case
+when s.fare_conditions='Business' then 'Business'
+when s.fare_conditions='Economy' then 'Business'
+end,	
+count(*) from boarding_passes b
+inner join flights f
+on b.flight_id = f.flight_id
+inner join seats s
+on s.seat_no = b.seat_no and s.aircraft_code = f.aircraft_code
+group by 1
